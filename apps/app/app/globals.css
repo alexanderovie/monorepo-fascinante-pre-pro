@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@import "preline/variants.css";
+@source "../node_modules/preline/dist/*.js";
+
+/* Safelist critical desktop classes for sidebar layout */
+@source inline("lg:ms-65 lg:ps-65 w-65 lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 pt-15 h-11.5");
+
+/* Custom spacing for sidebar (w-65 = 260px = 16.25rem) */
+@theme {
+  --spacing-65: 16.25rem; /* 260px para el sidebar */
+  --spacing-15: 3.75rem; /* 60px para pt-15 */
+  --spacing-11-5: 2.875rem; /* 46px para h-11.5 */
+}
+
+/* Optional Preline UI Datepicker Plugin */
+/* @import "preline/src/plugins/datepicker/styles.css"; */
+
+/* Plugins */
+@plugin "@tailwindcss/forms";
+
+/* Optional Preline UI Styles */
+/* Adds pointer cursor to buttons */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Defaults hover styles on all devices */
+@custom-variant hover (&:hover);
+
+/* ApexCharts Styles */
+@import "apexcharts/dist/apexcharts.css";
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

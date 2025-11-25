@@ -1,0 +1,34 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // Optimizaciones de build
+  typescript: {
+    // En producción, verificar tipos en build (más rápido en dev)
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    // En producción, verificar ESLint en build (más rápido en dev)
+    ignoreDuringBuilds: false,
+  },
+  // Optimización de imágenes
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+    ],
+  },
+  // Compresión
+  compress: true,
+  // SWC minification es el default en Next.js 15, no necesita configuración
+  // Power de Turbopack (si está disponible)
+  experimental: {
+    // Optimizaciones de compilación
+    optimizePackageImports: ['preline'],
+  },
+};
+
+export default nextConfig;
