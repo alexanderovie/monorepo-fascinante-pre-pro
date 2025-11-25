@@ -36,7 +36,11 @@ export default function PrelineScript() {
 
   useEffect(() => {
     setTimeout(() => {
+      // Solo inicializar Preline si hay elementos en el DOM con atributos data-hs-*
+      const hasPrelineElements = document.querySelectorAll('[data-hs-overlay], [data-hs-dropdown], [data-hs-collapse], [data-hs-select]').length > 0;
+      
       if (
+        hasPrelineElements &&
         window.HSStaticMethods &&
         typeof window.HSStaticMethods.autoInit === 'function'
       ) {
