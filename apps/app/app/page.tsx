@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { setupApexChartsHelpers } from '../lib/apexcharts-helpers';
+import { useEffect, useState, useRef } from 'react';
+import { createRoot, Root } from 'react-dom/client';
+import SalesLineChart from '../components/charts/SalesLineChart';
+import TotalSalesLinesChart from '../components/charts/TotalSalesLinesChart';
 
 const DASHBOARD_HTML = `
   <!-- ========== HEADER ========== -->
@@ -2527,7 +2529,7 @@ const DASHBOARD_HTML = `
           <div class="p-5 pt-0 space-y-8">
             <div class="w-full">
               <!-- Apex Line Chart -->
-              <div id="hs-total-sales-lines-chart" class="min-h-[115px] "></div>
+              <div id="hs-total-sales-lines-chart" class="min-h-[115px] " data-chart="total-sales"></div>
             </div>
           </div>
           <!-- End Footer -->
@@ -3489,7 +3491,7 @@ const DASHBOARD_HTML = `
         <!-- End Legend Indicator -->
 
         <!-- Apex Line Chart -->
-        <div id="hs-sales-line-chart" class="min-h-[415px] "></div>
+        <div id="hs-sales-line-chart" class="min-h-[415px] " data-chart="sales-line"></div>
       </div>
       <!-- End Double Area Chart in Card -->
 
@@ -6970,362 +6972,44 @@ const DASHBOARD_HTML = `
 
 `;
 
-const DASHBOARD_SCRIPTS = `window.addEventListener('load', () => {
-      // Apex Line Chart
-      (function () {
-        buildChart('#hs-sales-line-chart', (mode) => ({
-          chart: {
-            height: 400,
-            type: 'area',
-            toolbar: {
-              show: false
-            },
-            zoom: {
-              enabled: false
-            }
-          },
-          series: [
-            {
-              name: '2022',
-              data: [18000, 51000, 60000, 38000, 88000, 50000, 40000, 52000, 88000, 80000, 60000, 70000]
-            },
-            {
-              name: '2023',
-              data: [27000, 38000, 60000, 77000, 40000, 50000, 49000, 29000, 42000, 27000, 42000, 50000]
-            }
-          ],
-          legend: {
-            show: false
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            curve: 'straight',
-            width: 2
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              type: 'vertical',
-              shadeIntensity: 1,
-              opacityFrom: 0.2,
-              opacityTo: 0.8
-            }
-          },
-          xaxis: {
-            type: 'category',
-            tickPlacement: 'on',
-            categories: [
-              '25 January 2023',
-              '28 January 2023',
-              '31 January 2023',
-              '1 February 2023',
-              '3 February 2023',
-              '6 February 2023',
-              '9 February 2023',
-              '12 February 2023',
-              '15 February 2023',
-              '18 February 2023',
-              '21 February 2023',
-              '25 February 2023'
-            ],
-            axisBorder: {
-              show: false
-            },
-            axisTicks: {
-              show: false
-            },
-            crosshairs: {
-              stroke: {
-                dashArray: 0
-              },
-              dropShadow: {
-                show: false
-              }
-            },
-            tooltip: {
-              enabled: false
-            },
-            labels: {
-              style: {
-                colors: '#9ca3af',
-                fontSize: '13px',
-                fontFamily: 'Inter, ui-sans-serif',
-                fontWeight: 400
-              },
-              formatter: (title) => {
-                let t = title;
-
-                if (t) {
-                  const newT = t.split(' ');
-                  t = \`\${newT[0]} \${newT[1].slice(0, 3)}\`;
-                }
-
-                return t;
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              align: 'left',
-              minWidth: 0,
-              maxWidth: 140,
-              style: {
-                colors: '#9ca3af',
-                fontSize: '12px',
-                fontFamily: 'Inter, ui-sans-serif',
-                fontWeight: 400
-              },
-              formatter: (value) => value >= 1000 ? \`\${value / 1000}k\` : value
-            }
-          },
-          tooltip: {
-            x: {
-              format: 'MMMM yyyy'
-            },
-            y: {
-              formatter: (value) => \`$\${value >= 1000 ? \`\${value / 1000}k\` : value}\`
-            },
-            custom: function (props) {
-              return buildTooltipCompareTwo(props, {
-                title: 'Revenue',
-                mode,
-                hasTextLabel: true,
-                wrapperExtClasses: 'min-w-48',
-              });
-            }
-          },
-          responsive: [{
-            breakpoint: 568,
-            options: {
-              chart: {
-                height: 300
-              },
-              labels: {
-                style: {
-                  colors: '#9ca3af',
-                  fontSize: '11px',
-                  fontFamily: 'Inter, ui-sans-serif',
-                  fontWeight: 400
-                },
-                offsetX: -2,
-                formatter: (title) => title.slice(0, 3)
-              },
-              yaxis: {
-                labels: {
-                  align: 'left',
-                  minWidth: 0,
-                  maxWidth: 140,
-                  style: {
-                    colors: '#9ca3af',
-                    fontSize: '11px',
-                    fontFamily: 'Inter, ui-sans-serif',
-                    fontWeight: 400
-                  },
-                  formatter: (value) => value >= 1000 ? \`\${value / 1000}k\` : value
-                }
-              },
-            },
-          }]
-        }), {
-          colors: ['#2563eb', '#9333ea'],
-          fill: {
-            gradient: {
-              shadeIntensity: .1,
-              opacityFrom: .5,
-              opacityTo: 0,
-              stops: [50, 100, 100, 100]
-            }
-          },
-          xaxis: {
-            labels: {
-              style: {
-                colors: '#9ca3af'
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: '#9ca3af'
-              }
-            }
-          },
-          grid: {
-            strokeDashArray: 2,
-            borderColor: '#e5e7eb'
-          }
-        }, {
-          colors: ['#3b82f6', '#a855f7'],
-          fill: {
-            gradient: {
-              shadeIntensity: .1,
-              opacityFrom: .5,
-              opacityTo: 0,
-              stops: [50, 100, 100, 100]
-            }
-          },
-          xaxis: {
-            labels: {
-              style: {
-                colors: '#a3a3a3',
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: '#a3a3a3'
-              }
-            }
-          },
-          grid: {
-            strokeDashArray: 2,
-            borderColor: '#404040'
-          }
-        });
-      })();
-    });
-
-window.addEventListener("load", () => {
-  	  // Apex Lines Chart
-  	  (function () {
-  	    buildChart(
-  	      "#hs-total-sales-lines-chart",
-  	      (mode) => ({
-  	        series: [
-  	          {
-  	            name: "Store sales",
-  	            data: [0, 27000, 5000, 27000, 40000, 30000, 48000],
-  	          },
-  	          {
-  	            name: "Online sales",
-  	            data: [19500, 10000, 1000, 17500, 6000, 20500, 24000],
-  	          },
-  	          {
-  	            name: "Others",
-  	            data: [12500, 7000, 4000, 8000, 10000, 12800, 8500],
-  	          },
-  	        ],
-  	        chart: {
-  	          height: 100,
-  	          type: "line",
-  	          sparkline: {
-  	            enabled: true,
-  	          },
-  	        },
-  	        stroke: {
-  	          curve: "straight",
-  	          width: 2,
-  	        },
-  	        xaxis: {
-  	          type: "category",
-  	          categories: [
-  	            "25 January 2023",
-  	            "1 February 2023",
-  	            "5 February 2023",
-  	            "10 February 2023",
-  	            "15 February 2023",
-  	            "20 February 2023",
-  	            "25 February 2023",
-  	          ],
-  	          crosshairs: {
-  	            show: false,
-  	          },
-  	        },
-  	        markers: {
-  	          hover: {
-  	            size: 0,
-  	          },
-  	        },
-  	        tooltip: {
-  	          custom: function (props) {
-  	            const { categories } = props.ctx.opts.xaxis;
-  	            const { dataPointIndex } = props;
-  	            const title = categories[dataPointIndex];
-
-  	            return buildTooltip(props, {
-  	              title: title,
-  	              mode,
-  	              hasTextLabel: true,
-  	              wrapperExtClasses: "min-w-48",
-  	              labelDivider: ":",
-  	              labelExtClasses: "ms-2",
-  	            });
-  	          },
-  	        },
-  	      }),
-  	      {
-  	        colors: ["#2563EB", "#9333ea", "#d1d5db"],
-  	        grid: {
-  	          borderColor: "#e5e7eb",
-  	        },
-  	        fill: {
-  	          type: "gradient",
-  	          gradient: {
-  	            gradientToColors: ["#fff", "#fff", "#fff"],
-  	          },
-  	        },
-  	      },
-  	      {
-  	        colors: ["#3b82f6", "#a855f7", "#737373"],
-  	        grid: {
-  	          borderColor: "#404040",
-  	        },
-  	        fill: {
-  	          type: "gradient",
-  	          gradient: {
-  	            gradientToColors: ["#262626", "#262626", "#262626"],
-  	          },
-  	        },
-  	      }
-  	    );
-  	  })();
-  	});
-
-const html = document.querySelector('html');
-    const isLightOrAuto = localStorage.getItem('hs_theme') === 'light' || (localStorage.getItem('hs_theme') === 'auto' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
-    const isDarkOrAuto = localStorage.getItem('hs_theme') === 'dark' || (localStorage.getItem('hs_theme') === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-    if (isLightOrAuto && html.classList.contains('dark')) html.classList.remove('dark');
-    else if (isDarkOrAuto && html.classList.contains('light')) html.classList.remove('light');
-    else if (isDarkOrAuto && !html.classList.contains('dark')) html.classList.add('dark');
-    else if (isLightOrAuto && !html.classList.contains('light')) html.classList.add('light');
-
-`;
 
 export default function Dashboard() {
   const [isClient, setIsClient] = useState(false);
+  const chartRootsRef = useRef<Map<string, Root>>(new Map());
 
   useEffect(() => {
     // Marcar que estamos en el cliente
     setIsClient(true);
 
-    // Cargar ApexCharts solo en el cliente
-    const loadApexCharts = async () => {
-      const ApexCharts = (await import('apexcharts')).default;
+    // Capturar el ref al inicio para el cleanup
+    const rootsMap = chartRootsRef.current;
 
-      // Hacer ApexCharts disponible globalmente
-      (window as any).ApexCharts = ApexCharts;
+    // Función para montar los gráficos React
+    const mountCharts = () => {
+      const salesLineElement = document.getElementById('hs-sales-line-chart');
+      const totalSalesElement = document.getElementById('hs-total-sales-lines-chart');
 
-      // Configurar helpers escalables de ApexCharts
-      setupApexChartsHelpers(ApexCharts);
+      if (salesLineElement && !salesLineElement.hasAttribute('data-mounted')) {
+        salesLineElement.setAttribute('data-mounted', 'true');
+        salesLineElement.innerHTML = ''; // Limpiar el contenido
+        const root = createRoot(salesLineElement);
+        root.render(<SalesLineChart />);
+        rootsMap.set('sales-line', root);
+      }
 
-      // Ejecutar scripts del dashboard después de que ApexCharts esté listo
-      setTimeout(() => {
-        try {
-          // Ejecutar los scripts del dashboard
-          const scriptElement = document.createElement('script');
-          scriptElement.textContent = DASHBOARD_SCRIPTS;
-          document.body.appendChild(scriptElement);
-        } catch (error) {
-          console.error('Error ejecutando scripts del dashboard:', error);
-        }
-      }, 200);
+      if (totalSalesElement && !totalSalesElement.hasAttribute('data-mounted')) {
+        totalSalesElement.setAttribute('data-mounted', 'true');
+        totalSalesElement.innerHTML = ''; // Limpiar el contenido
+        const root = createRoot(totalSalesElement);
+        root.render(<TotalSalesLinesChart />);
+        rootsMap.set('total-sales', root);
+      }
     };
 
-    loadApexCharts();
+    // Montar gráficos después de que el HTML se renderice
+    const timer = setTimeout(() => {
+      mountCharts();
+    }, 100);
 
     // Inicializar Preline UI después de que el HTML se renderice
     if (window.HSStaticMethods) {
@@ -7335,12 +7019,21 @@ export default function Dashboard() {
         }
       }, 100);
     }
+
+    return () => {
+      clearTimeout(timer);
+      // Limpiar roots al desmontar
+      rootsMap.forEach((root) => {
+        root.unmount();
+      });
+      rootsMap.clear();
+    };
   }, []);
 
   return (
     <div
       className="bg-gray-50 dark:bg-neutral-900 min-h-screen lg:ml-65 lg:w-[calc(100vw-var(--spacing-65))]"
-      dangerouslySetInnerHTML={ { __html: DASHBOARD_HTML } }
+      dangerouslySetInnerHTML={{ __html: DASHBOARD_HTML }}
     />
   );
 }
