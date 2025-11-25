@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
 
+// Trigger Vercel deployment
+
 export const metadata: Metadata = {
   title: "Dashboard - Fascinante Digital",
   description: "Dashboard de Fascinante Digital",
