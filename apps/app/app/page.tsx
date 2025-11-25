@@ -1,14 +1,60 @@
 /**
  * Dashboard Page - Fascinante Digital
  *
- * Esta página está siendo recreada con componentes React nativos.
- * El favicon y layout.tsx se mantienen intactos.
+ * Página principal del dashboard con Stats Cards.
+ * Todos los componentes son Server Components excepto los que requieren interactividad del cliente.
  */
+
+import Header from './components/layout/Header';
+import Sidebar from './components/layout/Sidebar';
+import Footer from './components/layout/Footer';
+import ActivityOffcanvas from './components/layout/ActivityOffcanvas';
+import SearchModal from './components/layout/SearchModal';
+import BrowsersCard from './components/dashboard/BrowsersCard';
+import ReferralTrafficCard from './components/dashboard/ReferralTrafficCard';
+import SalesStatsCard from './components/dashboard/SalesStatsCard';
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
-      {/* UI será recreada con componentes React */}
+      <Header />
+      <Sidebar />
+
+      {/* Main Content */}
+      <main id="content" className="pt-15 pb-10 sm:pb-16">
+        {/* Breadcrumb */}
+        <ol className="lg:hidden pt-3 md:pt-5 sm:pb-2 md:pb-0 px-2 sm:px-5 flex items-center whitespace-nowrap">
+          <li className="flex items-center text-sm text-gray-600 dark:text-neutral-500">
+            Dashboard
+            <svg className="shrink-0 overflow-visible size-4 ms-1.5 text-gray-400 dark:text-neutral-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 13L10 3" stroke="currentColor" strokeLinecap="round"></path>
+            </svg>
+          </li>
+          <li className="ps-1.5 flex items-center truncate font-semibold text-gray-800 dark:text-neutral-200 text-sm truncate">
+            <span className="truncate">Overview</span>
+          </li>
+        </ol>
+        {/* End Breadcrumb */}
+
+        <div className="py-2 sm:py-0 md:pt-5 sm:pe-5 ps-0 lg:ps-0 lg:pe-5 space-y-5">
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto lg:mx-0 max-w-fit">
+            <BrowsersCard />
+            <ReferralTrafficCard />
+            <SalesStatsCard />
+          </div>
+          {/* End Cards Grid */}
+        </div>
+      </main>
+      {/* End Main Content */}
+
+      <Footer />
+
+      {/* Activity Offcanvas */}
+      <ActivityOffcanvas />
+
+      {/* Search Modal */}
+      <SearchModal />
     </div>
   );
 }

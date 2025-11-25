@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description: "Dashboard de Fascinante Digital",
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon0.svg', type: 'image/svg+xml' },
       { url: '/icon1.png', sizes: '96x96', type: 'image/png' },
     ],

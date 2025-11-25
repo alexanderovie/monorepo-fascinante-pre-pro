@@ -8,6 +8,10 @@
 
 /* Custom spacing for sidebar (w-65 = 260px = 16.25rem) */
 @theme {
+  /* Base spacing unit (default Tailwind: 0.25rem = 4px) */
+  --spacing: 0.25rem;
+
+  /* Custom spacing values */
   --spacing-65: 16.25rem; /* 260px para el sidebar */
   --spacing-15: 3.75rem; /* 60px para pt-15 */
   --spacing-11-5: 2.875rem; /* 46px para h-11.5 */
@@ -38,4 +42,16 @@
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+/* Hardcoded spacing for main content - Desktop only (1024px+) */
+@media (min-width: 1024px) {
+  #content {
+    margin-left: auto !important;
+    width: calc(100vw - 260px) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 60px !important;
+    padding-bottom: 40px !important;
+  }
 }
