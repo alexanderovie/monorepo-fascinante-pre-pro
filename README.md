@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project with [Preline UI](https://preline.co) and [Tailwind CSS v4](https://tailwindcss.com).
 
-## Getting Started
+## 🚀 Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- pnpm 10+ (instalado globalmente)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Instalar dependencias
+pnpm install
+```
+
+### Development
+
+```bash
+# Iniciar servidor de desarrollo
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Build para producción
+pnpm build
 
-## Learn More
+# Iniciar servidor de producción
+pnpm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Estructura del Proyecto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+├── about/              # Página About
+├── customers/         # Página Customers
+├── customer-details/  # Página Customer Details
+├── features/         # Página Features
+├── pricing/           # Página Pricing
+├── components/        # Componentes Preline
+├── globals.css        # Tailwind + Preline CSS
+├── layout.tsx         # Layout principal
+└── page.tsx           # Homepage
+```
 
-## Deploy on Vercel
+## 🎨 Tecnologías
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Next.js 15.2.1** - Framework React
+- **Tailwind CSS v4.1.17** - Estilos utility-first
+- **Preline UI v3.2.3** - Componentes UI
+- **TypeScript** - Tipado estático
+- **pnpm** - Gestor de paquetes (monorepo ready)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📚 Documentación
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Preline UI Documentation](https://preline.co/docs)
+- [Tailwind CSS v4 Documentation](https://tailwindcss.com/docs)
+
+## 🏗️ Monorepo Ready
+
+Este proyecto está configurado para escalar a un monorepo:
+
+- `pnpm-workspace.yaml` - Configurado para `apps/*` y `packages/*`
+- Estructura preparada para mover a `apps/web-publica/`
+- Listo para agregar `apps/dashboard/`
+
+Ver `ESTRUCTURA.md` para más detalles.
+
+## 🚀 Deploy
+
+The easiest way to deploy is using [Vercel](https://vercel.com):
+
+```bash
+pnpm build
+```
