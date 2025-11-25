@@ -11,6 +11,7 @@ import { defaultProductsData } from './lib/products-data';
 import { defaultFeaturesData } from './lib/features-data';
 import { defaultFAQData } from './lib/faq-data';
 import { defaultFooterData } from './lib/footer-data';
+import { URLS } from '../lib/constants';
 
 export default function Home() {
   return (
@@ -23,11 +24,11 @@ export default function Home() {
           description="Boost developer efficiency, enhance teamwork, and maximize tech investments with Preline."
           primaryButton={{
             label: 'Try it free',
-            href: '#',
+            href: URLS.tryItFree,
           }}
           secondaryButton={{
             label: 'Get a demo',
-            href: '#',
+            href: URLS.getDemo,
           }}
         />
         <Stats items={defaultStatsData} />
@@ -53,11 +54,11 @@ export default function Home() {
           }
           primaryButton={{
             label: 'Try it free',
-            href: '#',
+            href: URLS.tryItFree,
           }}
           secondaryButton={{
             label: 'Get a demo',
-            href: '#',
+            href: URLS.getDemo,
           }}
         />
       </main>

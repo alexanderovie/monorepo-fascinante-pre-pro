@@ -12,6 +12,7 @@ import { defaultTestimonialData } from '../lib/testimonial-data';
 import { defaultDownloadAppsData } from '../lib/download-apps-data';
 import { defaultFooterData } from '../lib/footer-data';
 import { defaultFloatingCards } from '../lib/features-hero-cards-data';
+import { URLS } from '../../lib/constants';
 
 export default function FeaturesPage() {
   return (
@@ -53,11 +54,11 @@ export default function FeaturesPage() {
           }
           primaryButton={{
             label: 'Try it free',
-            href: '#',
+            href: URLS.tryItFree,
           }}
           secondaryButton={{
             label: 'Get a demo',
-            href: '#',
+            href: URLS.getDemo,
           }}
         />
       </main>

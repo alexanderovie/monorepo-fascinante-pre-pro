@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ASSETS, BRAND } from '../../lib/constants';
+import { ASSETS, BRAND, URLS } from '../../lib/constants';
 
 /**
  * Header Component - Plantilla Startup
@@ -45,7 +45,7 @@ export default function Header() {
           {/* Button Group */}
           <div className="md:order-3 flex gap-x-1">
             <Link
-              href="#"
+              href={URLS.getDemo}
               className="py-2 px-2.5 hidden md:flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
               Get a demo
@@ -59,7 +59,7 @@ export default function Header() {
             </Link>
 
             <Link
-              href="#"
+              href={URLS.tryItFree}
               className="py-2 px-2.5 inline-flex items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
             >
               Try it free
@@ -164,7 +164,7 @@ export default function Header() {
                 </div>
 
                 <Link
-                  href="#"
+                  href={URLS.getDemo}
                   className="py-2 px-2.5 md:hidden flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                 >
                   Get a demo
