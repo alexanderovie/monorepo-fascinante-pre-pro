@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 interface HeroTab {
   id: string;
@@ -278,20 +279,32 @@ export default function Hero({
 
   return (
     <div className="relative bg-no-repeat bg-cover bg-top">
-      {/* Background Image Light */}
-      <div
-        className="absolute inset-0 bg-no-repeat bg-cover bg-top dark:hidden"
-        style={{
-          backgroundImage: `url(${backgroundImage.light})`,
-        }}
-      />
+      {/* Background Image Light - LCP Optimized */}
+      <div className="absolute inset-0 dark:hidden">
+        <Image
+          src={backgroundImage.light}
+          alt="Hero background"
+          fill
+          priority
+          fetchPriority="high"
+          className="object-cover object-top"
+          sizes="100vw"
+          quality={85}
+        />
+      </div>
       {/* Background Image Dark */}
-      <div
-        className="absolute inset-0 bg-no-repeat bg-cover bg-top hidden dark:block"
-        style={{
-          backgroundImage: `url(${backgroundImage.dark})`,
-        }}
-      />
+      <div className="absolute inset-0 hidden dark:block">
+        <Image
+          src={backgroundImage.dark}
+          alt="Hero background dark"
+          fill
+          priority
+          fetchPriority="high"
+          className="object-cover object-top"
+          sizes="100vw"
+          quality={85}
+        />
+      </div>
       <div className="pt-10 md:pt-20 pb-14 md:pb-20 relative z-10">
         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}

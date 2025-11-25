@@ -15,7 +15,7 @@ export default function ContactForm({ onSubmit, className = '' }: ContactFormPro
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    
+
     if (onSubmit) {
       await onSubmit(formData);
     } else {
@@ -122,4 +122,3 @@ export default function ContactForm({ onSubmit, className = '' }: ContactFormPro
     </form>
   );
 }
-
