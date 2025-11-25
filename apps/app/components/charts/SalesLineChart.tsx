@@ -21,7 +21,7 @@ export default function SalesLineChart({ className = 'min-h-[415px]' }: SalesLin
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     // Detectar tema actual
     const checkTheme = () => {
       const html = document.documentElement;
@@ -280,4 +280,3 @@ export default function SalesLineChart({ className = 'min-h-[415px]' }: SalesLin
     </div>
   );
 }
-

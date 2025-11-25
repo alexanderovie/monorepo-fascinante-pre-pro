@@ -122,4 +122,3 @@ export default function CustomerDetails({ customer, className = '' }: CustomerDe
     </div>
   );
 }
-

@@ -21,7 +21,7 @@ export default function TotalSalesLinesChart({ className = 'min-h-[115px]' }: To
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     // Detectar tema actual
     const checkTheme = () => {
       const html = document.documentElement;
@@ -151,4 +151,3 @@ export default function TotalSalesLinesChart({ className = 'min-h-[115px]' }: To
     </div>
   );
 }
-
