@@ -46,12 +46,13 @@ export default function BrowsersCard() {
           <div className="grid grid-cols-3 gap-3">
             {/* Card */}
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
-              <img
+              <Image
                 className="shrink-0 size-6 mb-4"
                 src="/assets/images/directories-icon.svg"
                 alt="Business directories visibility icon - Google Business Profile, Apple Maps, and local listings"
                 width={24}
                 height={24}
+                unoptimized
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
                 Directories
@@ -64,12 +65,13 @@ export default function BrowsersCard() {
 
             {/* Card */}
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
-              <img
+              <Image
                 className="shrink-0 size-6 mb-4"
                 src="/assets/images/website-icon.png"
                 alt="Website SEO performance icon - Search engine optimization and website visibility metrics"
                 width={24}
                 height={24}
+                unoptimized
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
                 Website
@@ -82,12 +84,13 @@ export default function BrowsersCard() {
 
             {/* Card */}
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
-              <img
+              <Image
                 className="shrink-0 size-6 mb-4"
                 src="/assets/images/ads-ready-icon.svg"
                 alt="Ads Ready icon - Paid advertising campaign readiness and optimization metrics"
                 width={24}
                 height={24}
+                unoptimized
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
                 Ads Ready
