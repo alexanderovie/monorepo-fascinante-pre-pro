@@ -44,14 +44,27 @@
   box-shadow: none !important;
 }
 
-/* Hardcoded spacing for main content - Desktop only (1024px+) */
+/* Hardcoded spacing for sidebar and layout - Desktop only (1024px+) */
 @media (min-width: 1024px) {
+  /* Sidebar width */
+  #hs-pro-sidebar {
+    width: 280px !important;
+  }
+
+  /* Header margin - same as footer */
+  header[class*="lg:ms-65"] {
+    margin-left: 280px !important;
+  }
+
+  /* Main content padding - same as footer */
   #content {
-    margin-left: auto !important;
-    width: calc(100vw - 260px) !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 280px !important;
     padding-top: 60px !important;
     padding-bottom: 40px !important;
+  }
+
+  /* Footer width and padding */
+  footer[class*="lg:ps-65"] {
+    padding-left: 280px !important;
   }
 }

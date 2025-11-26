@@ -20,8 +20,8 @@ export default function Dashboard() {
       <Header />
       <Sidebar />
 
-      {/* Main Content */}
-      <main id="content" className="pt-15 pb-10 sm:pb-16">
+            {/* Main Content */}
+            <main id="content" className="pt-15 pb-10 sm:pb-16">
         {/* Breadcrumb */}
         <ol className="lg:hidden pt-3 md:pt-5 sm:pb-2 md:pb-0 px-2 sm:px-5 flex items-center whitespace-nowrap">
           <li className="flex items-center text-sm text-gray-600 dark:text-neutral-500">
@@ -36,7 +36,7 @@ export default function Dashboard() {
         </ol>
         {/* End Breadcrumb */}
 
-        <div className="p-2 sm:p-5 sm:py-0 md:pt-5 lg:px-0 space-y-5">
+        <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto lg:mx-0 max-w-fit">
             <BrowsersCard />

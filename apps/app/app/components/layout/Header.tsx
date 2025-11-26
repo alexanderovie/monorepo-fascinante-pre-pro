@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <>
   {/* ========== HEADER ========== */}
-  <header className="lg:ms-65 lg:w-[calc(100vw-var(--spacing-65))] fixed top-0 inset-x-0 lg:inset-x-auto lg:right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
+  <header className="lg:ms-65 fixed top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
     <div className="flex justify-between xl:grid xl:grid-cols-3 basis-full items-center w-full py-2.5 px-2 sm:px-5">
       <div className="xl:col-span-1 flex items-center md:gap-x-3">
         <div className="lg:hidden">
