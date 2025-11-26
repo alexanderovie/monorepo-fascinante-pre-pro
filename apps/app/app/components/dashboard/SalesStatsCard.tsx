@@ -2,9 +2,11 @@
  * Sales Stats Card Component
  *
  * Muestra estadísticas de ventas totales con calendario y lista de ventas por categoría.
- * El gráfico ApexCharts se renderizará en el cliente.
+ * Incluye gráfico sparkline de ApexCharts para visualizar tendencias de ventas.
  * Server Component - El calendario de Preline se inicializa automáticamente.
  */
+import TotalSalesLinesChart from '../../../components/charts/TotalSalesLinesChart';
+
 export default function SalesStatsCard() {
   return (
     <div className="size-full flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
@@ -307,8 +309,8 @@ export default function SalesStatsCard() {
       {/* Footer */}
       <div className="p-5 pt-0 space-y-8">
         <div className="w-full">
-          {/* Apex Line Chart - Se renderizará en el cliente */}
-          <div id="hs-total-sales-lines-chart" className="min-h-[115px]"></div>
+          {/* Apex Line Chart - Sparkline para visualizar tendencias de ventas */}
+          <TotalSalesLinesChart className="min-h-[115px]" />
         </div>
       </div>
       {/* End Footer */}
