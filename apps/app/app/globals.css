@@ -60,7 +60,7 @@
   #content {
     padding-left: 280px !important;
     padding-top: 60px !important;
-    padding-bottom: 40px !important;
+    padding-bottom: 80px !important; /* Espacio suficiente para el footer (h-16 = 64px) + espacio visual */
   }
 
   /* Footer width and padding */

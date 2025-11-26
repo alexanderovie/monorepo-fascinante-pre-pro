@@ -15,6 +15,7 @@ import ReferralTrafficCard from './components/dashboard/ReferralTrafficCard';
 import SalesStatsCard from './components/dashboard/SalesStatsCard';
 import DoubleAreaChartCard from './components/dashboard/DoubleAreaChartCard';
 import ProjectCard from './components/dashboard/ProjectCard';
+import AddProjectModal from './components/dashboard/AddProjectModal';
 
 export default function Dashboard() {
   return (
@@ -65,6 +66,9 @@ export default function Dashboard() {
 
       {/* Search Modal */}
       <SearchModal />
+
+      {/* Add Project Modal */}
+      <AddProjectModal />
     </div>
   );
 }
