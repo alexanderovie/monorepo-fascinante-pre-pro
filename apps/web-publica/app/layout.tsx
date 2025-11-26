@@ -28,8 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body>{children}</body>
-      <PrelineScriptWrapper />
+      <head>
+        {/* Resource Hints: Optimiza carga de app.fascinantedigital.com */}
+        <link rel="dns-prefetch" href="https://app.fascinantedigital.com" />
+        <link rel="preconnect" href="https://app.fascinantedigital.com" crossOrigin="anonymous" />
+      </head>
+      <body>
+        {children}
+        <PrelineScriptWrapper />
+      </body>
     </html>
   );
 }
