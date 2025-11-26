@@ -1,6 +1,6 @@
 /**
  * Sales Stats Card Component
- * 
+ *
  * Muestra estadísticas de ventas totales con calendario y lista de ventas por categoría.
  * El gráfico ApexCharts se renderizará en el cliente.
  * Server Component - El calendario de Preline se inicializa automáticamente.
@@ -315,4 +315,3 @@ export default function SalesStatsCard() {
     </div>
   );
 }
-

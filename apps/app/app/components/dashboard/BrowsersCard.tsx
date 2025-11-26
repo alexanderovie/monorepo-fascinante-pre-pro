@@ -1,7 +1,7 @@
 
 /**
  * Browsers Card Component
- * 
+ *
  * Muestra estadísticas de navegadores con porcentajes y alerta de notificaciones.
  * Server Component - No requiere interactividad del cliente.
  */
@@ -128,4 +128,3 @@ export default function BrowsersCard() {
     </div>
   );
 }
-

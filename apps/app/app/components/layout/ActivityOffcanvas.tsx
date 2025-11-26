@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 /**
  * Activity Offcanvas Component
- * 
+ *
  * Offcanvas lateral que muestra el historial de actividad del dashboard.
  * Se abre desde el botón de Activity en el Header.
  */
@@ -425,4 +425,3 @@ export default function ActivityOffcanvas() {
     </div>
   );
 }
-
