@@ -1,5 +1,3 @@
-'use client';
-
 import type { FeatureItem } from '../lib/features-data';
 
 interface FeaturesProps {

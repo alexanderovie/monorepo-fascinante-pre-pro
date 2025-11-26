@@ -1,5 +1,3 @@
-'use client';
-
 import type { StatItem } from '../lib/stats-data';
 
 interface StatsProps {
