@@ -2,9 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 /**
- * Referral Traffic Card Component
+ * Engagement Channels Card Component
  *
- * Muestra estadísticas de tráfico de referencia con barras de progreso y lista de dominios.
+ * Muestra cómo los clientes interactúan con el negocio a través de diferentes canales
+ * (clics en sitio web, llamadas, direcciones, reseñas, etc.).
  * Server Component - Los dropdowns de Preline se inicializan automáticamente.
  */
 export default function ReferralTrafficCard() {
@@ -14,7 +15,7 @@ export default function ReferralTrafficCard() {
       <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
         <div>
           <h2 className="inline-block font-semibold text-lg text-gray-800 dark:text-neutral-200">
-            Referral Traffic
+            Engagement Channels
           </h2>
         </div>
         {/* End Col */}
@@ -223,7 +224,7 @@ export default function ReferralTrafficCard() {
                 <div className="flex items-center">
                   <span className="shrink-0 size-2.5 inline-block bg-blue-600 rounded-xs me-2.5"></span>
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
-                    github.com
+                    Website Clicks
                   </span>
                 </div>
                 <div className="text-end">
@@ -239,7 +240,7 @@ export default function ReferralTrafficCard() {
                 <div className="flex items-center">
                   <span className="shrink-0 size-2.5 inline-block bg-violet-500 rounded-xs me-2.5"></span>
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
-                    accounts.google.com
+                    Phone Calls
                   </span>
                 </div>
                 <div className="text-end">
@@ -255,7 +256,7 @@ export default function ReferralTrafficCard() {
                 <div className="flex items-center">
                   <span className="shrink-0 size-2.5 inline-block bg-teal-400 rounded-xs me-2.5"></span>
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
-                    themes.getbootstrap.com
+                    Directions
                   </span>
                 </div>
                 <div className="text-end">
@@ -271,7 +272,7 @@ export default function ReferralTrafficCard() {
                 <div className="flex items-center">
                   <span className="shrink-0 size-2.5 inline-block bg-blue-400 rounded-xs me-2.5"></span>
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
-                    htmlstream.com
+                    Reviews
                   </span>
                 </div>
                 <div className="text-end">

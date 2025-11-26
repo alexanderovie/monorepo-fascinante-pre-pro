@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Add Project Modal Component
+ * Add Location Modal Component
  *
- * Modal para agregar un nuevo proyecto con formulario de nombre, subdominio y logo.
+ * Modal para agregar una nueva ubicación de negocio con formulario de nombre, dirección y logo.
  * Client Component - Requiere Preline UI para funcionar.
  */
 export default function AddProjectModal() {
@@ -22,7 +22,7 @@ export default function AddProjectModal() {
             {/* Header */}
             <div className="py-2.5 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-700">
               <h3 id="hs-pro-dasadpm-label" className="font-medium text-gray-800 dark:text-neutral-200">
-                Add project
+                Add Location
               </h3>
               <button
                 type="button"
@@ -55,7 +55,7 @@ export default function AddProjectModal() {
               <div className="p-4 space-y-5">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    Project logo
+                    Business logo
                   </label>
 
                   {/* Logo Upload Group */}
@@ -119,33 +119,28 @@ export default function AddProjectModal() {
 
                 <div>
                   <label htmlFor="hs-pro-dalpn" className="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                    Project name
+                    Business name
                   </label>
 
                   <input
                     type="text"
                     id="hs-pro-dalpn"
                     className="py-2 sm:py-2.5 px-3 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                    placeholder="My project"
+                    placeholder="Downtown Restaurant"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="hs-pro-dalsd" className="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                    Subdomain
+                    Business address
                   </label>
 
-                  <div className="relative">
-                    <input
-                      type="text"
-                      id="hs-pro-dalsd"
-                      className="py-2 sm:py-2.5 ps-3 pe-24 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                      placeholder="myproject"
-                    />
-                    <div className="absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-4">
-                      <span className="text-sm text-gray-500 dark:text-neutral-500">.preline.co</span>
-                    </div>
-                  </div>
+                  <input
+                    type="text"
+                    id="hs-pro-dalsd"
+                    className="py-2 sm:py-2.5 px-3 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                    placeholder="123 Main Street, City, State ZIP"
+                  />
                 </div>
               </div>
               {/* End Body */}

@@ -1,20 +1,22 @@
 /**
- * Project Card Component
+ * Business Locations Card Component
  *
- * Muestra una tabla completa de proyectos con búsqueda, filtros, ordenamiento y paginación.
+ * Muestra una tabla completa de ubicaciones de negocio gestionadas con búsqueda, filtros,
+ * ordenamiento y paginación. Incluye información de categoría, estado, progreso del perfil,
+ * última actualización y health score.
  * Server Component - Los dropdowns de Preline se inicializan automáticamente.
  */
 import Image from 'next/image';
 
-// Helper component para renderizar estrellas de rating
-function RatingStars({ rating }: { rating: number }) {
+// Helper component para renderizar estrellas de health score
+function HealthScoreStars({ score }: { score: number }) {
   return (
     <div className="flex gap-x-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
           className={`shrink-0 size-3.5 ${
-            star <= rating
+            star <= score
               ? 'text-blue-600 dark:text-blue-500'
               : 'text-gray-300 dark:text-neutral-700'
           }`}
@@ -31,39 +33,34 @@ function RatingStars({ rating }: { rating: number }) {
   );
 }
 
-// Helper component para renderizar avatares de assignees
-function AssigneeAvatars({ assignees }: { assignees: Array<{ name: string; avatar?: string; initial?: string }> }) {
+// Helper component para renderizar badges de estado
+function StatusBadge({ status }: { status: 'active' | 'pending' | 'needs-review' }) {
+  const statusConfig = {
+    active: {
+      label: 'Active',
+      className: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-500',
+    },
+    pending: {
+      label: 'Pending',
+      className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500',
+    },
+    'needs-review': {
+      label: 'Needs Review',
+      className: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-500',
+    },
+  };
+
+  const config = statusConfig[status];
+
   return (
-    <div className="flex items-center -space-x-2">
-      {assignees.map((assignee, idx) => (
-        <div key={idx} className="hs-tooltip hover:z-10">
-          {assignee.avatar ? (
-            <Image
-              className="shrink-0 size-7 rounded-full"
-              src={assignee.avatar}
-              alt={assignee.name}
-              width={28}
-              height={28}
-            />
-          ) : (
-            <span className="flex shrink-0 justify-center items-center size-7 bg-white border border-gray-200 text-gray-700 text-xs font-medium uppercase rounded-full dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300">
-              {assignee.initial || assignee.name[0]}
-            </span>
-          )}
-          <span
-            className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-2xs dark:bg-neutral-700"
-            role="tooltip"
-          >
-            {assignee.name}
-          </span>
-        </div>
-      ))}
-    </div>
+    <span className={`px-2 py-1 text-xs font-medium rounded-md ${config.className}`}>
+      {config.label}
+    </span>
   );
 }
 
-// Helper component para renderizar progress bar
-function ProgressBar({ current, total }: { current: number; total: number }) {
+// Helper component para renderizar progress bar de completitud del perfil
+function ProfileProgressBar({ current, total }: { current: number; total: number }) {
   const percentage = (current / total) * 100;
   return (
     <div className="flex items-center gap-x-3">
@@ -78,7 +75,7 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
         aria-valuemax={100}
       >
         <div
-          className="flex flex-col justify-center overflow-hidden bg-gray-800 text-xs text-white text-center whitespace-nowrap dark:bg-neutral-200"
+          className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap dark:bg-blue-500"
           style={{ width: `${percentage}%` }}
         ></div>
       </div>
@@ -240,77 +237,57 @@ function SortDropdown({ id, label }: { id: string; label: string }) {
 }
 
 export default function ProjectCard() {
-  // Datos de ejemplo de proyectos (en producción vendrían de una API)
-  const projects = [
+  // Datos de ejemplo de ubicaciones de negocio (en producción vendrían de una API)
+  const locations = [
     {
       id: 1,
-      name: 'Improve website UI',
-      department: 'Website',
-      tags: ['SaaS', 'IT', 'Tech', 'B2B'],
-      assignees: [
-        { name: 'James Collins', avatar: 'https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-        { name: 'Lori Hunter', initial: 'L' },
-        { name: 'Lewis Clarke', avatar: 'https://images.unsplash.com/photo-1679412330254-90cb240038c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-        { name: 'Ella Lauda', avatar: 'https://images.unsplash.com/photo-1659482634023-2c4fda99ac0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-        { name: 'Ols Schols', initial: 'O' },
-      ],
-      progress: { current: 1, total: 5 },
-      deadline: 'Apr 10, 2023',
-      rating: 5,
+      name: 'Downtown Restaurant',
+      category: 'Restaurant',
+      status: 'active' as const,
+      tags: ['Restaurant', 'Dining', 'Food Service'],
+      progress: { current: 5, total: 5 },
+      lastUpdated: 'Nov 20, 2025',
+      healthScore: 5,
     },
     {
       id: 2,
-      name: 'Internal UX audit',
-      department: 'Website',
-      tags: ['Ecommerce', 'Shopify'],
-      assignees: [
-        { name: 'Anna Richard', avatar: 'https://images.unsplash.com/photo-1570654639102-bdd95efeca7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-        { name: 'Lori Hunter', initial: 'L' },
-        { name: 'Costa Quinn', avatar: 'https://images.unsplash.com/photo-1601935111741-ae98b2b230b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-      ],
-      progress: { current: 1, total: 5 },
-      deadline: 'May 5, 2023',
-      rating: 4,
+      name: 'Main Street Retail',
+      category: 'Retail Store',
+      status: 'active' as const,
+      tags: ['Retail', 'Shopping', 'B2C'],
+      progress: { current: 4, total: 5 },
+      lastUpdated: 'Nov 18, 2025',
+      healthScore: 4,
     },
     {
       id: 3,
-      name: 'Digital marketing',
-      department: 'IT department',
-      tags: ['Sales', 'Marketing'],
-      assignees: [
-        { name: 'Alex Brown', initial: 'A' },
-        { name: 'Bob Dean', initial: 'B' },
-        { name: 'Mark Colbert', initial: 'M' },
-        { name: 'Chris Mathew', initial: 'C' },
-        { name: 'Alex Brown', initial: 'A' },
-        { name: 'Emma Watson', initial: 'E' },
-      ],
-      progress: { current: 5, total: 5 },
-      deadline: 'Apr 29, 2023',
-      rating: 5,
+      name: 'Westside Medical Center',
+      category: 'Healthcare',
+      status: 'pending' as const,
+      tags: ['Healthcare', 'Medical', 'Services'],
+      progress: { current: 3, total: 5 },
+      lastUpdated: 'Nov 15, 2025',
+      healthScore: 3,
     },
     {
       id: 4,
-      name: 'Case studies',
-      department: 'IT department',
-      tags: ['Branding'],
-      assignees: [{ name: 'David Harrison', avatar: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' }],
-      progress: { current: 5, total: 5 },
-      deadline: '',
-      rating: 3,
+      name: 'Tech Solutions Office',
+      category: 'Professional Services',
+      status: 'needs-review' as const,
+      tags: ['Professional', 'B2B', 'Technology'],
+      progress: { current: 2, total: 5 },
+      lastUpdated: 'Nov 10, 2025',
+      healthScore: 2,
     },
     {
       id: 5,
-      name: 'Social media assets',
-      department: 'Marketing',
-      tags: ['B2B'],
-      assignees: [
-        { name: 'James Collins', avatar: 'https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80' },
-        { name: 'Lori Hunter', initial: 'L' },
-      ],
-      progress: { current: 2, total: 5 },
-      deadline: 'May 22, 2023',
-      rating: 3,
+      name: 'Fitness Center North',
+      category: 'Fitness & Recreation',
+      status: 'active' as const,
+      tags: ['Fitness', 'Health', 'Recreation'],
+      progress: { current: 5, total: 5 },
+      lastUpdated: 'Nov 22, 2025',
+      healthScore: 5,
     },
   ];
 
@@ -318,7 +295,7 @@ export default function ProjectCard() {
     <div className="p-5 space-y-4 flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
       {/* Header */}
       <div className="flex justify-between items-center gap-x-5">
-        <h2 className="inline-block font-semibold text-lg text-gray-800 dark:text-neutral-200">Project</h2>
+        <h2 className="inline-block font-semibold text-lg text-gray-800 dark:text-neutral-200">Business Locations</h2>
 
         <div className="flex justify-end items-center gap-x-2">
           {/* Button */}
@@ -342,7 +319,7 @@ export default function ProjectCard() {
               <path d="M5 12h14" />
               <path d="M12 5v14" />
             </svg>
-            Add project
+            Add Location
           </button>
           {/* End Button */}
         </div>
@@ -374,7 +351,7 @@ export default function ProjectCard() {
             <input
               type="text"
               className="py-1 sm:py-1.5 ps-10 pe-8 block w-full bg-gray-100 border-transparent rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:bg-neutral-800 dark:focus:ring-neutral-600"
-              placeholder="Search projects"
+              placeholder="Search locations"
             />
             <div className="hidden absolute inset-y-0 end-0 flex items-center z-20 pe-1">
               <button
@@ -791,11 +768,11 @@ export default function ProjectCard() {
                 </th>
 
                 <th scope="col" className="min-w-45">
-                  <SortDropdown id="hs-pro-duttgs" label="Tags" />
+                  <SortDropdown id="hs-pro-duttgs" label="Category" />
                 </th>
 
                 <th scope="col" className="min-w-45">
-                  <SortDropdown id="hs-pro-dutass" label="Assignee" />
+                  <SortDropdown id="hs-pro-dutass" label="Status" />
                 </th>
 
                 <th scope="col">
@@ -803,18 +780,18 @@ export default function ProjectCard() {
                 </th>
 
                 <th scope="col">
-                  <SortDropdown id="hs-pro-dutdds" label="Deadline" />
+                  <SortDropdown id="hs-pro-dutdds" label="Last Updated" />
                 </th>
 
                 <th scope="col">
-                  <SortDropdown id="hs-pro-dutrts" label="Rating" />
+                  <SortDropdown id="hs-pro-dutrts" label="Health Score" />
                 </th>
               </tr>
             </thead>
 
             <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-              {projects.map((project) => (
-                <tr key={project.id} className="divide-x divide-gray-200 dark:divide-neutral-700">
+              {locations.map((location) => (
+                <tr key={location.id} className="divide-x divide-gray-200 dark:divide-neutral-700">
                   <td className="size-px whitespace-nowrap">
                     <div className="px-3 py-4">
                       <input
@@ -825,13 +802,13 @@ export default function ProjectCard() {
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
-                      <p className="text-sm font-semibold text-gray-800 dark:text-neutral-200">{project.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-neutral-500">{project.department}</p>
+                      <p className="text-sm font-semibold text-gray-800 dark:text-neutral-200">{location.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-neutral-500">{location.category}</p>
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="flex flex-wrap gap-1.5 px-4 py-1">
-                      {project.tags.map((tag, idx) => (
+                      {location.tags.map((tag, idx) => (
                         <span
                           key={idx}
                           className="p-2 bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200"
@@ -843,22 +820,22 @@ export default function ProjectCard() {
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
-                      <AssigneeAvatars assignees={project.assignees} />
+                      <StatusBadge status={location.status} />
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
-                      <ProgressBar current={project.progress.current} total={project.progress.total} />
+                      <ProfileProgressBar current={location.progress.current} total={location.progress.total} />
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
-                      <span className="text-sm text-gray-600 dark:text-neutral-400">{project.deadline || '-'}</span>
+                      <span className="text-sm text-gray-600 dark:text-neutral-400">{location.lastUpdated}</span>
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
-                      <RatingStars rating={project.rating} />
+                      <HealthScoreStars score={location.healthScore} />
                     </div>
                   </td>
                 </tr>
@@ -942,4 +919,3 @@ export default function ProjectCard() {
     </div>
   );
 }
-

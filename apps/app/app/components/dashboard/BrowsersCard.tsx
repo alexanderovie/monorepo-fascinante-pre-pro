@@ -1,8 +1,11 @@
 
+import Image from 'next/image';
+
 /**
- * Browsers Card Component
+ * Business Health Card Component
  *
- * Muestra estadísticas de navegadores con porcentajes y alerta de notificaciones.
+ * Muestra el score global de salud del negocio combinando visibilidad en directorios,
+ * rendimiento SEO del sitio web y preparación para publicidad pagada.
  * Server Component - No requiere interactividad del cliente.
  */
 export default function BrowsersCard() {
@@ -11,7 +14,7 @@ export default function BrowsersCard() {
       {/* Header */}
       <div className="p-5 pb-3 flex justify-between items-center">
         <h2 className="ms-1 inline-block text-lg font-semibold text-gray-800 dark:text-neutral-200">
-          Browsers
+          Business Health
         </h2>
 
         <span className="py-1 ps-1.5 pe-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-white border border-gray-200 text-gray-800 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">
@@ -33,7 +36,7 @@ export default function BrowsersCard() {
           </h4>
 
           <p className="mt-5 text-gray-500 dark:text-neutral-500">
-            Visitors are viewing website from the desktop device. 57% of all users are using MacOS
+            Combines business visibility across directories, website SEO performance, and readiness for paid advertising.
           </p>
         </div>
 
@@ -45,11 +48,13 @@ export default function BrowsersCard() {
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
               <img
                 className="shrink-0 size-6 mb-4"
-                src="/assets/svg/brands/chrome.svg"
-                alt="Chrome Logo"
+                src="/assets/images/directories-icon.svg"
+                alt="Business directories visibility icon - Google Business Profile, Apple Maps, and local listings"
+                width={24}
+                height={24}
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
-                Chrome
+                Directories
               </p>
               <p className="font-semibold text-lg text-gray-800 dark:text-neutral-200">
                 56%
@@ -61,11 +66,13 @@ export default function BrowsersCard() {
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
               <img
                 className="shrink-0 size-6 mb-4"
-                src="/assets/svg/brands/firefox.svg"
-                alt="Firefox Logo"
+                src="/assets/images/website-icon.png"
+                alt="Website SEO performance icon - Search engine optimization and website visibility metrics"
+                width={24}
+                height={24}
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
-                Firefox
+                Website
               </p>
               <p className="font-semibold text-lg text-gray-800 dark:text-neutral-200">
                 24%
@@ -77,11 +84,13 @@ export default function BrowsersCard() {
             <div className="p-3 bg-gray-100 dark:bg-neutral-700 rounded-lg">
               <img
                 className="shrink-0 size-6 mb-4"
-                src="/assets/svg/brands/safari.svg"
-                alt="Safari Logo"
+                src="/assets/images/ads-ready-icon.svg"
+                alt="Ads Ready icon - Paid advertising campaign readiness and optimization metrics"
+                width={24}
+                height={24}
               />
               <p className="text-sm text-gray-800 dark:text-neutral-200">
-                Safari
+                Ads Ready
               </p>
               <p className="font-semibold text-lg text-gray-800 dark:text-neutral-200">
                 17%

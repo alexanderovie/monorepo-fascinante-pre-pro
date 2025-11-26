@@ -1,8 +1,8 @@
 /**
- * Sales Stats Card Component
+ * Performance Metrics Card Component
  *
- * Muestra estadísticas de ventas totales con calendario y lista de ventas por categoría.
- * Incluye gráfico sparkline de ApexCharts para visualizar tendencias de ventas.
+ * Muestra métricas de rendimiento del negocio con calendario y lista de interacciones por categoría.
+ * Incluye gráfico sparkline de ApexCharts para visualizar tendencias de interacciones.
  * Server Component - El calendario de Preline se inicializa automáticamente.
  */
 import TotalSalesLinesChart from '../../../components/charts/TotalSalesLinesChart';
@@ -13,7 +13,7 @@ export default function SalesStatsCard() {
       {/* Header */}
       <div className="p-5 pb-3 flex justify-between items-center">
         <h2 className="inline-block font-semibold text-lg text-gray-800 dark:text-neutral-200">
-          Total sales
+          Performance Metrics
         </h2>
 
         {/* Calendar Dropdown */}
@@ -221,9 +221,11 @@ export default function SalesStatsCard() {
       {/* Body */}
       <div className="h-full pb-5 px-5 space-y-8">
         <h4 className="text-4xl font-medium text-gray-800 dark:text-neutral-200">
-          <span className="-me-1.5 text-sm align-top text-gray-500 dark:text-neutral-500">$</span>
-          43,350
+          12,450
         </h4>
+        <p className="mt-2 text-sm text-gray-500 dark:text-neutral-500">
+          Total customer interactions across all platforms this period
+        </p>
 
         {/* List Group */}
         <ul className="space-y-3">
@@ -233,13 +235,13 @@ export default function SalesStatsCard() {
               <div className="flex items-center gap-x-2">
                 <div className="inline-block size-2.5 bg-blue-600 rounded-sm"></div>
                 <h2 className="inline-block align-middle text-gray-500 dark:text-neutral-400">
-                  Store sales
+                  Search Views
                 </h2>
               </div>
             </div>
             <div>
               <span className="text-gray-800 dark:text-neutral-200">
-                $51,392
+                15,230
               </span>
               <span className="ms-3 min-w-20 inline-block text-gray-600 dark:text-neutral-400">
                 <svg className="inline-block align-middle size-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -258,13 +260,13 @@ export default function SalesStatsCard() {
               <div className="flex items-center gap-x-2">
                 <div className="inline-block size-2.5 bg-purple-600 rounded-sm"></div>
                 <h2 className="inline-block align-middle text-gray-500 dark:text-neutral-400">
-                  Online sales
+                  Map Views
                 </h2>
               </div>
             </div>
             <div>
               <span className="text-gray-800 dark:text-neutral-200">
-                $46,420
+                12,180
               </span>
               <span className="ms-3 min-w-20 inline-block text-gray-600 dark:text-neutral-400">
                 <svg className="inline-block align-middle size-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -289,7 +291,7 @@ export default function SalesStatsCard() {
             </div>
             <div>
               <span className="text-gray-800 dark:text-neutral-200">
-                $39,539
+                9,840
               </span>
               <span className="ms-3 min-w-20 inline-block text-gray-600 dark:text-neutral-400">
                 <svg className="inline-block align-middle size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

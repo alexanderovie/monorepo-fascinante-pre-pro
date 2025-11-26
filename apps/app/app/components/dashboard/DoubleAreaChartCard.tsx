@@ -1,7 +1,7 @@
 /**
- * Double Area Chart Card Component
+ * Traffic Trends Chart Card Component
  *
- * Muestra un gráfico de área doble con selector de métrica, rango de fechas y estadísticas de Revenue.
+ * Muestra un gráfico de área doble con selector de métrica, rango de fechas y estadísticas de tráfico.
  * Server Component - Los dropdowns de Preline se inicializan automáticamente.
  * El gráfico se renderiza como Client Component.
  */
@@ -16,20 +16,19 @@ export default function DoubleAreaChartCard() {
           {/* Select */}
           <div className="relative inline-block">
             <select
-              id="hs-pro-select-revenue"
+              id="hs-pro-select-traffic"
               data-hs-select='{"placeholder": "Select option...", "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>", "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative -ms-2 py-1.5 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 before:absolute before:inset-0 before:z-1 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700", "dropdownClasses": "mt-2 z-50 w-48 p-1 space-y-0.5 bg-white rounded-xl shadow-xl dark:bg-neutral-950", "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-[13px] text-gray-800 rounded-lg cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700", "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"}'
               className="hidden"
-              defaultValue="Revenue"
+              defaultValue="Total Views"
             >
               <option value="">Choose</option>
-              <option value="Revenue">Revenue</option>
-              <option value="Total sales">Total sales</option>
-              <option value="New sales">New sales</option>
-              <option value="Refunds">Refunds</option>
-              <option value="New subscriptions">New subscriptions</option>
-              <option value="Trial conversion rate">Trial conversion rate</option>
-              <option value="Affiliate revenue">Affiliate revenue</option>
-              <option value="Affiliate clicks">Affiliate clicks</option>
+              <option value="Total Views">Total Views</option>
+              <option value="Search Views">Search Views</option>
+              <option value="Map Views">Map Views</option>
+              <option value="Website Visits">Website Visits</option>
+              <option value="Phone Calls">Phone Calls</option>
+              <option value="Directions">Directions</option>
+              <option value="Reviews">Reviews</option>
             </select>
 
             <div className="absolute top-1/2 end-2 -translate-y-1/2">
@@ -41,7 +40,7 @@ export default function DoubleAreaChartCard() {
           {/* End Select */}
 
           <h4 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-            $62,820.59
+            245,820
             <svg className="inline-block align-top mt-1 shrink-0 size-5 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" />
               <polyline points="16 17 22 17 22 11" />
@@ -663,7 +662,13 @@ export default function DoubleAreaChartCard() {
       {/* End Legend Indicator */}
 
       {/* Apex Line Chart */}
-      <SalesLineChart className="min-h-[415px]" />
+      <div className="w-full overflow-x-auto -mx-5 px-5">
+        <SalesLineChart
+          className="min-h-[415px] w-full"
+          tooltipTitle="Traffic"
+          seriesLabels={['This month', 'Last month']}
+        />
+      </div>
     </div>
   );
 }
