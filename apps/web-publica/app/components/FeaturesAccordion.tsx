@@ -10,23 +10,72 @@ import Link from 'next/link';
  */
 export default function FeaturesAccordion() {
   useEffect(() => {
-    // Asegurar que Preline inicialice el acordeón outside group
-    const initAccordion = () => {
-      if (
-        typeof window === 'undefined' ||
-        !window.HSStaticMethods ||
-        typeof window.HSStaticMethods.autoInit !== 'function'
-      ) {
+    // Solo ejecutar en el cliente
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    // Handler para sincronizar imágenes con acordeones
+    // Basado en el código del template original de Preline
+    const handleAccordionOpen = (event: Event) => {
+      // Preline UI usa CustomEvent con detail.payload
+      const customEvent = event as CustomEvent<{ payload: HTMLElement }>;
+      const { payload } = customEvent.detail;
+      const targetSelector = payload.getAttribute('data-hs-target');
+      
+      if (!targetSelector) {
         return;
       }
 
-      // Inicializar Preline después de que el componente se monte
-      setTimeout(() => {
-        window.HSStaticMethods.autoInit();
-      }, 100);
+      const target = document.querySelector<HTMLElement>(targetSelector);
+      if (!target) {
+        return;
+      }
+
+      const group = target.closest('.hs-accordion-outside-group');
+      if (!group) {
+        return;
+      }
+
+      // Remover 'active' de todas las imágenes excepto la target
+      const rest = Array.from(group.querySelectorAll<HTMLElement>(':scope > *')).filter(
+        (el) => el !== target
+      );
+
+      rest.forEach((el) => el.classList.remove('active'));
+      target.classList.add('active');
     };
 
-    initAccordion();
+    // Función para inicializar Preline y registrar el event listener
+    const initPrelineAccordion = () => {
+      // Verificar que Preline esté disponible
+      if (
+        !window.HSStaticMethods ||
+        typeof window.HSStaticMethods.autoInit !== 'function'
+      ) {
+        // Reintentar si Preline aún no está cargado
+        setTimeout(initPrelineAccordion, 100);
+        return;
+      }
+
+      // Inicializar Preline para detectar los acordeones
+      window.HSStaticMethods.autoInit();
+
+      // Registrar el event listener para sincronizar imágenes
+      window.addEventListener('beforeOpen.hs.accordion', handleAccordionOpen);
+    };
+
+    // Esperar a que el DOM esté completamente renderizado
+    // Usar requestAnimationFrame para asegurar que el DOM esté listo
+    const timeoutId = setTimeout(() => {
+      initPrelineAccordion();
+    }, 200);
+
+    // Cleanup: remover event listener y limpiar timeout
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('beforeOpen.hs.accordion', handleAccordionOpen);
+    };
   }, []);
   return (
     <div className="pb-10 md:pt-10 md:pb-20">
