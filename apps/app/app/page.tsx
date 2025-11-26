@@ -36,7 +36,7 @@ export default function Dashboard() {
         </ol>
         {/* End Breadcrumb */}
 
-        <div className="py-2 sm:py-0 md:pt-5 sm:px-5 lg:px-0 space-y-5">
+        <div className="p-2 sm:p-5 sm:py-0 md:pt-5 lg:px-0 space-y-5">
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto lg:mx-0 max-w-fit">
             <BrowsersCard />
