@@ -100,6 +100,480 @@ export default function Sidebar() {
                 </li>
                 {/* End Link */}
 
+                {/* ❌ Google Business Profile - Pendiente */}
+                <li className="hs-accordion px-2 lg:px-5" id="gmb-accordion">
+                  <button
+                    type="button"
+                    className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    aria-expanded="false"
+                    aria-controls="gmb-accordion-sub"
+                  >
+                    <svg
+                      className="shrink-0 mt-0.5 size-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    Google Business Profile
+                    <svg
+                      className="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  <div
+                    id="gmb-accordion-sub"
+                    className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
+                    role="region"
+                    aria-labelledby="gmb-accordion"
+                    style={{ display: 'none' }}
+                  >
+                    <ul
+                      className="hs-accordion-group ps-7 mt-1 flex flex-col gap-y-1 relative before:absolute before:top-0 before:start-4.5 before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
+                      data-hs-accordion-always-open
+                    >
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Overview
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Locations
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Posts & Updates
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Reviews & Q&A
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Performance
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {/* End Link */}
+
+                {/* ❌ Business Intelligence - Pendiente */}
+                <li className="hs-accordion px-2 lg:px-5" id="business-intelligence-accordion">
+                  <button
+                    type="button"
+                    className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    aria-expanded="false"
+                    aria-controls="business-intelligence-accordion-sub"
+                  >
+                    <svg
+                      className="shrink-0 mt-0.5 size-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" x2="18" y1="20" y2="10" />
+                      <line x1="12" x2="12" y1="20" y2="4" />
+                      <line x1="6" x2="6" y1="20" y2="14" />
+                    </svg>
+                    Business Intelligence
+                    <svg
+                      className="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  <div
+                    id="business-intelligence-accordion-sub"
+                    className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
+                    role="region"
+                    aria-labelledby="business-intelligence-accordion"
+                    style={{ display: 'none' }}
+                  >
+                    <ul
+                      className="hs-accordion-group ps-7 mt-1 flex flex-col gap-y-1 relative before:absolute before:top-0 before:start-4.5 before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
+                      data-hs-accordion-always-open
+                    >
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Overview
+                        </Link>
+                      </li>
+                      <li className="hs-accordion" id="keyword-research-accordion">
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          aria-controls="keyword-research-accordion-child"
+                        >
+                          Keyword Research
+                          <svg
+                            className="hs-accordion-active:rotate-180 ms-auto size-3.5"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                          id="keyword-research-accordion-child"
+                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                        >
+                          <ul className="pt-2 ps-2">
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Keyword Search
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Keyword Suggestions
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Related Keywords
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Keywords For Site
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Keyword Trends
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li className="hs-accordion" id="competitor-analysis-accordion">
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          aria-controls="competitor-analysis-accordion-child"
+                        >
+                          Competitor Analysis
+                          <svg
+                            className="hs-accordion-active:rotate-180 ms-auto size-3.5"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                          id="competitor-analysis-accordion-child"
+                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                        >
+                          <ul className="pt-2 ps-2">
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Find Competitors
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Compare Domains
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Traffic Estimation
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Ranking Overview
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li className="hs-accordion" id="backlinks-accordion">
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          aria-controls="backlinks-accordion-child"
+                        >
+                          Backlink Analysis
+                          <svg
+                            className="hs-accordion-active:rotate-180 ms-auto size-3.5"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                          id="backlinks-accordion-child"
+                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                        >
+                          <ul className="pt-2 ps-2">
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Backlink Overview
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Domain Authority
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Link Quality
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Spam Score
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li className="hs-accordion" id="on-page-seo-accordion">
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          aria-controls="on-page-seo-accordion-child"
+                        >
+                          On-Page SEO
+                          <svg
+                            className="hs-accordion-active:rotate-180 ms-auto size-3.5"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                          id="on-page-seo-accordion-child"
+                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                        >
+                          <ul className="pt-2 ps-2">
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Page Analysis
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Technical SEO
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Page Speed
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Content Quality
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li className="hs-accordion" id="domain-analytics-accordion">
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          aria-controls="domain-analytics-accordion-child"
+                        >
+                          Domain Analytics
+                          <svg
+                            className="hs-accordion-active:rotate-180 ms-auto size-3.5"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                          id="domain-analytics-accordion-child"
+                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                        >
+                          <ul className="pt-2 ps-2">
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Domain Overview
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Domain Health
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                href="#"
+                              >
+                                Technology Stack
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Usage History
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {/* End Link */}
+
                 {/* ✅ Users - Implementado */}
                 <li className="hs-accordion px-2 lg:px-5" id="users-accordion">
                   <button
@@ -358,9 +832,25 @@ export default function Sidebar() {
                       <li>
                         <Link
                           className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Credits & Billing
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="/account/profile"
                         >
                           Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="/account/plan-and-billing"
+                        >
+                          Plan & Billing
                         </Link>
                       </li>
                       <li>
@@ -393,14 +883,6 @@ export default function Sidebar() {
                           href="/account/workspace"
                         >
                           Workspace
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                          href="/account/plan-and-billing"
-                        >
-                          Plan & Billing
                         </Link>
                       </li>
                       <li>
