@@ -1,10 +1,10 @@
-import Header from '../components/Header';
-import CustomerDetailsStory from '../components/CustomerDetailsStory';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
-import { shopifyCustomerDetailsData } from '../lib/customer-details-data';
-import { defaultFooterData } from '../lib/footer-data';
-import { URLS } from '../../lib/constants';
+import Header from '../../components/Header';
+import CustomerDetailsStory from '../../components/CustomerDetailsStory';
+import CTA from '../../components/CTA';
+import Footer from '../../components/Footer';
+import { shopifyCustomerDetailsData } from '../../lib/customer-details-data';
+import { defaultFooterData } from '../../lib/footer-data';
+import { URLS } from '../../../lib/constants';
 
 export default function CustomerDetailsPage() {
   return (

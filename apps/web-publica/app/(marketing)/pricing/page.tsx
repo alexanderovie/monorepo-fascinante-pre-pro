@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '../components/Header';
-import PricingHero from '../components/PricingHero';
-import PricingCard from '../components/PricingCard';
-import FAQ from '../components/FAQ';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
-import { defaultPricingPlans } from '../lib/pricing-data';
-import { defaultFAQData } from '../lib/faq-data';
-import { defaultFooterData } from '../lib/footer-data';
+import Header from '../../components/Header';
+import PricingHero from '../../components/PricingHero';
+import PricingCard from '../../components/PricingCard';
+import FAQ from '../../components/FAQ';
+import CTA from '../../components/CTA';
+import Footer from '../../components/Footer';
+import { defaultPricingPlans } from '../../lib/pricing-data';
+import { defaultFAQData } from '../../lib/faq-data';
+import { defaultFooterData } from '../../lib/footer-data';
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');

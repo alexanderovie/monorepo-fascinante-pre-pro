@@ -1,12 +1,12 @@
-import Header from '../components/Header';
-import FeaturesHero from '../components/FeaturesHero';
-import StatsGrid from '../components/StatsGrid';
-import ValuesGrid from '../components/ValuesGrid';
-import TeamGrid from '../components/TeamGrid';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
-import { defaultStats, defaultValues, defaultTeamMembers } from '../lib/about-data';
-import { defaultFooterData } from '../lib/footer-data';
+import Header from '../../components/Header';
+import FeaturesHero from '../../components/FeaturesHero';
+import StatsGrid from '../../components/StatsGrid';
+import ValuesGrid from '../../components/ValuesGrid';
+import TeamGrid from '../../components/TeamGrid';
+import CTA from '../../components/CTA';
+import Footer from '../../components/Footer';
+import { defaultStats, defaultValues, defaultTeamMembers } from '../../lib/about-data';
+import { defaultFooterData } from '../../lib/footer-data';
 
 export default function AboutPage() {
   return (

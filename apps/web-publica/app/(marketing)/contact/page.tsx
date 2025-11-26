@@ -1,6 +1,6 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { defaultFooterData } from '../lib/footer-data';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import { defaultFooterData } from '../../lib/footer-data';
 
 /**
  * Contact Page - Sin contenido por ahora

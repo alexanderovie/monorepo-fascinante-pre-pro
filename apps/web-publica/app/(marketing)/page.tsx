@@ -1,33 +1,26 @@
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Stats from './components/Stats';
-import ProductsCarousel from './components/ProductsCarousel';
-import Features from './components/Features';
-import FeaturesAccordion from './components/FeaturesAccordion';
-import CaseStudy from './components/CaseStudy';
-import Clients from './components/Clients';
-import FAQ from './components/FAQ';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
-import { Banner2 } from '../components/banner2';
-import { defaultStatsData } from './lib/stats-data';
-import { defaultProductsData } from './lib/products-data';
-import { defaultFeaturesData } from './lib/features-data';
-import { defaultCaseStudyData } from './lib/case-study-data';
-import { defaultFAQData } from './lib/faq-data';
-import { defaultFooterData } from './lib/footer-data';
-import { defaultHeroDownloadData } from './lib/hero-download-data';
-import { URLS } from '../lib/constants';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import Stats from '../components/Stats';
+import ProductsCarousel from '../components/ProductsCarousel';
+import Features from '../components/Features';
+import FeaturesAccordion from '../components/FeaturesAccordion';
+import CaseStudy from '../components/CaseStudy';
+import Clients from '../components/Clients';
+import FAQ from '../components/FAQ';
+import CTA from '../components/CTA';
+import Footer from '../components/Footer';
+import { defaultStatsData } from '../lib/stats-data';
+import { defaultProductsData } from '../lib/products-data';
+import { defaultFeaturesData } from '../lib/features-data';
+import { defaultCaseStudyData } from '../lib/case-study-data';
+import { defaultFAQData } from '../lib/faq-data';
+import { defaultFooterData } from '../lib/footer-data';
+import { defaultHeroDownloadData } from '../lib/hero-download-data';
+import { URLS } from '../../lib/constants';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Banner2
-        title="Version 2.0 is now available!"
-        description="Check out all the new features"
-        linkText="here"
-        linkUrl="/features"
-      />
       <Header />
       <main className="flex-1">
         <Hero

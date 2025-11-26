@@ -1,18 +1,18 @@
-import Header from '../components/Header';
-import FeaturesHero from '../components/FeaturesHero';
-import IconSection from '../components/IconSection';
-import FeaturesGrid from '../components/FeaturesGrid';
-import Testimonial from '../components/Testimonial';
-import DownloadApps from '../components/DownloadApps';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
-import { defaultIconSectionData } from '../lib/icon-section-data';
-import { defaultFeaturesGridData } from '../lib/features-grid-data';
-import { defaultTestimonialData } from '../lib/testimonial-data';
-import { defaultDownloadAppsData } from '../lib/download-apps-data';
-import { defaultFooterData } from '../lib/footer-data';
-import { defaultFloatingCards } from '../lib/features-hero-cards-data';
-import { URLS } from '../../lib/constants';
+import Header from '../../components/Header';
+import FeaturesHero from '../../components/FeaturesHero';
+import IconSection from '../../components/IconSection';
+import FeaturesGrid from '../../components/FeaturesGrid';
+import Testimonial from '../../components/Testimonial';
+import DownloadApps from '../../components/DownloadApps';
+import CTA from '../../components/CTA';
+import Footer from '../../components/Footer';
+import { defaultIconSectionData } from '../../lib/icon-section-data';
+import { defaultFeaturesGridData } from '../../lib/features-grid-data';
+import { defaultTestimonialData } from '../../lib/testimonial-data';
+import { defaultDownloadAppsData } from '../../lib/download-apps-data';
+import { defaultFooterData } from '../../lib/footer-data';
+import { defaultFloatingCards } from '../../lib/features-hero-cards-data';
+import { URLS } from '../../../lib/constants';
 
 export default function FeaturesPage() {
   return (
