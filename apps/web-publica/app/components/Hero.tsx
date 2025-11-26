@@ -66,8 +66,8 @@ const defaultTabs: HeroTab[] = [
         <path d="M8 14v7" />
       </svg>
     ),
-    lightImage: '/assets/img/pro/startup/img1.webp',
-    darkImage: '/assets/img/pro/startup-dark/img1.webp',
+    lightImage: '/assets/img/pro/startup/dashboard-fascinante.webp',
+    darkImage: '/assets/img/pro/startup-dark/dashboard-fascinante.webp',
     alt: 'Dashboard Hero Image',
   },
   {

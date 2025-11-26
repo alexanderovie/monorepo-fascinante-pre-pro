@@ -1008,6 +1008,7 @@ export default function Sidebar() {
                   <Link
                     className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/plans"
+                    prefetch={false}
                   >
                     <svg
                       className="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500"
@@ -1045,6 +1046,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/chat"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
@@ -1072,6 +1074,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/inbox"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
@@ -1100,6 +1103,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/calendar-month"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
@@ -1130,6 +1134,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/kanban-board"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
@@ -1160,6 +1165,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/files"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
@@ -1187,6 +1193,7 @@ export default function Sidebar() {
                   <Link
                     className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="/to-do"
+                    prefetch={false}
                   >
                     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg
