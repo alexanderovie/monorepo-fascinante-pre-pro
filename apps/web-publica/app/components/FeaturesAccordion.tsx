@@ -22,7 +22,7 @@ export default function FeaturesAccordion() {
       const customEvent = event as CustomEvent<{ payload: HTMLElement }>;
       const { payload } = customEvent.detail;
       const targetSelector = payload.getAttribute('data-hs-target');
-      
+
       if (!targetSelector) {
         return;
       }
