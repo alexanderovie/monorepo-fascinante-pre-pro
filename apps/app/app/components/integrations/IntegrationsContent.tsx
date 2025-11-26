@@ -96,8 +96,8 @@ export default function IntegrationsContent() {
 
   return (
     <div className="space-y-5">
-      {/* Header */}
-      <div>
+      {/* Header - Solo visible en desktop (en mobile el breadcrumb ya muestra el título) */}
+      <div className="hidden lg:block">
         <h1 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
           Integrations
         </h1>
