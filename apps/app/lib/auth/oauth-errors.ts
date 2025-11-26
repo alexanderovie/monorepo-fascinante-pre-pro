@@ -105,6 +105,20 @@ export function mapSupabaseErrorToOAuthError(
       })
     }
 
+    // Detectar específicamente bad_oauth_state
+    if (
+      errorMessage.includes('bad_oauth_state') ||
+      errorMessage.includes('invalid state') ||
+      errorMessage.includes('state mismatch') ||
+      errorMessage.includes('oauth state')
+    ) {
+      return createOAuthError(OAuthErrorCode.STATE_MISMATCH, String(error.message), {
+        originalError: error,
+        provider,
+        userMessage: 'Error de seguridad en la autenticación. Por favor, intenta nuevamente.',
+      })
+    }
+
     if (errorMessage.includes('invalid') || errorMessage.includes('inválido')) {
       return createOAuthError(OAuthErrorCode.INVALID_CODE, String(error.message), {
         originalError: error,

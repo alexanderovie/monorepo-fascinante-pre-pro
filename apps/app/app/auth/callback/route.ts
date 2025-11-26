@@ -30,8 +30,26 @@ export async function GET(request: Request) {
   const code = searchParams.get('code')
   const state = searchParams.get('state')
   const errorParam = searchParams.get('error')
+  const errorCode = searchParams.get('error_code')
   const errorDescription = searchParams.get('error_description')
   const provider = searchParams.get('provider') || 'unknown'
+
+  // Log detallado de TODOS los parámetros recibidos
+  authLogger.debug('OAuth callback received', {
+    action: 'oauth_callback_received',
+    provider,
+    hasCode: !!code,
+    codeLength: code?.length || 0,
+    hasState: !!state,
+    stateValue: state ? `${state.substring(0, 8)}...` : null, // Solo primeros 8 chars
+    stateLength: state?.length || 0,
+    hasError: !!errorParam,
+    errorCode,
+    errorDescription,
+    allParams: Object.fromEntries(searchParams.entries()), // Todos los params para debugging
+    url: request.url,
+    timestamp: Date.now(),
+  })
 
   // Si "next" está en los params, usarlo como URL de redirección
   let next = searchParams.get('next') ?? '/'
@@ -51,25 +69,42 @@ export async function GET(request: Request) {
     hasCode: !!code,
     hasState: !!state,
     hasError: !!errorParam,
+    errorCode,
   })
 
   // Manejar errores del proveedor OAuth
   if (errorParam) {
+    // Log detallado del error del proveedor
     authLogger.error('OAuth provider returned error', {
-      action: 'oauth_callback',
+      action: 'oauth_provider_error',
       provider,
       error: errorParam,
+      errorCode,
       errorDescription,
+      hasState: !!state,
+      stateValue: state ? `${state.substring(0, 8)}...` : null,
+      allParams: Object.fromEntries(searchParams.entries()),
+      timestamp: Date.now(),
     })
 
+    // Detectar específicamente bad_oauth_state
+    const isStateError = errorCode === 'bad_oauth_state' || 
+                        errorParam === 'invalid_request' && errorCode === 'bad_oauth_state'
+
     const oauthError = createOAuthError(
-      errorParam === 'access_denied' ? OAuthErrorCode.USER_DENIED : OAuthErrorCode.PROVIDER_ERROR,
+      isStateError 
+        ? OAuthErrorCode.STATE_MISMATCH
+        : errorParam === 'access_denied' 
+          ? OAuthErrorCode.USER_DENIED 
+          : OAuthErrorCode.PROVIDER_ERROR,
       errorDescription || errorParam,
       {
         provider,
-        userMessage: errorParam === 'access_denied'
-          ? 'Has cancelado el inicio de sesión.'
-          : 'Error del proveedor de autenticación. Por favor, intenta más tarde.',
+        userMessage: isStateError
+          ? 'Error de seguridad en la autenticación. Por favor, intenta nuevamente.'
+          : errorParam === 'access_denied'
+            ? 'Has cancelado el inicio de sesión.'
+            : 'Error del proveedor de autenticación. Por favor, intenta más tarde.',
       }
     )
 
@@ -77,6 +112,12 @@ export async function GET(request: Request) {
     const errorUrl = new URL(`${origin}/auth/auth-code-error`)
     errorUrl.searchParams.set('code', oauthError.code)
     errorUrl.searchParams.set('message', oauthError.userMessage)
+    // Preservar información de debugging en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      errorUrl.searchParams.set('debug_error', errorParam)
+      errorUrl.searchParams.set('debug_code', errorCode || '')
+      errorUrl.searchParams.set('debug_description', errorDescription || '')
+    }
 
     return NextResponse.redirect(errorUrl)
   }
@@ -105,10 +146,34 @@ export async function GET(request: Request) {
   try {
     const supabase = await createClient()
 
+    // Log ANTES de exchangeCodeForSession
+    authLogger.debug('About to exchange code for session', {
+      action: 'oauth_code_exchange_start',
+      provider,
+      codeLength: code.length,
+      codePrefix: code.substring(0, 8) + '...', // Solo primeros 8 chars
+      hasState: !!state,
+      stateValue: state ? `${state.substring(0, 8)}...` : null,
+      timestamp: Date.now(),
+    })
+
     // Usar retry para fallos transitorios (red, timeouts, etc.)
-    const { error } = await withRetry(
+    const { data: sessionData, error } = await withRetry(
       async () => {
         const result = await supabase.auth.exchangeCodeForSession(code)
+        
+        // Log del resultado inmediato
+        authLogger.debug('exchangeCodeForSession result', {
+          action: 'oauth_code_exchange_result',
+          provider,
+          hasError: !!result.error,
+          errorMessage: result.error?.message,
+          errorStatus: result.error?.status,
+          hasSession: !!result.data?.session,
+          hasUser: !!result.data?.user,
+          timestamp: Date.now(),
+        })
+        
         return result
       },
       {
@@ -125,8 +190,22 @@ export async function GET(request: Request) {
     )
 
     if (error) {
+      // Log detallado del error
+      authLogger.error('Code exchange failed with detailed error', {
+        action: 'oauth_code_exchange_error',
+        provider,
+        errorMessage: error.message,
+        errorStatus: error.status,
+        errorName: error.name,
+        fullError: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+        codeLength: code.length,
+        hasState: !!state,
+        timestamp: Date.now(),
+      })
+
       authLogger.codeExchange(provider, false, {
         error: error.message,
+        errorStatus: error.status,
       })
 
       const oauthError = mapSupabaseErrorToOAuthError(error, provider)
@@ -138,10 +217,21 @@ export async function GET(request: Request) {
       return NextResponse.redirect(errorUrl)
     }
 
-    // Éxito - log y redirección
+    // Éxito - log detallado y redirección
     const duration = Date.now() - startTime
+    authLogger.debug('Code exchange successful', {
+      action: 'oauth_code_exchange_success',
+      provider,
+      duration,
+      hasSession: !!sessionData?.session,
+      hasUser: !!sessionData?.user,
+      userId: sessionData?.user?.id,
+      timestamp: Date.now(),
+    })
+    
     authLogger.codeExchange(provider, true, {
       duration,
+      userId: sessionData?.user?.id,
     })
 
     // Manejar redirección considerando load balancers en producción
