@@ -23,37 +23,61 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
 
   /**
    * Maneja el login con Google OAuth
+   *
+   * Best Practices Nov 2025 (@supabase/ssr):
+   * - redirectTo apunta directamente a la página final (/)
+   * - El middleware maneja automáticamente el intercambio del código OAuth
+   * - No necesitamos endpoint especial para OAuth (solo para OTP)
+   * - El código se intercambia automáticamente cuando el middleware llama a getClaims()
    */
   const handleGoogleSignIn = async () => {
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/confirm`,
+        redirectTo: `${window.location.origin}/`,
       },
     })
 
     if (error) {
       console.error('Error signing in with Google:', error)
       router.push(`/error?message=${encodeURIComponent(error.message)}`)
+      return
+    }
+
+    // Redirigir a la URL de OAuth si está disponible
+    if (data?.url) {
+      window.location.href = data.url
     }
   }
 
   /**
    * Maneja el login con Apple OAuth
+   *
+   * Best Practices Nov 2025 (@supabase/ssr):
+   * - redirectTo apunta directamente a la página final (/)
+   * - El middleware maneja automáticamente el intercambio del código OAuth
+   * - No necesitamos endpoint especial para OAuth (solo para OTP)
+   * - El código se intercambia automáticamente cuando el middleware llama a getClaims()
    */
   const handleAppleSignIn = async () => {
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'apple',
       options: {
-        redirectTo: `${window.location.origin}/auth/confirm`,
+        redirectTo: `${window.location.origin}/`,
       },
     })
 
     if (error) {
       console.error('Error signing in with Apple:', error)
       router.push(`/error?message=${encodeURIComponent(error.message)}`)
+      return
+    }
+
+    // Redirigir a la URL de OAuth si está disponible
+    if (data?.url) {
+      window.location.href = data.url
     }
   }
 

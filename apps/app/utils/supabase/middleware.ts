@@ -47,7 +47,12 @@ export async function updateSession(request: NextRequest) {
   // supabase.auth.getClaims(). Un simple error podría hacer muy difícil
   // depurar problemas con usuarios siendo desconectados aleatoriamente.
 
-  // IMPORTANTE: No elimines getClaims()
+  // IMPORTANTE: No elimines getClaims(). Es necesario para refrescar el token.
+  // Según documentación oficial de Supabase SSR (Nov 2025):
+  // - getClaims() valida la firma JWT contra las claves públicas del proyecto cada vez
+  // - Automáticamente intercambia el código OAuth si está presente en los query params
+  // - NUNCA uses getSession() en código del servidor (no revalida el token)
+  // - Siempre usa getClaims() para proteger páginas y datos de usuario
   const { data } = await supabase.auth.getClaims()
 
   const user = data?.claims
