@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ASSETS, BRAND, URLS } from '../../lib/constants';
+import { useMemo } from 'react';
+import { ASSETS, BRAND } from '../../lib/constants';
+import { getUrl } from '../../lib/url-builder';
 
 /**
  * Header Component - Plantilla Startup
@@ -10,6 +12,13 @@ import { ASSETS, BRAND, URLS } from '../../lib/constants';
  */
 export default function Header() {
   const pathname = usePathname();
+
+  // URLs dinámicas basadas en subdominio (cacheadas con useMemo)
+  const urls = useMemo(() => ({
+    login: getUrl('login'),
+    tryItFree: getUrl('signup'),
+    getDemo: getUrl('demo'),
+  }), []); // Solo se calcula una vez al montar el componente
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -45,21 +54,21 @@ export default function Header() {
           {/* Button Group */}
           <div className="md:order-3 flex gap-x-1">
             <Link
-              href={URLS.getDemo}
+              href={urls.getDemo}
               className="py-2 px-2.5 hidden md:flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
               Get a demo
             </Link>
 
             <Link
-              href="#"
+              href={urls.login}
               className="py-2 px-2.5 flex items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
               Log in
             </Link>
 
             <Link
-              href={URLS.tryItFree}
+              href={urls.tryItFree}
               className="py-2 px-2.5 inline-flex items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
             >
               Try it free
@@ -107,9 +116,8 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`py-2 px-2.5 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
-                      pathname === link.href ? 'bg-gray-100 dark:bg-neutral-800' : ''
-                    }`}
+                    className={`py-2 px-2.5 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${pathname === link.href ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                      }`}
                   >
                     {link.label}
                   </Link>
@@ -164,7 +172,7 @@ export default function Header() {
                 </div>
 
                 <Link
-                  href={URLS.getDemo}
+                  href={urls.getDemo}
                   className="py-2 px-2.5 md:hidden flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                 >
                   Get a demo
