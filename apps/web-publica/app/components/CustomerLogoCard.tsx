@@ -21,9 +21,9 @@ export default function CustomerLogoCard({
       className="group relative overflow-hidden flex flex-col justify-center items-center text-center p-6 rounded-xl border border-gray-200 bg-white hover:bg-neutral-50 focus:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:border-neutral-700 focus:outline-hidden before:absolute before:inset-0 before:size-full before:bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] dark:before:bg-[radial-gradient(var(--color-neutral-700)_1px,transparent_1px)] before:bg-[size:20px_20px]"
     >
       <div className="relative z-10 transition-transform duration-300 group-hover:-translate-y-3 group-focus:-translate-y-3">
-        <div className="flex justify-center items-center mb-4">
+        <div className="flex justify-center items-center mb-4 w-full">
           <div
-            className="text-gray-800 dark:text-neutral-200"
+            className="text-gray-800 dark:text-neutral-200 w-full flex justify-center items-center [&>svg]:max-w-full [&>svg]:max-h-10 sm:[&>svg]:max-h-12 md:[&>svg]:max-h-14 [&>svg]:w-auto [&>svg]:h-auto [&>svg]:object-contain"
             dangerouslySetInnerHTML={{ __html: logoSvg }}
           />
         </div>
