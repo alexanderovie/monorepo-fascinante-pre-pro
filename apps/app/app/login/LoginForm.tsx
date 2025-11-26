@@ -25,17 +25,17 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
    * Maneja el login con Google OAuth
    *
    * Best Practices Nov 2025 (@supabase/ssr):
-   * - redirectTo apunta directamente a la página final (/)
-   * - El middleware maneja automáticamente el intercambio del código OAuth
-   * - No necesitamos endpoint especial para OAuth (solo para OTP)
-   * - El código se intercambia automáticamente cuando el middleware llama a getClaims()
+   * - redirectTo apunta al callback route handler (/auth/callback)
+   * - El callback route handler intercambia el código OAuth por una sesión
+   * - Después del intercambio, redirige al usuario a la página principal
+   * - Este es el flujo PKCE estándar para SSR según documentación oficial
    */
   const handleGoogleSignIn = async () => {
     const supabase = createClient()
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
 
@@ -55,17 +55,17 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
    * Maneja el login con Apple OAuth
    *
    * Best Practices Nov 2025 (@supabase/ssr):
-   * - redirectTo apunta directamente a la página final (/)
-   * - El middleware maneja automáticamente el intercambio del código OAuth
-   * - No necesitamos endpoint especial para OAuth (solo para OTP)
-   * - El código se intercambia automáticamente cuando el middleware llama a getClaims()
+   * - redirectTo apunta al callback route handler (/auth/callback)
+   * - El callback route handler intercambia el código OAuth por una sesión
+   * - Después del intercambio, redirige al usuario a la página principal
+   * - Este es el flujo PKCE estándar para SSR según documentación oficial
    */
   const handleAppleSignIn = async () => {
     const supabase = createClient()
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'apple',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
 

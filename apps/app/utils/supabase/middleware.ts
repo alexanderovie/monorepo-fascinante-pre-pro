@@ -46,7 +46,6 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANTE: No elimines getClaims(). Es necesario para refrescar el token.
   // Según documentación oficial de Supabase SSR (Nov 2025):
   // - getClaims() valida la firma JWT contra las claves públicas del proyecto cada vez
-  // - Automáticamente intercambia el código OAuth si está presente en los query params
   // - NUNCA uses getSession() en código del servidor (no revalida el token)
   // - Siempre usa getClaims() para proteger páginas y datos de usuario
   const { data } = await supabase.auth.getClaims()
@@ -54,7 +53,8 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims
 
   // Proteger rutas del dashboard - redirigir a login si no hay usuario
-  // Nota: Permitimos '/' para que OAuth callback funcione correctamente
+  // Nota: Permitimos '/auth/callback' para que el OAuth callback funcione correctamente
+  // El callback route handler maneja el intercambio del código OAuth
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
