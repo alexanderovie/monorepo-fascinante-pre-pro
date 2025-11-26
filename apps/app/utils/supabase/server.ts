@@ -24,13 +24,11 @@ export async function createClient() {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            cookiesToSet.forEach(({ name, value }) => cookieStore.set(name, value))
           } catch {
-            // El `setAll` fue llamado desde un Server Component.
-            // Esto se puede ignorar si tienes middleware refrescando
-            // las sesiones de usuario.
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
           }
         },
       },

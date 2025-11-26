@@ -29,15 +29,11 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          )
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
+          cookiesToSet.forEach(({ name, value }) => supabaseResponse.cookies.set(name, value))
         },
       },
     }
@@ -58,6 +54,7 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims
 
   // Proteger rutas del dashboard - redirigir a login si no hay usuario
+  // Nota: Permitimos '/' para que OAuth callback funcione correctamente
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
@@ -66,7 +63,6 @@ export async function updateSession(request: NextRequest) {
   ) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('redirectedFrom', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
 
