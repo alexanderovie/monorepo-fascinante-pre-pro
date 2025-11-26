@@ -44,7 +44,7 @@ export default function Header() {
               aria-label={BRAND.name}
             >
               <img
-                className="w-28 h-auto dark:invert"
+                className="w-[134px] h-auto dark:invert"
                 src={ASSETS.logo}
                 alt={`${BRAND.name} Logo`}
               />
