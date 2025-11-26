@@ -196,6 +196,111 @@ export default function Sidebar() {
                 </li>
                 {/* End Link */}
 
+                {/* ❌ Analytics - Pendiente */}
+                <li className="hs-accordion px-2 lg:px-5" id="analytics-accordion">
+                  <button
+                    type="button"
+                    className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    aria-expanded="false"
+                    aria-controls="analytics-accordion-sub"
+                  >
+                    <svg
+                      className="shrink-0 mt-0.5 size-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" x2="18" y1="20" y2="10" />
+                      <line x1="12" x2="12" y1="20" y2="4" />
+                      <line x1="6" x2="6" y1="20" y2="14" />
+                    </svg>
+                    Analytics
+                    <svg
+                      className="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  <div
+                    id="analytics-accordion-sub"
+                    className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
+                    role="region"
+                    aria-labelledby="analytics-accordion"
+                    style={{ display: 'none' }}
+                  >
+                    <ul
+                      className="hs-accordion-group ps-7 mt-1 flex flex-col gap-y-1 relative before:absolute before:top-0 before:start-4.5 before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
+                      data-hs-accordion-always-open
+                    >
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Overview
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Traffic Analysis
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Audience Insights
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Behavior
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Conversions
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          href="#"
+                        >
+                          Reports
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {/* End Link */}
+
                 {/* ❌ Business Intelligence - Pendiente */}
                 <li className="hs-accordion px-2 lg:px-5" id="business-intelligence-accordion">
                   <button
