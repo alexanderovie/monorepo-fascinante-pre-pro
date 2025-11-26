@@ -18,6 +18,11 @@
 /* Defaults hover styles on all devices */
 @custom-variant hover (&:hover);
 
+/* Custom height values */
+@theme {
+  --height-150: 37.5rem; /* 600px */
+}
+
 /* Marquee Animation */
 @keyframes marquee {
   0% {
