@@ -4,12 +4,20 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+interface LoginState {
+  error?: string
+}
+
 /**
  * Server Action para iniciar sesión con email y contraseña.
  *
+ * @param prevState - Estado previo del formulario
  * @param formData - Datos del formulario con email y password
  */
-export async function login(formData: FormData) {
+export async function login(
+  prevState: LoginState | null,
+  formData: FormData
+): Promise<LoginState> {
   const supabase = await createClient()
 
   // En producción, deberías validar estos inputs
@@ -18,10 +26,15 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 
+  // Validación básica
+  if (!data.email || !data.password) {
+    return { error: 'Email y contraseña son requeridos' }
+  }
+
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    redirect('/error?message=' + encodeURIComponent(error.message))
+    return { error: error.message }
   }
 
   revalidatePath('/', 'layout')
