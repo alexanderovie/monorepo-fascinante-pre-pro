@@ -1,16 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 /**
  * AuthenticationChartsImage Component
  *
- * Según Next.js 15 (Nov 2025):
- * - Los archivos en public/ se sirven desde la raíz /
- * - Para SVGs, usar <img> directamente es la mejor práctica
- * - Next.js automáticamente aplica unoptimized para .svg en Image component
- * - Pero <img> es más simple y confiable para SVGs estáticos
+ * Solución Elite (Nov 2025):
+ * - Usa <Image /> de next/image con unoptimized para SVGs
+ * - Next.js automáticamente detecta .svg y aplica unoptimized
+ * - Mantiene beneficios de Next.js (lazy loading, error handling)
+ * - Ya tenemos dangerouslyAllowSVG configurado en next.config.ts
  *
  * Best Practices:
  * - Manejo de errores con estado local
@@ -49,10 +49,13 @@ export default function AuthenticationChartsImage() {
   return (
     <div className="mt-8 relative w-full">
       {/* Modo claro */}
-      <img
+      <Image
         className="dark:hidden w-full h-auto"
         src="/assets/authentication-charts.svg"
         alt="Charts Mockups - Dashboard Analytics"
+        width={1200}
+        height={600}
+        unoptimized
         onError={() => {
           console.error('Error loading authentication-charts.svg')
           setHasError(true)
@@ -62,10 +65,13 @@ export default function AuthenticationChartsImage() {
         }}
       />
       {/* Modo oscuro */}
-      <img
+      <Image
         className="hidden dark:block w-full h-auto"
         src="/assets/authentication-charts.svg"
         alt="Charts Mockups - Dashboard Analytics"
+        width={1200}
+        height={600}
+        unoptimized
         onError={() => {
           console.error('Error loading authentication-charts.svg')
           setHasError(true)
