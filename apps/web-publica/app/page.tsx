@@ -3,14 +3,19 @@ import Hero from './components/Hero';
 import Stats from './components/Stats';
 import ProductsCarousel from './components/ProductsCarousel';
 import Features from './components/Features';
+import FeaturesAccordion from './components/FeaturesAccordion';
+import CaseStudy from './components/CaseStudy';
+import Clients from './components/Clients';
 import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import { defaultStatsData } from './lib/stats-data';
 import { defaultProductsData } from './lib/products-data';
 import { defaultFeaturesData } from './lib/features-data';
+import { defaultCaseStudyData } from './lib/case-study-data';
 import { defaultFAQData } from './lib/faq-data';
 import { defaultFooterData } from './lib/footer-data';
+import { defaultHeroDownloadData } from './lib/hero-download-data';
 import { URLS } from '../lib/constants';
 
 export default function Home() {
@@ -30,6 +35,7 @@ export default function Home() {
             label: 'Get a demo',
             href: URLS.getDemo,
           }}
+          downloadSection={defaultHeroDownloadData}
         />
         <Stats items={defaultStatsData} />
         <ProductsCarousel title="Products" items={defaultProductsData} />
@@ -38,6 +44,9 @@ export default function Home() {
           title="Since 2007, we have helped 2.5k+ companies launch over 100k incredible products"
           items={defaultFeaturesData}
         />
+        <FeaturesAccordion />
+        <CaseStudy items={defaultCaseStudyData} />
+        <Clients />
         <FAQ
           title="Your questions, answered"
           description="Answers to the most frequently asked questions."

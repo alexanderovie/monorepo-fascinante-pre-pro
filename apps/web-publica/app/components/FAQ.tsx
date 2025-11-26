@@ -57,7 +57,7 @@ export default function FAQ({
 
         <div className="max-w-2xl mx-auto">
           {/* Accordion */}
-          <div className={accordionGroupId}>
+          <div className={`hs-accordion-group [--keep-one-open:true] ${accordionGroupId}`}>
             {items.map((item) => (
               <div
                 key={item.id}
