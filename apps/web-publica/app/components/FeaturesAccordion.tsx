@@ -31,7 +31,7 @@ export default function FeaturesAccordion() {
   return (
     <div className="pb-10 md:pt-10 md:pb-20">
       <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 md:items-center gap-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:items-center gap-y-6 md:gap-x-8 lg:gap-x-12">
           <div className="md:ps-[15%] md:order-2">
             <div className="mb-8">
               <h2 className="font-semibold text-3xl text-gray-800 dark:text-neutral-200">
@@ -588,4 +588,3 @@ export default function FeaturesAccordion() {
     </div>
   );
 }
-
