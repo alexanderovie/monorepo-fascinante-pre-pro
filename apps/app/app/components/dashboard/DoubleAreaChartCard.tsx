@@ -662,9 +662,9 @@ export default function DoubleAreaChartCard() {
       {/* End Legend Indicator */}
 
       {/* Apex Line Chart */}
-      <div className="w-full overflow-x-auto -mx-5 px-5">
+      <div className="w-full overflow-x-auto sm:-mx-5 sm:px-5">
         <SalesLineChart
-          className="min-h-[415px] w-full"
+          className="min-h-[250px] sm:min-h-[415px] w-full"
           tooltipTitle="Traffic"
           seriesLabels={['This month', 'Last month']}
         />

@@ -242,11 +242,12 @@ export default function SalesLineChart({
           fontFamily: 'Inter, ui-sans-serif',
           fontWeight: 400,
         },
-        formatter: (title: string) => {
+        formatter: (title: string | number | undefined) => {
+          if (!title || typeof title !== 'string') return '';
           let t = title;
           if (t) {
             const newT = t.split(' ');
-            t = `${newT[0]} ${newT[1].slice(0, 3)}`;
+            t = newT.length > 1 ? `${newT[0]} ${newT[1].slice(0, 3)}` : t;
           }
           return t;
         },
@@ -347,8 +348,8 @@ export default function SalesLineChart({
                 fontWeight: 400,
               },
               offsetX: -2,
-              formatter: (title: string) => {
-                if (!title) return '';
+              formatter: (title: string | number | undefined) => {
+                if (!title || typeof title !== 'string') return '';
                 const parts = title.split(' ');
                 return parts.length > 1 ? `${parts[0].slice(0, 3)} ${parts[1]?.slice(0, 3) || ''}` : title.slice(0, 3);
               },
