@@ -3,8 +3,12 @@
  *
  * Página principal del dashboard con Stats Cards.
  * Todos los componentes son Server Components excepto los que requieren interactividad del cliente.
+ * 
+ * Esta página está protegida por autenticación. Solo usuarios autenticados pueden acceder.
  */
 
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
 import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
 import Footer from './components/layout/Footer';
@@ -17,11 +21,27 @@ import DoubleAreaChartCard from './components/dashboard/DoubleAreaChartCard';
 import ProjectCard from './components/dashboard/ProjectCard';
 import AddProjectModal from './components/dashboard/AddProjectModal';
 
-export default function Dashboard() {
+/**
+ * Página protegida del dashboard.
+ * Verifica que el usuario esté autenticado antes de mostrar el contenido.
+ * 
+ * IMPORTANTE: Siempre usa `getUser()` en el servidor, nunca `getSession()`,
+ * ya que `getUser()` valida el token con el servidor de Auth.
+ */
+export default async function Dashboard() {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 relative">
-      <Header />
-      <Sidebar />
+      <Header user={user} />
+      <Sidebar user={user} />
 
             {/* Main Content */}
             <main id="content" className="pt-15 pb-10 sm:pb-16">

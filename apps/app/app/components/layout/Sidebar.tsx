@@ -3,12 +3,18 @@
 /**
  * Sidebar Component - Dashboard
  * Componente de navegación lateral del dashboard con menú colapsable
+ * 
+ * @param user - Usuario autenticado de Supabase
  */
 
 import Link from 'next/link';
 import Image from 'next/image';
+import SignOutButton from '../auth/SignOutButton';
+import type { User } from "@supabase/supabase-js";
 
-export default function Sidebar() {
+export default function Sidebar({ user }: { user: User | null }) {
+  // Obtener email del usuario
+  const userEmail = user?.email || 'admin@fascinantedigital.com'
   return (
     <>
       {/* ========== MAIN SIDEBAR ========== */}
@@ -1464,23 +1470,20 @@ export default function Sidebar() {
                   </div>
 
                   <div className="p-1.5 border-t border-gray-200 dark:border-neutral-800">
-                    <button
-                      type="button"
-                      className="w-full flex items-center justify-between gap-x-3 py-2.5 px-3.5 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                    >
-                      <span className="flex-shrink-0">Sign out</span>
+                    <div className="w-full flex items-center justify-between gap-x-3 py-2.5 px-3.5">
+                      <SignOutButton />
                       <div className="hs-tooltip [--placement:left] flex-shrink-0 min-w-0">
                         <span className="hs-tooltip-toggle block text-xs text-gray-500 dark:text-neutral-500 truncate max-w-[140px]">
-                          admin@fascinantedigital.com
+                          {userEmail}
                         </span>
                         <span
                           className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700 whitespace-nowrap"
                           role="tooltip"
                         >
-                          admin@fascinantedigital.com
+                          {userEmail}
                         </span>
                       </div>
-                    </button>
+                    </div>
                   </div>
                 </div>
                 {/* End Dropdown */}

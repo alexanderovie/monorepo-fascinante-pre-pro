@@ -1,13 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import SignOutButton from "../auth/SignOutButton";
+import type { User } from "@supabase/supabase-js";
 
 /**
  * Header Component - Dashboard
  * Componente de encabezado del dashboard con búsqueda, notificaciones y menú de usuario
+ * 
+ * @param user - Usuario autenticado de Supabase
  */
+export default function Header({ user }: { user: User | null }) {
+  // Obtener avatar del usuario o usar uno por defecto
+  const userAvatar = user?.user_metadata?.avatar_url || 
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'User')}&background=random`
+  
+  // Obtener nombre del usuario o usar email
+  const userName = user?.user_metadata?.full_name || 
+    user?.user_metadata?.name || 
+    user?.email?.split('@')[0] || 
+    'User'
+  
+  const userEmail = user?.email || ''
 
-export default function Header() {
   return (
     <>
   {/* ========== HEADER ========== */}
@@ -1041,21 +1056,21 @@ export default function Header() {
           {/* Account Dropdown */}
           <div className="hs-dropdown inline-flex   [--strategy:absolute] [--auto-close:inside] [--placement:bottom-right] relative text-start">
             <button id="hs-dnad" type="button" className="inline-flex shrink-0 items-center gap-x-3 text-start rounded-full focus:outline-hidden" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-              <Image className="shrink-0 size-9.5 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar" width={38} height={38} />
+              <Image className="shrink-0 size-9.5 rounded-full" src={userAvatar} alt={`${userName} avatar`} width={38} height={38} />
             </button>
 
             {/* Account Dropdown */}
             <div className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-20 bg-white rounded-xl shadow-xl dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-dnad">
               <div className="p-1 border-b border-gray-200 dark:border-neutral-800">
-                <a className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="../../pro/dashboard/user-profile-my-profile.html">
-                  <Image className="shrink-0 size-8 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar" width={32} height={32} />
+                <a className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
+                  <Image className="shrink-0 size-8 rounded-full" src={userAvatar} alt={`${userName} avatar`} width={32} height={32} />
 
                   <div className="grow">
                     <span className="text-sm font-semibold text-gray-800 dark:text-neutral-300">
-                      James Collison
+                      {userName}
                     </span>
-                    <p className="text-xs text-gray-500 dark:text-neutral-500">
-                      Preline@HS
+                    <p className="text-xs text-gray-500 dark:text-neutral-500 truncate">
+                      {userEmail}
                     </p>
                   </div>
                 </a>
@@ -1107,9 +1122,7 @@ export default function Header() {
                 <a className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
                   Manage team
                 </a>
-                <a className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
-                  Sign out
-                </a>
+                <SignOutButton />
               </div>
               <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                 <button type="button" className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-hs-overlay="#hs-pro-dasadam">
