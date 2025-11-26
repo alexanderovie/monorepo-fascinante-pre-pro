@@ -898,58 +898,6 @@ export default function Sidebar() {
                 </li>
                 {/* End Link */}
 
-                {/* ❌ Welcome Page - Pendiente */}
-                <li className="px-2 lg:px-5">
-                  <Link
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                    href="/welcome-page"
-                  >
-                    <svg
-                      className="shrink-0 mt-0.5 size-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                    Welcome Page
-                  </Link>
-                </li>
-                {/* End Link */}
-
-                {/* ❌ Empty Contents - Pendiente */}
-                <li className="px-2 lg:px-5">
-                  <Link
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                    href="/empty-states"
-                  >
-                    <svg
-                      className="shrink-0 mt-0.5 size-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-                      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-                    </svg>
-                    Empty Contents
-                  </Link>
-                </li>
-                {/* End Link */}
-
                 {/* ❌ Plans - Pendiente */}
                 <li className="px-2 lg:px-5">
                   <Link
