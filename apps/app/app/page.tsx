@@ -35,6 +35,9 @@ export default async function Dashboard() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Nota: El middleware ya protege esta ruta y redirige a /login si no hay usuario.
+  // Esta verificación es una capa adicional de seguridad (defense in depth).
+  // Si llegamos aquí sin usuario, algo salió mal con el middleware.
   if (!user) {
     redirect('/login')
   }
