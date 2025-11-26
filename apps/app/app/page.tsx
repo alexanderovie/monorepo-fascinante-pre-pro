@@ -16,7 +16,7 @@ import SalesStatsCard from './components/dashboard/SalesStatsCard';
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 relative">
       <Header />
       <Sidebar />
 

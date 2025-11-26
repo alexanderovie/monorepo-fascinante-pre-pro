@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <>
       {/* ========== FOOTER ========== */}
-      <footer className="lg:ms-65 lg:w-[calc(100vw-var(--spacing-65))] h-10 sm:h-16 absolute bottom-0 inset-x-0 lg:inset-x-auto lg:right-0">
+      <footer className="lg:ps-65 h-10 sm:h-16 absolute bottom-0 inset-x-0">
         <div className="p-2 sm:p-5 flex justify-between items-center">
           <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-500">
             © 2025 Fascinante Digital.
