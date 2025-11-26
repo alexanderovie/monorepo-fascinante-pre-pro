@@ -13,6 +13,8 @@ import SearchModal from './components/layout/SearchModal';
 import BrowsersCard from './components/dashboard/BrowsersCard';
 import ReferralTrafficCard from './components/dashboard/ReferralTrafficCard';
 import SalesStatsCard from './components/dashboard/SalesStatsCard';
+import DoubleAreaChartCard from './components/dashboard/DoubleAreaChartCard';
+import ProjectCard from './components/dashboard/ProjectCard';
 
 export default function Dashboard() {
   return (
@@ -44,6 +46,14 @@ export default function Dashboard() {
             <SalesStatsCard />
           </div>
           {/* End Cards Grid */}
+
+          {/* Double Area Chart Card */}
+          <DoubleAreaChartCard />
+          {/* End Double Area Chart Card */}
+
+          {/* Project Card */}
+          <ProjectCard />
+          {/* End Project Card */}
         </div>
       </main>
       {/* End Main Content */}
