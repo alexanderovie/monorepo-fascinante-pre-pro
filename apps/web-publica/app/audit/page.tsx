@@ -3,10 +3,10 @@ import Footer from '../components/Footer';
 import { defaultFooterData } from '../lib/footer-data';
 
 /**
- * Contact Page - Sin contenido por ahora
+ * Audit Page - Sin contenido por ahora
  * Página básica con Header y Footer
  */
-export default function ContactPage() {
+export default function AuditPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -17,3 +17,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

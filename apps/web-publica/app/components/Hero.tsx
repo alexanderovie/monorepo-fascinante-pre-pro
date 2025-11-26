@@ -309,7 +309,7 @@ export default function Hero({
         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}
           <div className="mb-4 md:mb-8 grid md:grid-cols-12 items-center gap-y-12 gap-x-5 lg:gap-x-8">
-            <div className="md:col-span-7">
+            <div className="md:col-span-8 md:col-start-3 lg:col-span-6 lg:col-start-4 text-left md:text-center">
               <p className="mb-3 md:mb-4 font-mono text-sm text-gray-500 dark:text-neutral-400">
                 {badge}
               </p>
@@ -322,7 +322,7 @@ export default function Hero({
                 {description}
               </p>
 
-              <div className="mt-5 flex flex-wrap items-center gap-2">
+              <div className="mt-5 flex flex-wrap items-center gap-2 md:justify-center">
                 {primaryButton && (
                   <a
                     className="py-2 px-3 md:py-2.5 md:px-4 inline-flex justify-center items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
@@ -365,7 +365,7 @@ export default function Hero({
             {/* End Col */}
 
             {downloadSection && (
-              <div className="hidden md:block md:mt-auto md:col-span-5">
+              <div className="hidden">
                 <div className="max-w-xs w-full md:ms-auto">
                   <p className="mb-2 font-mono text-sm text-gray-500 dark:text-neutral-400">
                     {downloadSection.title}

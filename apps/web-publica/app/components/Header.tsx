@@ -25,6 +25,7 @@ export default function Header() {
     { href: '/features', label: 'Features' },
     { href: '/about', label: 'About' },
     { href: '/pricing', label: 'Pricing' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   const customerLinks = [

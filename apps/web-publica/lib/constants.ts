@@ -15,10 +15,10 @@ export const BRAND = {
 /**
  * URLs dinámicas - Configuración actual
  *
- * Valores por defecto (producción):
- * - login: https://app.fascinantedigital.com/
- * - tryItFree: https://app.fascinantedigital.com/
- * - getDemo: https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true
+ * Valores por defecto:
+ * - login: https://app.fascinantedigital.com/ (URL externa)
+ * - tryItFree: /audit (ruta interna)
+ * - getDemo: https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true (URL externa)
  *
  * Variables de entorno (opcionales, para override):
  * - NEXT_PUBLIC_LOGIN_URL: Override para "Log in"
@@ -29,7 +29,7 @@ export const BRAND = {
  * detección automática de subdominio como fallback.
  */
 export const URLS = {
-  tryItFree: process.env.NEXT_PUBLIC_TRY_IT_FREE_URL || 'https://app.fascinantedigital.com/',
+  tryItFree: process.env.NEXT_PUBLIC_TRY_IT_FREE_URL || '/audit',
   getDemo: process.env.NEXT_PUBLIC_GET_DEMO_URL || 'https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true',
   login: process.env.NEXT_PUBLIC_LOGIN_URL || 'https://app.fascinantedigital.com/',
 } as const;

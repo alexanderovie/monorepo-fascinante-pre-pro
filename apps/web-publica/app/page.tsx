@@ -9,6 +9,7 @@ import Clients from './components/Clients';
 import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import { Banner2 } from '../components/banner2';
 import { defaultStatsData } from './lib/stats-data';
 import { defaultProductsData } from './lib/products-data';
 import { defaultFeaturesData } from './lib/features-data';
@@ -21,6 +22,12 @@ import { URLS } from '../lib/constants';
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
+      <Banner2
+        title="Version 2.0 is now available!"
+        description="Check out all the new features"
+        linkText="here"
+        linkUrl="/features"
+      />
       <Header />
       <main className="flex-1">
         <Hero

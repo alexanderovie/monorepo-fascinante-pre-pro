@@ -103,10 +103,13 @@ function getHost(): string | null {
 /**
  * URLs por defecto (valores de producción)
  * Se pueden sobrescribir con variables de entorno
+ *
+ * Nota: Las rutas relativas (como '/audit') funcionan en cualquier entorno
+ * y son preferibles para rutas internas de la aplicación.
  */
 const DEFAULT_URLS = {
   login: 'https://app.fascinantedigital.com/',
-  signup: 'https://app.fascinantedigital.com/',
+  signup: '/audit', // Ruta interna - página de audit
   demo: 'https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true',
 } as const;
 
@@ -146,7 +149,7 @@ export function getUrl(route: 'login' | 'signup' | 'demo'): string {
     const baseUrl = buildAppBaseUrl(subdomain, host);
     const routeMap = {
       login: '/',
-      signup: '/',
+      signup: '/audit', // Ruta interna - página de audit
       demo: '/demo',
     };
     const dynamicUrl = buildUrl(routeMap[route], baseUrl);

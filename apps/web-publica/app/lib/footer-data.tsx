@@ -166,7 +166,7 @@ import { ASSETS, BRAND } from '../../lib/constants';
 // Logo Component - Usa el mismo logo que el header
 const FascinanteLogo = () => (
   <img
-    className="w-28 h-auto dark:invert"
+    className="w-[134px] h-auto dark:invert"
     src={ASSETS.logo}
     alt={`${BRAND.name} Logo`}
   />
