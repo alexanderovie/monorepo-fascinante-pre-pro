@@ -61,10 +61,10 @@ export function useOAuth(): UseOAuthReturn {
       // IMPORTANTE: Supabase maneja el state automáticamente con PKCE (default en @supabase/ssr)
       // NO debemos pasar state en queryParams porque puede causar conflictos
       // El state se genera y valida automáticamente por Supabase
-      // 
+      //
       // Si necesitamos validación adicional de CSRF, podemos generar nuestro propio state
       // y validarlo en el callback, pero NO lo pasamos a Supabase en queryParams
-      // 
+      //
       // Por ahora, dejamos que Supabase maneje todo el state automáticamente
       // y solo agregamos logging para debugging
 

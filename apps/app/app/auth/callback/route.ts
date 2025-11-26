@@ -88,14 +88,14 @@ export async function GET(request: Request) {
     })
 
     // Detectar específicamente bad_oauth_state
-    const isStateError = errorCode === 'bad_oauth_state' || 
+    const isStateError = errorCode === 'bad_oauth_state' ||
                         errorParam === 'invalid_request' && errorCode === 'bad_oauth_state'
 
     const oauthError = createOAuthError(
-      isStateError 
+      isStateError
         ? OAuthErrorCode.STATE_MISMATCH
-        : errorParam === 'access_denied' 
-          ? OAuthErrorCode.USER_DENIED 
+        : errorParam === 'access_denied'
+          ? OAuthErrorCode.USER_DENIED
           : OAuthErrorCode.PROVIDER_ERROR,
       errorDescription || errorParam,
       {
@@ -161,7 +161,7 @@ export async function GET(request: Request) {
     const { data: sessionData, error } = await withRetry(
       async () => {
         const result = await supabase.auth.exchangeCodeForSession(code)
-        
+
         // Log del resultado inmediato
         authLogger.debug('exchangeCodeForSession result', {
           action: 'oauth_code_exchange_result',
@@ -173,7 +173,7 @@ export async function GET(request: Request) {
           hasUser: !!result.data?.user,
           timestamp: Date.now(),
         })
-        
+
         return result
       },
       {
@@ -228,7 +228,7 @@ export async function GET(request: Request) {
       userId: sessionData?.user?.id,
       timestamp: Date.now(),
     })
-    
+
     authLogger.codeExchange(provider, true, {
       duration,
       userId: sessionData?.user?.id,
