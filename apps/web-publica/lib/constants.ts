@@ -13,31 +13,23 @@ export const BRAND = {
 } as const;
 
 /**
- * URLs dinámicas - Solución moderna para noviembre 2025
+ * URLs dinámicas - Configuración actual
  *
- * Estrategia híbrida:
- * 1. En Server Components: usa detección automática de subdominio (url-builder.ts)
- * 2. En Client Components: usa variables de entorno como fallback
+ * Valores por defecto (producción):
+ * - login: https://app.fascinantedigital.com/
+ * - tryItFree: https://app.fascinantedigital.com/
+ * - getDemo: https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true
  *
- * Variables de entorno (opcionales, para override manual):
- * - NEXT_PUBLIC_APP_BASE_URL: URL base del dashboard/app (ej: https://app.fascinantedigital.com)
- * - NEXT_PUBLIC_TRY_IT_FREE_URL: Override específico para "Try it free"
- * - NEXT_PUBLIC_GET_DEMO_URL: Override específico para "Get a demo"
- * - NEXT_PUBLIC_LOGIN_URL: Override específico para "Log in"
+ * Variables de entorno (opcionales, para override):
+ * - NEXT_PUBLIC_LOGIN_URL: Override para "Log in"
+ * - NEXT_PUBLIC_TRY_IT_FREE_URL: Override para "Try it free"
+ * - NEXT_PUBLIC_GET_DEMO_URL: Override para "Get a demo"
  *
- * Si no se definen, el sistema detecta automáticamente el subdominio:
- * - web.fascinantedigital.com → app.fascinantedigital.com
- * - www.fascinantedigital.com → app.fascinantedigital.com
- *
- * Para usar en Server Components, importa desde url-builder.ts:
- * ```tsx
- * import { DYNAMIC_URLS } from '@/lib/url-builder';
- * ```
+ * Nota: En Client Components, usa getUrl() de url-builder.ts que incluye
+ * detección automática de subdominio como fallback.
  */
 export const URLS = {
-  // URLs con detección automática de subdominio (Server Components)
-  // En Client Components, estas usan variables de entorno como fallback
-  tryItFree: process.env.NEXT_PUBLIC_TRY_IT_FREE_URL || process.env.NEXT_PUBLIC_APP_BASE_URL ? `${process.env.NEXT_PUBLIC_APP_BASE_URL}/signup` : '#',
-  getDemo: process.env.NEXT_PUBLIC_GET_DEMO_URL || process.env.NEXT_PUBLIC_APP_BASE_URL ? `${process.env.NEXT_PUBLIC_APP_BASE_URL}/demo` : '#',
-  login: process.env.NEXT_PUBLIC_LOGIN_URL || process.env.NEXT_PUBLIC_APP_BASE_URL ? `${process.env.NEXT_PUBLIC_APP_BASE_URL}/login` : '#',
+  tryItFree: process.env.NEXT_PUBLIC_TRY_IT_FREE_URL || 'https://app.fascinantedigital.com/',
+  getDemo: process.env.NEXT_PUBLIC_GET_DEMO_URL || 'https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true',
+  login: process.env.NEXT_PUBLIC_LOGIN_URL || 'https://app.fascinantedigital.com/',
 } as const;

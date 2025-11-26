@@ -101,10 +101,25 @@ function getHost(): string | null {
 }
 
 /**
+ * URLs por defecto (valores de producción)
+ * Se pueden sobrescribir con variables de entorno
+ */
+const DEFAULT_URLS = {
+  login: 'https://app.fascinantedigital.com/',
+  signup: 'https://app.fascinantedigital.com/',
+  demo: 'https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true',
+} as const;
+
+/**
  * Construye URLs dinámicas basadas en el subdominio actual
- * 
+ *
+ * Prioridad:
+ * 1. Variables de entorno específicas (NEXT_PUBLIC_LOGIN_URL, etc.)
+ * 2. Detección automática de subdominio (si está habilitada)
+ * 3. URLs por defecto de producción
+ *
  * Solo funciona en Client Components (usa window.location)
- * 
+ *
  * Uso:
  * ```tsx
  * 'use client';
@@ -113,33 +128,34 @@ function getHost(): string | null {
  * ```
  */
 export function getUrl(route: 'login' | 'signup' | 'demo'): string {
-  // Obtiene host desde window.location (solo Client Components)
-  const host = getHost();
+  // 1. Prioridad: Variables de entorno específicas
+  const envUrls = {
+    login: process.env.NEXT_PUBLIC_LOGIN_URL,
+    signup: process.env.NEXT_PUBLIC_TRY_IT_FREE_URL,
+    demo: process.env.NEXT_PUBLIC_GET_DEMO_URL,
+  };
 
-  // Si tenemos host, construye URL dinámicamente
-  if (host) {
+  if (envUrls[route]) {
+    return envUrls[route]!;
+  }
+
+  // 2. Detección automática de subdominio (solo si no hay variables de entorno)
+  const host = getHost();
+  if (host && !host.includes('localhost')) {
     const subdomain = extractSubdomain(host);
     const baseUrl = buildAppBaseUrl(subdomain, host);
     const routeMap = {
-      login: '/login',
-      signup: '/signup',
+      login: '/',
+      signup: '/',
       demo: '/demo',
     };
-    return buildUrl(routeMap[route], baseUrl);
+    const dynamicUrl = buildUrl(routeMap[route], baseUrl);
+    // Solo usa detección dinámica si no es localhost
+    if (dynamicUrl !== '#') {
+      return dynamicUrl;
+    }
   }
 
-  // Fallback a variables de entorno
-  const envBaseUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
-  if (envBaseUrl) {
-    const routeMap = {
-      login: '/login',
-      signup: '/signup',
-      demo: '/demo',
-    };
-    return buildUrl(routeMap[route], envBaseUrl);
-  }
-
-  // Fallback final
-  return '#';
+  // 3. URLs por defecto de producción
+  return DEFAULT_URLS[route];
 }
-
