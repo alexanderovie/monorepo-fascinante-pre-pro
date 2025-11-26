@@ -109,4 +109,3 @@ export const auditFooterData: FooterData = {
   ],
   copyright: '© 2025 Fascinante Digital. All rights reserved.',
 };
-

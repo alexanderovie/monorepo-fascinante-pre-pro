@@ -1,4 +1,4 @@
-import Header from '../components/Header';
+import HeaderAudit from '../components/HeaderAudit';
 import Footer from '../components/Footer';
 import { auditFooterData } from '../lib/audit-footer-data';
 
@@ -22,7 +22,7 @@ export default function AuditLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <HeaderAudit />
       <main className="flex-1">
         {children}
       </main>
