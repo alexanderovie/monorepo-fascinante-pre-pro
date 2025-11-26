@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { defaultFooterData } from '../lib/footer-data';
+import { auditFooterData } from '../lib/audit-footer-data';
 
 /**
  * Layout específico para la página de Audit
@@ -26,7 +26,7 @@ export default function AuditLayout({
       <main className="flex-1">
         {children}
       </main>
-      <Footer data={defaultFooterData} />
+      <Footer data={auditFooterData} />
     </div>
   );
 }

@@ -151,7 +151,7 @@ export function getUrl(route: 'login' | 'signup' | 'demo'): string {
   // 3. Rutas externas: usar detección de subdominio o DEFAULT_URLS
   // 'login' puede usar detección de subdominio
   // 'demo' siempre usa la URL externa de Cal.com (DEFAULT_URLS)
-  
+
   if (route === 'login') {
     // Detección automática de subdominio para 'login'
     const host = getHost();
