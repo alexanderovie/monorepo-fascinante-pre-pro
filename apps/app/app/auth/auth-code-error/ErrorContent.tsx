@@ -31,11 +31,11 @@ export default function ErrorContent() {
           />
         </svg>
       </div>
-      
+
       <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
         Error de autenticación
       </h1>
-      
+
       <p className="text-gray-600 dark:text-neutral-400 mb-6">
         {errorMessage}
       </p>
@@ -53,7 +53,7 @@ export default function ErrorContent() {
         >
           Volver al inicio de sesión
         </Link>
-        
+
         <button
           onClick={() => window.location.reload()}
           className="inline-flex items-center justify-center gap-x-2 py-2 px-4 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-gray-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700"

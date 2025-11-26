@@ -26,14 +26,14 @@ interface LoginFormProps {
  */
 export default function LoginForm({ loginAction }: LoginFormProps) {
   const [state, formAction, isPending] = useActionState(loginAction, null)
-  
+
   // Hook personalizado para OAuth (centraliza toda la lógica)
   const { signIn: signInWithOAuth, isLoading: isOAuthLoading, error: oauthError } = useOAuth()
 
   // Handlers simplificados usando el hook
   const handleGoogleSignIn = () => signInWithOAuth('google')
   const handleAppleSignIn = () => signInWithOAuth('apple')
-  
+
   // Loading state combinado (email/password o OAuth)
   const isLoading = isPending || isOAuthLoading
 

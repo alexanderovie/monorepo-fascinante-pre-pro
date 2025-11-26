@@ -28,7 +28,7 @@ export function generateOAuthState(): string {
       array[i] = Math.floor(Math.random() * 256)
     }
   }
-  
+
   // Convertir a base64url (URL-safe)
   return btoa(String.fromCharCode(...array))
     .replace(/\+/g, '-')
@@ -43,7 +43,7 @@ export function storeOAuthState(provider: string, state: string): void {
   if (typeof window === 'undefined') {
     return
   }
-  
+
   try {
     const key = `oauth_state_${provider}`
     const value = JSON.stringify({
@@ -64,31 +64,31 @@ export function getStoredOAuthState(provider: string): string | null {
   if (typeof window === 'undefined') {
     return null
   }
-  
+
   try {
     const key = `oauth_state_${provider}`
     const stored = sessionStorage.getItem(key)
-    
+
     if (!stored) {
       return null
     }
-    
+
     const parsed = JSON.parse(stored)
-    
+
     // Validar que el state no haya expirado (10 minutos)
     const STATE_TIMEOUT = 10 * 60 * 1000 // 10 minutos
     const isExpired = Date.now() - parsed.timestamp > STATE_TIMEOUT
-    
+
     if (isExpired) {
       sessionStorage.removeItem(key)
       return null
     }
-    
+
     // Validar que el provider coincida
     if (parsed.provider !== provider) {
       return null
     }
-    
+
     return parsed.state
   } catch (error) {
     console.error('Error getting OAuth state:', error)
@@ -101,28 +101,28 @@ export function getStoredOAuthState(provider: string): string | null {
  */
 export function validateOAuthState(provider: string, receivedState: string): boolean {
   const storedState = getStoredOAuthState(provider)
-  
+
   if (!storedState) {
     return false
   }
-  
+
   // Comparación segura (timing-safe)
   if (storedState.length !== receivedState.length) {
     return false
   }
-  
+
   let isValid = true
   for (let i = 0; i < storedState.length; i++) {
     if (storedState[i] !== receivedState[i]) {
       isValid = false
     }
   }
-  
+
   // Limpiar el state después de validar (one-time use)
   if (typeof window !== 'undefined') {
     sessionStorage.removeItem(`oauth_state_${provider}`)
   }
-  
+
   return isValid
 }
 
@@ -133,11 +133,10 @@ export function clearOAuthState(provider: string): void {
   if (typeof window === 'undefined') {
     return
   }
-  
+
   try {
     sessionStorage.removeItem(`oauth_state_${provider}`)
   } catch (error) {
     console.error('Error clearing OAuth state:', error)
   }
 }
-

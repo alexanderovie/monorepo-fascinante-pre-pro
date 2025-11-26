@@ -14,22 +14,22 @@ export enum OAuthErrorCode {
   // Errores de configuración
   PROVIDER_NOT_ENABLED = 'PROVIDER_NOT_ENABLED',
   INVALID_REDIRECT_URI = 'INVALID_REDIRECT_URI',
-  
+
   // Errores de flujo
   CODE_EXCHANGE_FAILED = 'CODE_EXCHANGE_FAILED',
   INVALID_CODE = 'INVALID_CODE',
   CODE_EXPIRED = 'CODE_EXPIRED',
   STATE_MISMATCH = 'STATE_MISMATCH',
-  
+
   // Errores de red
   NETWORK_ERROR = 'NETWORK_ERROR',
   TIMEOUT = 'TIMEOUT',
-  
+
   // Errores del proveedor
   PROVIDER_ERROR = 'PROVIDER_ERROR',
   USER_DENIED = 'USER_DENIED',
   ACCESS_DENIED = 'ACCESS_DENIED',
-  
+
   // Errores desconocidos
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
 }
@@ -83,7 +83,7 @@ function getDefaultUserMessage(code: OAuthErrorCode): string {
     [OAuthErrorCode.ACCESS_DENIED]: 'No se pudo obtener acceso. Por favor, verifica los permisos.',
     [OAuthErrorCode.UNKNOWN_ERROR]: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
   }
-  
+
   return messages[code] ?? messages[OAuthErrorCode.UNKNOWN_ERROR]
 }
 
@@ -96,7 +96,7 @@ export function mapSupabaseErrorToOAuthError(
 ): OAuthError {
   if (error && typeof error === 'object' && 'message' in error) {
     const errorMessage = String(error.message).toLowerCase()
-    
+
     // Detectar tipos de error comunes
     if (errorMessage.includes('expired') || errorMessage.includes('expira')) {
       return createOAuthError(OAuthErrorCode.CODE_EXPIRED, String(error.message), {
@@ -104,21 +104,21 @@ export function mapSupabaseErrorToOAuthError(
         provider,
       })
     }
-    
+
     if (errorMessage.includes('invalid') || errorMessage.includes('inválido')) {
       return createOAuthError(OAuthErrorCode.INVALID_CODE, String(error.message), {
         originalError: error,
         provider,
       })
     }
-    
+
     if (errorMessage.includes('network') || errorMessage.includes('red')) {
       return createOAuthError(OAuthErrorCode.NETWORK_ERROR, String(error.message), {
         originalError: error,
         provider,
       })
     }
-    
+
     if (errorMessage.includes('timeout') || errorMessage.includes('tiempo')) {
       return createOAuthError(OAuthErrorCode.TIMEOUT, String(error.message), {
         originalError: error,
@@ -126,10 +126,9 @@ export function mapSupabaseErrorToOAuthError(
       })
     }
   }
-  
+
   return createOAuthError(OAuthErrorCode.UNKNOWN_ERROR, String(error), {
     originalError: error,
     provider,
   })
 }
-

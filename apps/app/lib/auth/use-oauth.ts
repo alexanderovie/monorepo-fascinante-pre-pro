@@ -49,7 +49,7 @@ export function useOAuth(): UseOAuthReturn {
           `Provider ${provider} is not enabled`,
           { provider }
         )
-        
+
         setError(oauthError.userMessage)
         authLogger.error('OAuth provider not enabled', {
           action: 'oauth_start',
@@ -84,13 +84,13 @@ export function useOAuth(): UseOAuthReturn {
       if (oauthError) {
         const error = mapSupabaseErrorToOAuthError(oauthError, provider)
         setError(error.userMessage)
-        
+
         authLogger.error('OAuth sign in failed', {
           action: 'oauth_start',
           provider,
           error: oauthError,
         })
-        
+
         // Redirigir a página de error
         router.push(`/auth/auth-code-error?code=${error.code}&message=${encodeURIComponent(error.userMessage)}`)
         return
@@ -111,7 +111,7 @@ export function useOAuth(): UseOAuthReturn {
     } catch (err) {
       const error = mapSupabaseErrorToOAuthError(err, provider)
       setError(error.userMessage)
-      
+
       authLogger.error('Unexpected error in OAuth sign in', {
         action: 'oauth_start',
         provider,
@@ -138,16 +138,15 @@ function mapSupabaseErrorToOAuthError(
 ): ReturnType<typeof createOAuthError> {
   if (error && typeof error === 'object' && 'message' in error) {
     const errorMessage = String(error.message).toLowerCase()
-    
+
     if (errorMessage.includes('network') || errorMessage.includes('red')) {
       return createOAuthError(OAuthErrorCode.NETWORK_ERROR, String(error), { provider, originalError: error })
     }
-    
+
     if (errorMessage.includes('timeout') || errorMessage.includes('tiempo')) {
       return createOAuthError(OAuthErrorCode.TIMEOUT, String(error), { provider, originalError: error })
     }
   }
-  
+
   return createOAuthError(OAuthErrorCode.UNKNOWN_ERROR, String(error), { provider, originalError: error })
 }
-

@@ -34,7 +34,7 @@ function isRetryableError(error: unknown): boolean {
   }
 
   const errorMessage = String(error).toLowerCase()
-  
+
   // Errores de red que son retryables
   const retryablePatterns = [
     'network',
@@ -59,10 +59,10 @@ function isRetryableError(error: unknown): boolean {
 function calculateDelay(attempt: number, options: Required<Omit<RetryOptions, 'shouldRetry'>>): number {
   const exponentialDelay = options.initialDelay * Math.pow(options.backoffMultiplier, attempt)
   const delay = Math.min(exponentialDelay, options.maxDelay)
-  
+
   // Agregar jitter (variación aleatoria) para evitar thundering herd
   const jitter = Math.random() * 0.3 * delay // 0-30% de variación
-  
+
   return Math.floor(delay + jitter)
 }
 
@@ -90,12 +90,12 @@ export async function withRetry<T>(
       // Si no es el último intento y el error es retryable, reintentar
       if (attempt < opts.maxRetries && opts.shouldRetry(error)) {
         const delay = calculateDelay(attempt, opts)
-        
+
         // En desarrollo, log del retry
         if (process.env.NODE_ENV === 'development') {
           console.log(`Retry attempt ${attempt + 1}/${opts.maxRetries} after ${delay}ms`, error)
         }
-        
+
         await new Promise((resolve) => setTimeout(resolve, delay))
         continue
       }
@@ -108,4 +108,3 @@ export async function withRetry<T>(
   // Esto nunca debería ejecutarse, pero TypeScript lo requiere
   throw lastError
 }
-

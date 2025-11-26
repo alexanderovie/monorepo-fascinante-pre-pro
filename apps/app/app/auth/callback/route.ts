@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
-import { authLogger } from '@/lib/logger/auth-logger'
 import { createOAuthError, mapSupabaseErrorToOAuthError, OAuthErrorCode } from '@/lib/auth/oauth-errors'
 import { withRetry } from '@/lib/auth/retry-utils'
+import { authLogger } from '@/lib/logger/auth-logger'
+import { createClient } from '@/utils/supabase/server'
+import { NextResponse } from 'next/server'
 
 /**
  * OAuth Callback Route Handler
@@ -25,14 +25,14 @@ import { withRetry } from '@/lib/auth/retry-utils'
 export async function GET(request: Request) {
   const startTime = Date.now()
   const { searchParams, origin } = new URL(request.url)
-  
+
   // Extraer parámetros
   const code = searchParams.get('code')
   const state = searchParams.get('state')
   const errorParam = searchParams.get('error')
   const errorDescription = searchParams.get('error_description')
   const provider = searchParams.get('provider') || 'unknown'
-  
+
   // Si "next" está en los params, usarlo como URL de redirección
   let next = searchParams.get('next') ?? '/'
 
@@ -77,7 +77,7 @@ export async function GET(request: Request) {
     const errorUrl = new URL(`${origin}/auth/auth-code-error`)
     errorUrl.searchParams.set('code', oauthError.code)
     errorUrl.searchParams.set('message', oauthError.userMessage)
-    
+
     return NextResponse.redirect(errorUrl)
   }
 
@@ -97,7 +97,7 @@ export async function GET(request: Request) {
     const errorUrl = new URL(`${origin}/auth/auth-code-error`)
     errorUrl.searchParams.set('code', oauthError.code)
     errorUrl.searchParams.set('message', oauthError.userMessage)
-    
+
     return NextResponse.redirect(errorUrl)
   }
 
@@ -117,9 +117,9 @@ export async function GET(request: Request) {
         shouldRetry: (error) => {
           // Solo reintentar errores de red/timeout
           const errorStr = String(error).toLowerCase()
-          return errorStr.includes('network') || 
-                 errorStr.includes('timeout') || 
-                 errorStr.includes('econnrefused')
+          return errorStr.includes('network') ||
+            errorStr.includes('timeout') ||
+            errorStr.includes('econnrefused')
         },
       }
     )
@@ -130,11 +130,11 @@ export async function GET(request: Request) {
       })
 
       const oauthError = mapSupabaseErrorToOAuthError(error, provider)
-      
+
       const errorUrl = new URL(`${origin}/auth/auth-code-error`)
       errorUrl.searchParams.set('code', oauthError.code)
       errorUrl.searchParams.set('message', oauthError.userMessage)
-      
+
       return NextResponse.redirect(errorUrl)
     }
 
@@ -167,11 +167,11 @@ export async function GET(request: Request) {
     })
 
     const oauthError = mapSupabaseErrorToOAuthError(error, provider)
-    
+
     const errorUrl = new URL(`${origin}/auth/auth-code-error`)
     errorUrl.searchParams.set('code', oauthError.code)
     errorUrl.searchParams.set('message', oauthError.userMessage)
-    
+
     return NextResponse.redirect(errorUrl)
   }
 }

@@ -82,7 +82,7 @@ class AuthLogger {
 
   error(message: string, context?: AuthLogContext & { error?: unknown }) {
     this.log(LogLevel.ERROR, message, context)
-    
+
     // En producción, también enviar a servicio de error tracking
     // Ejemplo: Sentry.captureException(context?.error)
   }
@@ -139,4 +139,3 @@ class AuthLogger {
 
 // Singleton instance
 export const authLogger = new AuthLogger()
-

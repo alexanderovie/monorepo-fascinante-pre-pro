@@ -46,11 +46,11 @@ function ErrorFallback() {
           />
         </svg>
       </div>
-      
+
       <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
         Error de autenticación
       </h1>
-      
+
       <p className="text-gray-600 dark:text-neutral-400 mb-6">
         Cargando información del error...
       </p>
