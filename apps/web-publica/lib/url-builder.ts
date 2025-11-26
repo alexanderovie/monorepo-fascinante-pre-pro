@@ -142,23 +142,30 @@ export function getUrl(route: 'login' | 'signup' | 'demo'): string {
     return envUrls[route]!;
   }
 
-  // 2. Detección automática de subdominio (solo si no hay variables de entorno)
-  const host = getHost();
-  if (host && !host.includes('localhost')) {
-    const subdomain = extractSubdomain(host);
-    const baseUrl = buildAppBaseUrl(subdomain, host);
-    const routeMap = {
-      login: '/',
-      signup: '/audit', // Ruta interna - página de audit
-      demo: '/demo',
-    };
-    const dynamicUrl = buildUrl(routeMap[route], baseUrl);
-    // Solo usa detección dinámica si no es localhost
-    if (dynamicUrl !== '#') {
-      return dynamicUrl;
+  // 2. Rutas internas: retornar directamente sin detección de subdominio
+  // 'signup' siempre apunta a /audit (ruta interna del mismo dominio)
+  if (route === 'signup') {
+    return '/audit';
+  }
+
+  // 3. Rutas externas: usar detección de subdominio o DEFAULT_URLS
+  // 'login' puede usar detección de subdominio
+  // 'demo' siempre usa la URL externa de Cal.com (DEFAULT_URLS)
+  
+  if (route === 'login') {
+    // Detección automática de subdominio para 'login'
+    const host = getHost();
+    if (host && !host.includes('localhost')) {
+      const subdomain = extractSubdomain(host);
+      const baseUrl = buildAppBaseUrl(subdomain, host);
+      const dynamicUrl = buildUrl('/', baseUrl);
+      // Solo usa detección dinámica si no es localhost
+      if (dynamicUrl !== '#') {
+        return dynamicUrl;
+      }
     }
   }
 
-  // 3. URLs por defecto de producción
+  // 4. URLs por defecto de producción (para 'login' y 'demo')
   return DEFAULT_URLS[route];
 }
