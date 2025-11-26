@@ -1,8 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
+import { useOAuth } from '@/lib/auth/use-oauth'
 import type { login as loginAction } from './actions'
 
 interface LoginFormProps {
@@ -13,73 +12,30 @@ interface LoginFormProps {
  * LoginForm Component
  *
  * Formulario de login con:
- * - Botones OAuth (Google, Apple)
+ * - Botones OAuth (Google, Apple) usando hook personalizado
  * - Formulario email/password
  * - Integración con Supabase Auth
+ * - Loading states y error handling mejorados
+ *
+ * Best Practices Elite Pro:
+ * - Uso de hook personalizado para OAuth (centralización de lógica)
+ * - Loading states consistentes
+ * - Error handling tipado
+ * - Logging estructurado (via hook)
+ * - CSRF protection (via hook)
  */
 export default function LoginForm({ loginAction }: LoginFormProps) {
-  const router = useRouter()
   const [state, formAction, isPending] = useActionState(loginAction, null)
+  
+  // Hook personalizado para OAuth (centraliza toda la lógica)
+  const { signIn: signInWithOAuth, isLoading: isOAuthLoading, error: oauthError } = useOAuth()
 
-  /**
-   * Maneja el login con Google OAuth
-   *
-   * Best Practices Nov 2025 (@supabase/ssr):
-   * - redirectTo apunta al callback route handler (/auth/callback)
-   * - El callback route handler intercambia el código OAuth por una sesión
-   * - Después del intercambio, redirige al usuario a la página principal
-   * - Este es el flujo PKCE estándar para SSR según documentación oficial
-   */
-  const handleGoogleSignIn = async () => {
-    const supabase = createClient()
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
-      console.error('Error signing in with Google:', error)
-      router.push(`/error?message=${encodeURIComponent(error.message)}`)
-      return
-    }
-
-    // Redirigir a la URL de OAuth si está disponible
-    if (data?.url) {
-      window.location.href = data.url
-    }
-  }
-
-  /**
-   * Maneja el login con Apple OAuth
-   *
-   * Best Practices Nov 2025 (@supabase/ssr):
-   * - redirectTo apunta al callback route handler (/auth/callback)
-   * - El callback route handler intercambia el código OAuth por una sesión
-   * - Después del intercambio, redirige al usuario a la página principal
-   * - Este es el flujo PKCE estándar para SSR según documentación oficial
-   */
-  const handleAppleSignIn = async () => {
-    const supabase = createClient()
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
-      console.error('Error signing in with Apple:', error)
-      router.push(`/error?message=${encodeURIComponent(error.message)}`)
-      return
-    }
-
-    // Redirigir a la URL de OAuth si está disponible
-    if (data?.url) {
-      window.location.href = data.url
-    }
-  }
+  // Handlers simplificados usando el hook
+  const handleGoogleSignIn = () => signInWithOAuth('google')
+  const handleAppleSignIn = () => signInWithOAuth('apple')
+  
+  // Loading state combinado (email/password o OAuth)
+  const isLoading = isPending || isOAuthLoading
 
   return (
     <>
@@ -88,7 +44,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
         <button
           type="button"
           onClick={handleGoogleSignIn}
-          disabled={isPending}
+          disabled={isLoading}
           className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
         >
           <svg
@@ -129,7 +85,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
         <button
           type="button"
           onClick={handleAppleSignIn}
-          disabled={isPending}
+          disabled={isLoading}
           className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
         >
           <svg
@@ -146,10 +102,17 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
               fill="currentColor"
             />
           </svg>
-          Iniciar sesión con Apple
+          {isOAuthLoading ? 'Cargando...' : 'Iniciar sesión con Apple'}
         </button>
       </div>
       {/* End Button Group */}
+
+      {/* OAuth Error Display */}
+      {oauthError && (
+        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg dark:bg-red-900/20 dark:text-red-400">
+          {oauthError}
+        </div>
+      )}
 
       <div className="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">
         O
@@ -167,7 +130,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
               id="email"
               name="email"
               required
-              disabled={isPending}
+              disabled={isLoading}
               className="py-2 sm:py-2.5 px-3 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
               placeholder="tu@email.com"
             />
@@ -192,7 +155,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
                 name="password"
                 type="password"
                 required
-                disabled={isPending}
+                disabled={isLoading}
                 data-hs-toggle-password='{"target": "#password"}'
                 className="py-2 sm:py-2.5 px-3 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
                 placeholder="********"
