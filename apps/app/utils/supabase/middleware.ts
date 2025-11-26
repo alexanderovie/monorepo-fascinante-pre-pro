@@ -55,7 +55,7 @@ export async function updateSession(request: NextRequest) {
   // Proteger rutas del dashboard - redirigir a login si no hay usuario
   // Nota: Permitimos '/auth/callback' para que el OAuth callback funcione correctamente
   // El callback route handler maneja el intercambio del código OAuth
-  // 
+  //
   // IMPORTANTE: También protegemos '/' en el middleware para evitar doble redirect
   // (el Server Component también verifica, pero es mejor hacerlo aquí para evitar
   // renderizado innecesario del Server Component)

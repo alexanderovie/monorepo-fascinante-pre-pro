@@ -82,4 +82,3 @@ echo "1. Revisar cambios: git diff"
 echo "2. Verificar checklist manual"
 echo "3. Commit: git commit -m '...'"
 echo "4. Push: git push"
-
