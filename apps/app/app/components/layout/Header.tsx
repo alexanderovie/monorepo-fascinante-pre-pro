@@ -7,20 +7,20 @@ import type { User } from "@supabase/supabase-js";
 /**
  * Header Component - Dashboard
  * Componente de encabezado del dashboard con búsqueda, notificaciones y menú de usuario
- * 
+ *
  * @param user - Usuario autenticado de Supabase
  */
 export default function Header({ user }: { user: User | null }) {
   // Obtener avatar del usuario o usar uno por defecto
-  const userAvatar = user?.user_metadata?.avatar_url || 
+  const userAvatar = user?.user_metadata?.avatar_url ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'User')}&background=random`
-  
+
   // Obtener nombre del usuario o usar email
-  const userName = user?.user_metadata?.full_name || 
-    user?.user_metadata?.name || 
-    user?.email?.split('@')[0] || 
+  const userName = user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split('@')[0] ||
     'User'
-  
+
   const userEmail = user?.email || ''
 
   return (

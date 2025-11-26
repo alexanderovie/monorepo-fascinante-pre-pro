@@ -3,7 +3,7 @@
  *
  * Página principal del dashboard con Stats Cards.
  * Todos los componentes son Server Components excepto los que requieren interactividad del cliente.
- * 
+ *
  * Esta página está protegida por autenticación. Solo usuarios autenticados pueden acceder.
  */
 
@@ -24,7 +24,7 @@ import AddProjectModal from './components/dashboard/AddProjectModal';
 /**
  * Página protegida del dashboard.
  * Verifica que el usuario esté autenticado antes de mostrar el contenido.
- * 
+ *
  * IMPORTANTE: Siempre usa `getUser()` en el servidor, nunca `getSession()`,
  * ya que `getUser()` valida el token con el servidor de Auth.
  */

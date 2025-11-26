@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 /**
  * Página de error genérica.
- * 
+ *
  * Muestra mensajes de error de autenticación u otros errores.
  */
 export default async function ErrorPage({
@@ -46,4 +46,3 @@ export default async function ErrorPage({
     </div>
   )
 }
-

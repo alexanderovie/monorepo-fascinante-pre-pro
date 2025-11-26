@@ -1,6 +1,6 @@
 /**
  * Página de confirmación de email
- * 
+ *
  * Se muestra después de que el usuario se registra,
  * indicándole que debe verificar su email.
  */
@@ -36,4 +36,3 @@ export default function ConfirmEmailPage() {
     </div>
   )
 }
-

@@ -82,7 +82,7 @@ import { createClient } from '@/utils/supabase/server'
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
-  
+
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -105,10 +105,10 @@ import { useEffect, useState } from 'react'
 
 export default function ClientComponent() {
   const [user, setUser] = useState(null)
-  
+
   useEffect(() => {
     const supabase = createClient()
-    
+
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user)
     })
@@ -130,4 +130,3 @@ export default function ClientComponent() {
 2. **El middleware es crítico**: Refresca automáticamente los tokens de sesión en cada request.
 
 3. **Variables de entorno**: Las variables `NEXT_PUBLIC_*` son accesibles en el cliente. No uses variables sensibles con este prefijo.
-

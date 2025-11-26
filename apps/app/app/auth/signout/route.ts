@@ -4,9 +4,9 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 /**
  * Ruta para cerrar sesión.
- * 
+ *
  * Elimina la sesión del usuario y redirige al login.
- * 
+ *
  * @param req - Request de Next.js
  */
 export async function POST(req: NextRequest) {
@@ -26,4 +26,3 @@ export async function POST(req: NextRequest) {
     status: 302,
   })
 }
-

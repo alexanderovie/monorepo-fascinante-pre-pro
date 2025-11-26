@@ -4,10 +4,10 @@ import { createClient } from '@/utils/supabase/server'
 
 /**
  * Ruta de callback para confirmar el email y otros flujos OTP.
- * 
+ *
  * Intercambia el token_hash recibido por email por una sesión válida.
  * Este endpoint es necesario para el flujo de autenticación server-side.
- * 
+ *
  * @param request - Request de Next.js con los query params token_hash y type
  */
 export async function GET(request: NextRequest) {
@@ -44,4 +44,3 @@ export async function GET(request: NextRequest) {
   )
   return NextResponse.redirect(redirectTo)
 }
-

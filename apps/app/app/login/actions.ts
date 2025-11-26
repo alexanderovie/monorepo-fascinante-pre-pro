@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/server'
 
 /**
  * Server Action para iniciar sesión con email y contraseña.
- * 
+ *
  * @param formData - Datos del formulario con email y password
  */
 export async function login(formData: FormData) {
@@ -30,7 +30,7 @@ export async function login(formData: FormData) {
 
 /**
  * Server Action para registrarse con email y contraseña.
- * 
+ *
  * @param formData - Datos del formulario con email y password
  */
 export async function signup(formData: FormData) {
@@ -51,4 +51,3 @@ export async function signup(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/auth/confirm-email')
 }
-

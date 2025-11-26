@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 /**
  * Botón de Sign Out
- * 
+ *
  * Client Component que maneja el cierre de sesión.
  * Usa un form action para llamar a la ruta de signout.
  */
@@ -48,4 +48,3 @@ export default function SignOutButton() {
     </button>
   )
 }
-

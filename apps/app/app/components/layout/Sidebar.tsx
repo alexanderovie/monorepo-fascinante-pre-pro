@@ -3,7 +3,7 @@
 /**
  * Sidebar Component - Dashboard
  * Componente de navegación lateral del dashboard con menú colapsable
- * 
+ *
  * @param user - Usuario autenticado de Supabase
  */
 

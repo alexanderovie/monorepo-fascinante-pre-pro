@@ -2,7 +2,7 @@ import { login, signup } from './actions'
 
 /**
  * Página de Login/Signup
- * 
+ *
  * Permite a los usuarios iniciar sesión o registrarse usando
  * email y contraseña. Utiliza Server Actions para manejar
  * la autenticación de forma segura en el servidor.
@@ -81,4 +81,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
