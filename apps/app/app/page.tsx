@@ -1,7 +1,7 @@
 /**
- * Welcome Page - Fascinante Digital
+ * Dashboard Home Page - Fascinante Digital
  *
- * Página de bienvenida del dashboard basada en el template de Preline.
+ * Página de inicio del dashboard.
  * Esta página está protegida por autenticación. Solo usuarios autenticados pueden acceder.
  */
 
@@ -12,13 +12,12 @@ import Sidebar from './components/layout/Sidebar'
 import Footer from './components/layout/Footer'
 import ActivityOffcanvas from './components/layout/ActivityOffcanvas'
 import SearchModal from './components/layout/SearchModal'
-import WelcomeContent from './components/welcome/WelcomeContent'
 
 /**
- * Página protegida de bienvenida.
+ * Página protegida de inicio.
  * Verifica que el usuario esté autenticado antes de mostrar el contenido.
  */
-export default async function WelcomePage() {
+export default async function HomePage() {
   const supabase = await createClient()
 
   const {
@@ -37,7 +36,7 @@ export default async function WelcomePage() {
       {/* Main Content */}
       <main id="content" className="pt-15 pb-10 sm:pb-16">
         <div className="p-2 sm:p-5 sm:py-0 md:pt-5">
-          <WelcomeContent />
+          {/* Contenido pendiente de implementación */}
         </div>
       </main>
       {/* End Main Content */}
