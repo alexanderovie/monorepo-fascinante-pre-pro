@@ -309,12 +309,12 @@ export default function Hero({
         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}
           <div className="mb-4 md:mb-8 grid md:grid-cols-12 items-center gap-y-12 gap-x-5 lg:gap-x-8">
-            <div className="md:col-span-8 md:col-start-3 lg:col-span-6 lg:col-start-4 text-left md:text-center">
+            <div className="md:col-span-8 md:col-start-3 lg:col-span-8 lg:col-start-3 text-left md:text-center">
               <p className="mb-3 md:mb-4 font-mono text-sm text-gray-500 dark:text-neutral-400">
                 {badge}
               </p>
 
-              <h1 className="font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-white">
+              <h1 className="font-bold text-gray-800 text-4xl md:text-5xl lg:text-5xl dark:text-white">
                 {title}
               </h1>
 
