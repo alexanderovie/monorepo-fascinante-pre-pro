@@ -100,6 +100,7 @@ export async function getLocationsTableData({
       // Formatear fecha
       // ÉLITE: updateTime puede estar disponible en la respuesta sin incluirlo en readMask
       // Si no está disponible, usar 'N/A'
+      // NOTA: Formatear en servidor para evitar problemas de hidratación
       const lastUpdated = fullLocation.updateTime
         ? new Date(fullLocation.updateTime).toLocaleDateString('es-ES', {
             year: 'numeric',

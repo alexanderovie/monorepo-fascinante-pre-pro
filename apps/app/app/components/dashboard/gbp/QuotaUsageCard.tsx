@@ -115,7 +115,7 @@ export default function QuotaUsageCard({ quotaUsage }: QuotaUsageCardProps) {
         </div>
 
         {/* Last Updated */}
-        <div className="mt-4 text-xs text-gray-500 dark:text-neutral-400">
+        <div className="mt-4 text-xs text-gray-500 dark:text-neutral-400" suppressHydrationWarning>
           Última actualización:{' '}
           {new Date(quotaUsage.lastUpdated).toLocaleString('es-ES', {
             day: '2-digit',

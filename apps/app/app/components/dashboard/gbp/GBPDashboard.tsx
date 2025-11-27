@@ -71,7 +71,8 @@ export default function GBPDashboard({ initialData }: GBPDashboardProps) {
       </div>
 
       {/* Locations Table */}
-      {selectedAccount && (
+      {/* ÉLITE: Solo mostrar tabla si hay cuenta real (no mock) */}
+      {selectedAccount && selectedAccount.accountId !== '123456789' && (
         <LocationsTable accountId={selectedAccount.accountId} includeHealthScore={false} />
       )}
     </div>

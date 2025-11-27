@@ -26,13 +26,20 @@ export default function LocationsTable({ accountId, includeHealthScore = false }
         setLoading(true)
         setError(null)
 
+        // ÉLITE: No intentar cargar si accountId es mock
+        if (accountId === '123456789' || accountId === '987654321') {
+          setError('Por favor, conecta tu cuenta de Google Business Profile primero')
+          setLoading(false)
+          return
+        }
+
         const response = await fetch(
           `/api/integrations/google-business-profile/locations?accountId=${accountId}&includeHealthScore=${includeHealthScore}`
         )
 
         if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.message || 'Error al cargar ubicaciones')
+          const errorData = await response.json().catch(() => ({}))
+          throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`)
         }
 
         const result = await response.json()
