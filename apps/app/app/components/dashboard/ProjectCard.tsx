@@ -10,8 +10,10 @@
  */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import type { LocationTableRow } from '@/lib/gbp/types'
+import { useLocationsTable, type Location } from '@/app/hooks/use-locations-table'
+import { useDebounce } from '@/app/hooks/use-debounce'
 
 // Helper component para renderizar estrellas de health score
 function HealthScoreStars({ score }: { score: number }) {
@@ -88,19 +90,39 @@ function ProfileProgressBar({ current, total }: { current: number; total: number
   );
 }
 
-// Helper component para Sort Dropdown (reutilizable)
-function SortDropdown({ id, label }: { id: string; label: string }) {
+// Helper component para Sort Dropdown (reutilizable y funcional)
+// ÉLITE PRO: Conectado con el hook de tabla para ordenamiento real
+function SortDropdown({
+  id,
+  label,
+  field,
+  sortState,
+  onSort,
+}: {
+  id: string
+  label: string
+  field: 'name' | 'category' | 'status' | 'progress' | 'lastUpdated' | 'healthScore'
+  sortState: { field: string | null; direction: 'asc' | 'desc' }
+  onSort: (field: 'name' | 'category' | 'status' | 'progress' | 'lastUpdated' | 'healthScore') => void
+}) {
+  const isActive = sortState.field === field
+  const sortIcon = isActive ? (sortState.direction === 'asc' ? '↑' : '↓') : '⇅'
+
   return (
     <div className="hs-dropdown relative inline-flex w-full cursor-pointer">
       <button
         id={id}
         type="button"
-        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap whitespace-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+        onClick={() => onSort(field)}
+        className={`px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap whitespace-nowrap font-normal ${
+          isActive ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-500 dark:text-neutral-500'
+        } focus:outline-hidden focus:bg-gray-100 dark:focus:bg-neutral-700`}
         aria-haspopup="menu"
         aria-expanded="false"
-        aria-label="Dropdown"
+        aria-label={`Sort by ${label}`}
       >
         {label}
+        <span className="text-xs ml-1">{sortIcon}</span>
         <svg
           className="shrink-0 size-3.5"
           xmlns="http://www.w3.org/2000/svg"
@@ -117,128 +139,8 @@ function SortDropdown({ id, label }: { id: string; label: string }) {
           <path d="m7 9 5-5 5 5" />
         </svg>
       </button>
-
-      <div
-        className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-40 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-xl dark:bg-neutral-900"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby={id}
-      >
-        <div className="p-1">
-          <button
-            type="button"
-            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          >
-            <svg
-              className="shrink-0 size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m5 12 7-7 7 7" />
-              <path d="M12 19V5" />
-            </svg>
-            Sort ascending
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          >
-            <svg
-              className="shrink-0 size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 5v14" />
-              <path d="m19 12-7 7-7-7" />
-            </svg>
-            Sort descending
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          >
-            <svg
-              className="shrink-0 size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
-            </svg>
-            Move left
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          >
-            <svg
-              className="shrink-0 size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-            Move right
-          </button>
-
-          <div className="my-1 border-t border-gray-200 dark:border-neutral-800"></div>
-
-          <button
-            type="button"
-            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          >
-            <svg
-              className="shrink-0 size-3.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
-              <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
-              <line x1="2" x2="22" y1="2" y2="22" />
-            </svg>
-            Hide in view
-          </button>
-        </div>
-      </div>
     </div>
-  );
+  )
 }
 
 // Datos mock de ejemplo (usados cuando no hay datos reales o para campos faltantes)
@@ -336,7 +238,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ initialData, accountId }: ProjectCardProps = {}) {
   // ÉLITE: Si hay initialData, usarlo inmediatamente (Server Component)
   // Si no, usar mocks y hacer fetch (compatibilidad hacia atrás)
-  const [locations, setLocations] = useState<typeof mockLocations>(
+  const [rawLocations, setRawLocations] = useState<typeof mockLocations>(
     initialData
       ? initialData.map((row, index) => {
           const mockLocation = mockLocations[index % mockLocations.length]
@@ -379,7 +281,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
 
         if (!accountsResponse.ok) {
           // Si no hay datos, usar mocks
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
           setLoading(false)
           return
         }
@@ -388,7 +290,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
 
         if (!accountsData.success || !accountsData.accounts || accountsData.accounts.length === 0) {
           // Si no hay cuentas, usar mocks
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
           setLoading(false)
           return
         }
@@ -397,14 +299,14 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         const selectedAccountId = accountId || accountsData.accounts[0]?.accountId
 
         if (!selectedAccountId) {
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
           setLoading(false)
           return
         }
 
         // ÉLITE: No intentar cargar si accountId es mock
         if (selectedAccountId === '123456789' || selectedAccountId === '987654321') {
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
           setLoading(false)
           return
         }
@@ -416,7 +318,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
 
         if (!locationsResponse.ok) {
           // Si falla, usar mocks
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
           setLoading(false)
           return
         }
@@ -447,15 +349,15 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
             }
           })
 
-          setLocations(realLocations)
+          setRawLocations(realLocations)
         } else {
           // Si no hay ubicaciones reales, usar mocks
-          setLocations(mockLocations)
+          setRawLocations(mockLocations)
         }
       } catch (error) {
         // En caso de error, usar mocks
         console.error('Error loading real locations:', error)
-        setLocations(mockLocations)
+        setRawLocations(mockLocations)
       } finally {
         setLoading(false)
       }
@@ -467,6 +369,56 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
     // - accountId: se obtiene dentro del efecto, no debe causar re-ejecución
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // ÉLITE: Inicializar Preline UI para dropdowns
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.HSStaticMethods) {
+      window.HSStaticMethods.autoInit()
+    }
+  }, [])
+
+  // ÉLITE PRO: Usar hook personalizado para manejo completo de tabla
+  // Convierte rawLocations al formato Location del hook
+  const locationsForTable: Location[] = useMemo(
+    () =>
+      rawLocations.map((loc) => ({
+        id: loc.id,
+        name: loc.name,
+        category: loc.category,
+        status: loc.status,
+        tags: loc.tags,
+        progress: loc.progress,
+        lastUpdated: loc.lastUpdated,
+        healthScore: loc.healthScore,
+      })),
+    [rawLocations]
+  )
+
+  // ÉLITE PRO: Hook centralizado para búsqueda, filtros, ordenamiento y paginación
+  const {
+    paginatedLocations,
+    filterState,
+    sortState,
+    paginationState,
+    setSearchQuery,
+    setSortField,
+    setCurrentPage,
+    totalItems,
+    totalPages,
+    hasNextPage,
+    hasPreviousPage,
+  } = useLocationsTable({
+    initialData: locationsForTable,
+    itemsPerPage: 10,
+  })
+
+  // ÉLITE: Debounce para búsqueda (optimización de performance)
+  const [searchInputValue, setSearchInputValue] = useState('')
+  const debouncedSearchQuery = useDebounce(searchInputValue, 300)
+
+  useEffect(() => {
+    setSearchQuery(debouncedSearchQuery)
+  }, [debouncedSearchQuery, setSearchQuery])
 
   return (
     <div className="p-5 space-y-4 flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
@@ -525,11 +477,13 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                 <path d="m21 21-4.3-4.3" />
               </svg>
             </div>
-            <input
-              type="text"
-              className="py-1 sm:py-1.5 ps-10 pe-8 block w-full bg-gray-100 border-transparent rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:bg-neutral-800 dark:focus:ring-neutral-600"
-              placeholder="Search locations"
-            />
+                  <input
+                    type="text"
+                    value={searchInputValue}
+                    onChange={(e) => setSearchInputValue(e.target.value)}
+                    className="py-1 sm:py-1.5 ps-10 pe-8 block w-full bg-gray-100 border-transparent rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:bg-neutral-800 dark:focus:ring-neutral-600"
+                    placeholder="Search locations"
+                  />
             <div className="hidden absolute inset-y-0 end-0 flex items-center z-20 pe-1">
               <button
                 type="button"
@@ -697,7 +651,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
               </svg>
               Filter
               <span className="font-medium text-[10px] py-0.5 px-[5px] bg-gray-800 text-white leading-3 rounded-full dark:bg-neutral-500">
-                {locations.length}
+                {totalItems}
               </span>
             </button>
 
@@ -777,10 +731,12 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <rect width="20" height="16" x="2" y="4" rx="2" />
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    <path d="M11 12H3" />
+                    <path d="M16 6H3" />
+                    <path d="M16 18H3" />
+                    <path d="M21 12h-6" />
                   </svg>
-                  Email addresses
+                  Category
                 </a>
                 <a
                   className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
@@ -798,12 +754,10 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M11 12H3" />
-                    <path d="M16 6H3" />
-                    <path d="M16 18H3" />
-                    <path d="M21 12h-6" />
+                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                    <path d="m9 12 2 2 4-4" />
                   </svg>
-                  Description
+                  Status
                 </a>
                 <a
                   className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
@@ -829,7 +783,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     <path d="M10 14h4" />
                     <path d="M10 18h4" />
                   </svg>
-                  Company
+                  Progress
                 </a>
                 <a
                   className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
@@ -853,7 +807,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     <line x1="8" x2="8" y1="2" y2="4" />
                     <line x1="16" x2="16" y1="2" y2="4" />
                   </svg>
-                  User ID
+                  Last Updated
                 </a>
                 <a
                   className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
@@ -871,51 +825,9 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
-                  Phone numbers
-                </a>
-                <a
-                  className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                  href="#"
-                >
-                  <svg
-                    className="shrink-0 mt-0.5 size-3.5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  Location
-                </a>
-                <a
-                  className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                  href="#"
-                >
-                  <svg
-                    className="shrink-0 mt-0.5 size-3.5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
-                  Signed up as
+                  Health Score
                 </a>
               </div>
             </div>
@@ -941,33 +853,69 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                 </th>
 
                 <th scope="col" className="min-w-70">
-                  <SortDropdown id="hs-pro-dutnms" label="Name" />
+                  <SortDropdown
+                    id="hs-pro-dutnms"
+                    label="Name"
+                    field="name"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
 
                 <th scope="col" className="min-w-45">
-                  <SortDropdown id="hs-pro-duttgs" label="Category" />
+                  <SortDropdown
+                    id="hs-pro-duttgs"
+                    label="Category"
+                    field="category"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
 
                 <th scope="col" className="min-w-45">
-                  <SortDropdown id="hs-pro-dutass" label="Status" />
+                  <SortDropdown
+                    id="hs-pro-dutass"
+                    label="Status"
+                    field="status"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
 
                 <th scope="col">
-                  <SortDropdown id="hs-pro-dutprs" label="Progress" />
+                  <SortDropdown
+                    id="hs-pro-dutprs"
+                    label="Progress"
+                    field="progress"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
 
                 <th scope="col">
-                  <SortDropdown id="hs-pro-dutdds" label="Last Updated" />
+                  <SortDropdown
+                    id="hs-pro-dutdds"
+                    label="Last Updated"
+                    field="lastUpdated"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
 
                 <th scope="col">
-                  <SortDropdown id="hs-pro-dutrts" label="Health Score" />
+                  <SortDropdown
+                    id="hs-pro-dutrts"
+                    label="Health Score"
+                    field="healthScore"
+                    sortState={sortState}
+                    onSort={setSortField}
+                  />
                 </th>
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-              {locations.map((location) => (
+                  <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                    {paginatedLocations.map((location) => (
                 <tr key={location.id} className="divide-x divide-gray-200 dark:divide-neutral-700">
                   <td className="size-px whitespace-nowrap">
                     <div className="px-3 py-4">
@@ -1026,10 +974,10 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
 
       {/* Footer */}
       <div className="grid grid-cols-2 items-center gap-y-2 sm:gap-y-0 sm:gap-x-5">
-        <p className="text-sm text-gray-800 dark:text-neutral-200">
-          <span className="font-medium">{locations.length}</span>
-          <span className="text-gray-500 dark:text-neutral-500"> results</span>
-        </p>
+              <p className="text-sm text-gray-800 dark:text-neutral-200">
+                <span className="font-medium">{totalItems}</span>
+                <span className="text-gray-500 dark:text-neutral-500"> results</span>
+              </p>
 
         {/* Pagination */}
         <nav className="flex justify-end items-center gap-x-1" aria-label="Pagination">

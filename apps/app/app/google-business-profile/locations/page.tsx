@@ -17,6 +17,8 @@ import ActivityOffcanvas from '../../components/layout/ActivityOffcanvas'
 import SearchModal from '../../components/layout/SearchModal'
 import ProjectCard from '../../components/dashboard/ProjectCard'
 import AddProjectModal from '../../components/dashboard/AddProjectModal'
+import ImportLocationsModal from '../../components/dashboard/ImportLocationsModal'
+import ExportLocationsModal from '../../components/dashboard/ExportLocationsModal'
 import LocationsTableSkeleton from '../../components/dashboard/LocationsTableSkeleton'
 import { getAccounts } from '@/lib/gbp/get-accounts'
 import { getLocationsData } from '@/lib/gbp/get-locations-data'
@@ -152,6 +154,12 @@ export default async function LocationsPage() {
 
       {/* Add Project Modal */}
       <AddProjectModal />
+
+      {/* Import Locations Modal */}
+      <ImportLocationsModal />
+
+      {/* Export Locations Modal */}
+      <ExportLocationsModal />
     </div>
   )
 }

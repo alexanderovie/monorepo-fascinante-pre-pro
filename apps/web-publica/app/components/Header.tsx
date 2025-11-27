@@ -35,8 +35,8 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 inset-x-0 z-50 bg-white dark:bg-neutral-900">
-      <nav className="max-w-6xl basis-full w-full py-4 px-4 sm:px-6 lg:px-8 lg:mx-auto">
-        <div className="flex flex-wrap md:flex-nowrap basis-full justify-between gap-x-2 md:gap-x-32 w-full">
+      <nav className="max-w-6xl lg:max-w-6xl xl:max-w-7xl basis-full w-full py-4 px-4 sm:px-6 lg:px-8 lg:mx-auto">
+        <div className="flex flex-wrap md:flex-nowrap basis-full justify-between gap-x-2 md:gap-x-32 lg:gap-x-16 xl:gap-x-8 w-full">
           {/* Logo */}
           <div className="flex items-center gap-x-1">
             <Link
