@@ -59,11 +59,15 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANTE: También protegemos '/' en el middleware para evitar doble redirect
   // (el Server Component también verifica, pero es mejor hacerlo aquí para evitar
   // renderizado innecesario del Server Component)
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
+  //
+  // Excluir archivos estáticos públicos que deben ser accesibles sin autenticación:
+  // - /manifest.json (web app manifest)
+  // - /favicon.ico (ya excluido en matcher)
+  // - /robots.txt (si existe)
+  const publicPaths = ['/login', '/auth', '/manifest.json', '/robots.txt']
+  const isPublicPath = publicPaths.some((path) => request.nextUrl.pathname.startsWith(path))
+
+  if (!user && !isPublicPath) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)

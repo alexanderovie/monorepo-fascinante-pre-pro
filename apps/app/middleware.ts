@@ -19,9 +19,11 @@ export const config = {
      * - _next/static (archivos estáticos)
      * - _next/image (archivos de optimización de imagen)
      * - favicon.ico (archivo favicon)
+     * - manifest.json (web app manifest)
+     * - robots.txt (robots.txt)
      * - archivos de imagen (svg, png, jpg, jpeg, gif, webp)
      * Siéntete libre de modificar este patrón para incluir más rutas.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|manifest.json|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
