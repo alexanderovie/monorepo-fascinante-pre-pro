@@ -14,6 +14,8 @@ import Sidebar from '../../components/layout/Sidebar'
 import Footer from '../../components/layout/Footer'
 import ActivityOffcanvas from '../../components/layout/ActivityOffcanvas'
 import SearchModal from '../../components/layout/SearchModal'
+import ProjectCard from '../../components/dashboard/ProjectCard'
+import AddProjectModal from '../../components/dashboard/AddProjectModal'
 
 /**
  * Página protegida de Locations.
@@ -79,24 +81,9 @@ export default async function LocationsPage() {
         {/* End Breadcrumb */}
 
         <div className="p-2 sm:p-5 sm:py-0 md:pt-5">
-          {/* Header Section */}
-          <div className="mb-5">
-            <h1 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">Locations</h1>
-            <p className="mt-1 text-sm text-gray-600 dark:text-neutral-400">
-              Manage and monitor all your business locations
-            </p>
-          </div>
-          {/* End Header Section */}
-
-          {/* Content Section - Pendiente de implementación */}
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
-            <div className="p-6">
-              <p className="text-sm text-gray-600 dark:text-neutral-400">
-                Contenido de locations pendiente de implementación
-              </p>
-            </div>
-          </div>
-          {/* End Content Section */}
+          {/* Business Locations Card */}
+          <ProjectCard />
+          {/* End Business Locations Card */}
         </div>
       </main>
       {/* End Main Content */}
@@ -108,6 +95,9 @@ export default async function LocationsPage() {
 
       {/* Search Modal */}
       <SearchModal />
+
+      {/* Add Project Modal */}
+      <AddProjectModal />
     </div>
   )
 }

@@ -18,8 +18,6 @@ import BrowsersCard from '../components/dashboard/BrowsersCard'
 import ReferralTrafficCard from '../components/dashboard/ReferralTrafficCard'
 import SalesStatsCard from '../components/dashboard/SalesStatsCard'
 import DoubleAreaChartCard from '../components/dashboard/DoubleAreaChartCard'
-import ProjectCard from '../components/dashboard/ProjectCard'
-import AddProjectModal from '../components/dashboard/AddProjectModal'
 import GBPDashboard from '../components/dashboard/gbp/GBPDashboard'
 import { getGBPDashboardData } from '@/lib/gbp/get-dashboard-data'
 
@@ -88,10 +86,6 @@ export default async function GBPOverviewPage() {
           {/* Double Area Chart Card */}
           <DoubleAreaChartCard />
           {/* End Double Area Chart Card */}
-
-          {/* Project Card */}
-          <ProjectCard />
-          {/* End Project Card */}
         </div>
       </main>
       {/* End Main Content */}
@@ -103,9 +97,6 @@ export default async function GBPOverviewPage() {
 
       {/* Search Modal */}
       <SearchModal />
-
-      {/* Add Project Modal */}
-      <AddProjectModal />
     </div>
   )
 }
