@@ -19,7 +19,7 @@ import ProjectCard from '../../components/dashboard/ProjectCard'
 import AddProjectModal from '../../components/dashboard/AddProjectModal'
 import LocationsTableSkeleton from '../../components/dashboard/LocationsTableSkeleton'
 import { getAccounts } from '@/lib/gbp/get-accounts'
-import { getLocationsDataCached } from '@/lib/gbp/get-locations-data'
+import { getLocationsData } from '@/lib/gbp/get-locations-data'
 
 /**
  * Componente interno que hace el fetch de datos
@@ -52,8 +52,9 @@ async function LocationsContent() {
     )
   }
 
-  // Obtener locations con cache
-  const locationsResult = await getLocationsDataCached(firstAccount.accountId, true)
+  // ÉLITE: Usar getLocationsData directamente (mejor que fetch interno en Server Component)
+  // El cache de Next.js se aplica automáticamente a las funciones async en Server Components
+  const locationsResult = await getLocationsData(firstAccount.accountId, true)
 
   return (
     <ProjectCard
