@@ -21,7 +21,7 @@ import type {
  */
 export const mockAccounts: GBPAccount[] = [
   {
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
     accountName: 'Fascinante Digital',
     accountType: 'organization',
     locationCount: 15,
@@ -43,19 +43,19 @@ export const mockLocationGroups: LocationGroup[] = [
     groupId: 'locationGroups/group-1',
     groupName: 'Restaurantes',
     locationCount: 5,
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
   },
   {
     groupId: 'locationGroups/group-2',
     groupName: 'Tiendas',
     locationCount: 10,
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
   },
   {
     groupId: 'locationGroups/group-3',
     groupName: 'Servicios',
     locationCount: 3,
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
   },
 ]
 
@@ -69,7 +69,7 @@ export const mockLocations: Location[] = [
     address: 'Av. Principal 123, Ciudad',
     verificationStatus: 'verified',
     locationGroupId: 'locationGroups/group-1',
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
     rating: 4.5,
     reviewCount: 127,
     category: 'Restaurante',
@@ -80,7 +80,7 @@ export const mockLocations: Location[] = [
     address: 'Calle Norte 456, Ciudad',
     verificationStatus: 'verified',
     locationGroupId: 'locationGroups/group-2',
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
     rating: 4.8,
     reviewCount: 89,
     category: 'Tienda',
@@ -91,7 +91,7 @@ export const mockLocations: Location[] = [
     address: 'Av. Sur 789, Ciudad',
     verificationStatus: 'unverified',
     locationGroupId: 'locationGroups/group-3',
-    accountId: 'accounts/123456789',
+    accountId: '123456789',
     rating: 4.2,
     reviewCount: 45,
     category: 'Servicio',

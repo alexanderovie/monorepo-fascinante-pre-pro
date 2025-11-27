@@ -31,23 +31,23 @@ export default function IntegrationCard({
   return (
     <div className="flex flex-col bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-800 dark:border-neutral-700">
       {/* Header */}
-      <div className="p-5 pb-3 flex items-start justify-between gap-x-3">
-        <div className="flex items-start gap-x-3 flex-1 min-w-0">
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-x-3 mb-3">
           {/* Icon */}
           <div className="shrink-0">
-            <div className="size-12 flex items-center justify-center bg-gray-100 rounded-lg dark:bg-neutral-700">
+            <div className="size-10 flex items-center justify-center bg-gray-100 rounded-lg dark:bg-neutral-700">
               {integration.icon ? (
                 <Image
                   src={integration.icon}
                   alt={`${integration.name} icon`}
-                  width={32}
-                  height={32}
-                  className="size-8"
+                  width={24}
+                  height={24}
+                  className="size-6"
                   unoptimized
                 />
               ) : (
                 <svg
-                  className="size-8 text-gray-400 dark:text-neutral-500"
+                  className="size-6 text-gray-400 dark:text-neutral-500"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
@@ -67,165 +67,127 @@ export default function IntegrationCard({
           </div>
           {/* End Icon */}
 
-          {/* Title and Description */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-x-2 mb-1">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-                {integration.name}
-              </h3>
-              {integration.isNew && (
-                <span className="py-0.5 px-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-500">
-                  New
-                </span>
-              )}
-              {integration.isPopular && (
-                <span className="py-0.5 px-1.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-500">
-                  Popular
-                </span>
-              )}
-            </div>
-            <p className="text-sm text-gray-600 dark:text-neutral-400 line-clamp-2">
-              {integration.description}
-            </p>
+          {/* Status Badge */}
+          <div className="shrink-0 flex items-start gap-x-2">
+            {integration.isNew && (
+              <span className="py-0.5 px-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-500">
+                New
+              </span>
+            )}
+            {integration.isPopular && (
+              <span className="py-0.5 px-1.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-500">
+                Popular
+              </span>
+            )}
+            {isConnected && (
+              <span className="py-0.5 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-500">
+                <svg
+                  className="shrink-0 size-2.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Connected
+              </span>
+            )}
+            {isPending && (
+              <span className="py-0.5 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-500">
+                <svg
+                  className="shrink-0 size-2.5 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0zm0 14a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6z"
+                    fill="currentColor"
+                    opacity="0.4"
+                  />
+                  <path
+                    d="M8 0a8 8 0 0 1 8 8h-2a6 6 0 0 0-6-6V0z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Connecting...
+              </span>
+            )}
+            {hasError && (
+              <span className="py-0.5 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-500">
+                <svg
+                  className="shrink-0 size-2.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Error
+              </span>
+            )}
           </div>
-          {/* End Title and Description */}
+          {/* End Status Badge */}
         </div>
 
-        {/* Status Badge */}
-        <div className="shrink-0">
-          {isConnected && (
-            <span className="py-1 ps-1.5 pe-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-500">
-              <svg
-                className="shrink-0 size-3"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-              Connected
-            </span>
-          )}
-          {isPending && (
-            <span className="py-1 ps-1.5 pe-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-500">
-              <svg
-                className="shrink-0 size-3 animate-spin"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-              </svg>
-              Connecting...
-            </span>
-          )}
-          {hasError && (
-            <span className="py-1 ps-1.5 pe-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-500">
-              <svg
-                className="shrink-0 size-3"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="m15 9-6 6" />
-                <path d="m9 9 6 6" />
-              </svg>
-              Error
-            </span>
-          )}
+        {/* Title and Description */}
+        <div className="mb-3">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 mb-1">
+            {integration.name}
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-neutral-400">
+            {integration.description}
+          </p>
         </div>
-        {/* End Status Badge */}
+        {/* End Title and Description */}
       </div>
       {/* End Header */}
 
-      {/* Features */}
-      {integration.features.length > 0 && (
-        <div className="px-5 pb-3">
-          <ul className="flex flex-wrap gap-2">
-            {integration.features.slice(0, 3).map((feature, index) => (
-              <li
-                key={index}
-                className="py-0.5 px-2 text-xs text-gray-600 bg-gray-100 rounded-md dark:bg-neutral-700 dark:text-neutral-400"
-              >
-                {feature}
-              </li>
-            ))}
-            {integration.features.length > 3 && (
-              <li className="py-0.5 px-2 text-xs text-gray-500 dark:text-neutral-500">
-                +{integration.features.length - 3} more
-              </li>
-            )}
-          </ul>
-        </div>
-      )}
-      {/* End Features */}
-
       {/* Footer Actions */}
-      <div className="p-5 pt-3 flex items-center justify-between gap-x-2 border-t border-gray-200 dark:border-neutral-700">
-        <div className="flex items-center gap-x-2">
-          {integration.documentationUrl && (
-            <Link
-              href={integration.documentationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-gray-600 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200"
-            >
-              Documentation
-            </Link>
-          )}
-        </div>
+      <div className="flex items-center justify-between gap-x-2 pt-3 border-t border-gray-200 dark:border-neutral-700">
+        {integration.documentationUrl && (
+          <Link
+            href={integration.documentationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-gray-600 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+          >
+            Documentation
+          </Link>
+        )}
 
-        <div className="flex items-center gap-x-2">
-          {isConnected ? (
-            <>
-              <button
-                type="button"
-                onClick={() => onViewSettings(integration.id)}
-                className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700"
-              >
-                View integration
-              </button>
-              <button
-                type="button"
-                onClick={() => onDisconnect(integration.id)}
-                className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none"
-              >
-                Disconnect
-              </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={() => onConnect(integration.id)}
-              disabled={isPending}
-              className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-            >
-              {isPending ? 'Connecting...' : 'Connect'}
-            </button>
-          )}
-        </div>
+        {isConnected ? (
+          <button
+            type="button"
+            onClick={() => onViewSettings(integration.id)}
+            className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700"
+          >
+            View integration
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onConnect(integration.id)}
+            disabled={isPending}
+            className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+          >
+            {isPending ? 'Connecting...' : 'Connect'}
+          </button>
+        )}
       </div>
       {/* End Footer Actions */}
     </div>
   )
 }
-

@@ -1,4 +1,5 @@
 import type { ReviewMetrics } from '@/lib/gbp/types'
+import { formatNumber } from '@/lib/utils/format'
 
 interface ReviewsCardProps {
   metrics: Omit<ReviewMetrics, 'locationId'>
@@ -71,7 +72,7 @@ export default function ReviewsCard({ metrics }: ReviewsCardProps) {
             <div className="flex items-center">{renderStars(metrics.averageRating)}</div>
           </div>
           <p className="text-sm text-gray-500 dark:text-neutral-500">
-            {metrics.totalReviews.toLocaleString()} reviews totales
+            {formatNumber(metrics.totalReviews)} reviews totales
           </p>
         </div>
 
@@ -127,4 +128,3 @@ export default function ReviewsCard({ metrics }: ReviewsCardProps) {
     </div>
   )
 }
-

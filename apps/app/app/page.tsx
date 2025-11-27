@@ -21,7 +21,7 @@ import DoubleAreaChartCard from './components/dashboard/DoubleAreaChartCard';
 import ProjectCard from './components/dashboard/ProjectCard';
 import AddProjectModal from './components/dashboard/AddProjectModal';
 import GBPDashboard from './components/dashboard/gbp/GBPDashboard';
-import { mockGBPDashboardData } from '@/lib/gbp/mock-data';
+import { getGBPDashboardData } from '@/lib/gbp/get-dashboard-data';
 
 /**
  * Página protegida del dashboard.
@@ -66,7 +66,7 @@ export default async function Dashboard() {
 
         <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
           {/* Google Business Profile Dashboard */}
-          <GBPDashboard initialData={mockGBPDashboardData} />
+          <GBPDashboard initialData={await getGBPDashboardData()} />
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto lg:mx-0 max-w-fit">

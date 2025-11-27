@@ -7,6 +7,7 @@ import PerformanceOverviewCard from './PerformanceOverviewCard'
 import ReviewsCard from './ReviewsCard'
 import EngagementCard from './EngagementCard'
 import QuotaUsageCard from './QuotaUsageCard'
+import LocationsTable from './LocationsTable'
 
 interface GBPDashboardProps {
   initialData: GBPDashboardData
@@ -38,32 +39,41 @@ export default function GBPDashboard({ initialData }: GBPDashboardProps) {
     : initialData
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       {/* Account Selector */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+        <div className="space-y-1 sm:space-y-1">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-neutral-200">
             Google Business Profile
           </h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-neutral-500">
+          <p className="text-sm text-gray-500 dark:text-neutral-500">
             Administra tus perfiles de negocio y métricas de rendimiento
           </p>
         </div>
-        <AccountSelector
-          accounts={initialData.accounts}
-          selectedAccount={selectedAccount}
-          onAccountChange={setSelectedAccount}
-        />
+        <div className="w-full sm:w-auto">
+          <AccountSelector
+            accounts={initialData.accounts}
+            selectedAccount={selectedAccount}
+            onAccountChange={setSelectedAccount}
+          />
+        </div>
       </div>
 
       {/* Metrics Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         <PerformanceOverviewCard metrics={filteredData.aggregatedMetrics.performance} />
         <ReviewsCard metrics={filteredData.aggregatedMetrics.reviews} />
         <EngagementCard metrics={filteredData.aggregatedMetrics.engagement} />
-        <QuotaUsageCard quotaUsage={filteredData.quotaUsage} />
+        {/* Quota Usage Card - Oculto en xl+ (1280px+) */}
+        <div className="xl:hidden">
+          <QuotaUsageCard quotaUsage={filteredData.quotaUsage} />
+        </div>
       </div>
+
+      {/* Locations Table */}
+      {selectedAccount && (
+        <LocationsTable accountId={selectedAccount.accountId} includeHealthScore={false} />
+      )}
     </div>
   )
 }
-

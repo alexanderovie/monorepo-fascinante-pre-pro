@@ -37,7 +37,7 @@ export interface LocationGroup {
 }
 
 /**
- * Ubicación individual (Location)
+ * Ubicación individual (Location) - Formato interno simplificado
  */
 export interface Location {
   locationId: string
@@ -49,6 +49,110 @@ export interface Location {
   rating?: number
   reviewCount?: number
   category?: string
+}
+
+/**
+ * Ubicación completa de Google Business Profile API
+ * Basado en: https://developers.google.com/my-business/content/location-data
+ */
+export interface GBPLocation {
+  name: string // Formato: "locations/{locationId}"
+  title?: string
+  storefrontAddress?: {
+    addressLines?: string[]
+    locality?: string
+    administrativeArea?: string
+    postalCode?: string
+    regionCode?: string
+  }
+  phoneNumbers?: {
+    phoneNumber?: string
+    phoneNumberType?: string
+  }[]
+  websiteUri?: string
+  regularHours?: {
+    periods?: {
+      openDay?: string
+      openTime?: { hours?: number; minutes?: number }
+      closeDay?: string
+      closeTime?: { hours?: number; minutes?: number }
+    }[]
+  }
+  categories?: {
+    primaryCategory?: {
+      displayName?: string
+      name?: string // "gcid:internet_marketing_service"
+    }
+    additionalCategories?: {
+      displayName?: string
+      name?: string
+    }[]
+  }
+  openInfo?: {
+    status?: 'OPEN' | 'CLOSED_PERMANENTLY' | 'CLOSED_TEMPORARILY'
+    canReopen?: boolean
+  }
+  metadata?: {
+    canDelete?: boolean
+    canModifyServiceList?: boolean
+    canOperateGoogleUpdate?: boolean
+    canOperateLocalPost?: boolean
+    canOperateLodgingData?: boolean
+    duplicateLocation?: string
+    hasGoogleUpdated?: boolean
+    hasPendingEdits?: boolean
+    mapsUri?: string
+    newReviewUri?: string
+  }
+  updateTime?: string
+  createTime?: string
+}
+
+/**
+ * Respuesta de la API para listar ubicaciones
+ */
+export interface GBPLocationsListResponse {
+  locations?: GBPLocation[]
+  nextPageToken?: string
+}
+
+/**
+ * Progreso de completitud de una ubicación
+ */
+export interface LocationProgress {
+  score: number // 0-5
+  percentage: number // 0-100
+  completedFields: string[]
+  missingFields: string[]
+}
+
+/**
+ * Health Score de una ubicación
+ */
+export interface HealthScore {
+  score: number // 0-5
+  percentage: number // 0-100
+  breakdown: {
+    completeness: number
+    attributes: number
+    updates: number
+    verification: number
+  }
+}
+
+/**
+ * Fila de la tabla de ubicaciones
+ */
+export interface LocationTableRow {
+  locationId: string
+  name: string
+  category: string
+  additionalCategories?: string[]
+  status: 'Active' | 'Pending' | 'Needs Review' | 'Closed'
+  progress: LocationProgress
+  lastUpdated: string
+  healthScore?: HealthScore
+  location: GBPLocation
 }
 
 /**
@@ -135,4 +239,3 @@ export interface GBPDashboardData {
   }
   quotaUsage: QuotaUsage
 }
-

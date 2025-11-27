@@ -130,4 +130,3 @@ export default function QuotaUsageCard({ quotaUsage }: QuotaUsageCardProps) {
     </div>
   )
 }
-

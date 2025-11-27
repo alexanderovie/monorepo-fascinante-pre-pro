@@ -1,4 +1,5 @@
 import type { PerformanceMetrics } from '@/lib/gbp/types'
+import { formatNumber } from '@/lib/utils/format'
 
 interface PerformanceOverviewCardProps {
   metrics: Omit<PerformanceMetrics, 'locationId'>
@@ -34,7 +35,7 @@ export default function PerformanceOverviewCard({ metrics }: PerformanceOverview
         {/* Main Metric */}
         <div>
           <h4 className="text-4xl md:text-5xl font-medium text-gray-800 dark:text-neutral-200">
-            {metrics.views.total.toLocaleString()}
+            {formatNumber(metrics.views.total)}
           </h4>
           <p className="mt-2 text-sm text-gray-500 dark:text-neutral-500">
             Total de vistas
@@ -60,11 +61,11 @@ export default function PerformanceOverviewCard({ metrics }: PerformanceOverview
             <div className="space-y-1 text-xs text-gray-600 dark:text-neutral-400">
               <div className="flex justify-between">
                 <span>Búsqueda:</span>
-                <span className="font-medium">{metrics.views.searchViews.toLocaleString()}</span>
+                <span className="font-medium">{formatNumber(metrics.views.searchViews)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Maps:</span>
-                <span className="font-medium">{metrics.views.mapsViews.toLocaleString()}</span>
+                <span className="font-medium">{formatNumber(metrics.views.mapsViews)}</span>
               </div>
             </div>
           </div>
@@ -84,11 +85,11 @@ export default function PerformanceOverviewCard({ metrics }: PerformanceOverview
               </span>
             </div>
             <div className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-              {metrics.searches.total.toLocaleString()}
+              {formatNumber(metrics.searches.total)}
             </div>
             <div className="mt-1 text-xs text-gray-600 dark:text-neutral-400">
-              Descubrimiento: {metrics.searches.discovery.toLocaleString()} • Directas:{' '}
-              {metrics.searches.direct.toLocaleString()}
+              Descubrimiento: {formatNumber(metrics.searches.discovery)} • Directas:{' '}
+              {formatNumber(metrics.searches.direct)}
             </div>
           </div>
 
@@ -107,12 +108,12 @@ export default function PerformanceOverviewCard({ metrics }: PerformanceOverview
               </span>
             </div>
             <div className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-              {metrics.actions.total.toLocaleString()}
+              {formatNumber(metrics.actions.total)}
             </div>
             <div className="mt-1 space-y-0.5 text-xs text-gray-600 dark:text-neutral-400">
-              <div>Sitio web: {metrics.actions.websiteClicks.toLocaleString()}</div>
-              <div>Llamadas: {metrics.actions.phoneCalls.toLocaleString()}</div>
-              <div>Direcciones: {metrics.actions.directionRequests.toLocaleString()}</div>
+              <div>Sitio web: {formatNumber(metrics.actions.websiteClicks)}</div>
+              <div>Llamadas: {formatNumber(metrics.actions.phoneCalls)}</div>
+              <div>Direcciones: {formatNumber(metrics.actions.directionRequests)}</div>
             </div>
           </div>
         </div>
@@ -122,4 +123,3 @@ export default function PerformanceOverviewCard({ metrics }: PerformanceOverview
     </div>
   )
 }
-
