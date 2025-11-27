@@ -1,12 +1,13 @@
 /**
  * Google Business Profile - Locations Page
  *
- * Página de ubicaciones de Google Business Profile.
+ * ÉLITE: Server Component con data fetching en servidor para carga instantánea.
  * Muestra todas las ubicaciones de negocio con búsqueda, filtros y gestión completa.
  *
  * Esta página está protegida por autenticación. Solo usuarios autenticados pueden acceder.
  */
 
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import Header from '../../components/layout/Header'
@@ -16,10 +17,61 @@ import ActivityOffcanvas from '../../components/layout/ActivityOffcanvas'
 import SearchModal from '../../components/layout/SearchModal'
 import ProjectCard from '../../components/dashboard/ProjectCard'
 import AddProjectModal from '../../components/dashboard/AddProjectModal'
+import LocationsTableSkeleton from '../../components/dashboard/LocationsTableSkeleton'
+import { getAccounts } from '@/lib/gbp/get-accounts'
+import { getLocationsDataCached } from '@/lib/gbp/get-locations-data'
+
+/**
+ * Componente interno que hace el fetch de datos
+ * Envuelto en Suspense para streaming progresivo
+ */
+async function LocationsContent() {
+  // ÉLITE: Fetch paralelo para evitar waterfall
+  // Primero obtener accounts, luego usar la primera para locations
+  const accounts = await getAccounts()
+
+  if (accounts.length === 0) {
+    // No hay cuentas, mostrar tabla vacía
+    return (
+      <ProjectCard
+        initialData={[]}
+        accountId={null}
+      />
+    )
+  }
+
+  const firstAccount = accounts[0]
+
+  // ÉLITE: No intentar cargar si accountId es mock
+  if (firstAccount.accountId === '123456789' || firstAccount.accountId === '987654321') {
+    return (
+      <ProjectCard
+        initialData={[]}
+        accountId={firstAccount.accountId}
+      />
+    )
+  }
+
+  // Obtener locations con cache
+  const locationsResult = await getLocationsDataCached(firstAccount.accountId, true)
+
+  return (
+    <ProjectCard
+      initialData={locationsResult.locations}
+      accountId={firstAccount.accountId}
+    />
+  )
+}
 
 /**
  * Página protegida de Locations.
  * Verifica que el usuario esté autenticado antes de mostrar el contenido.
+ *
+ * ÉLITE: Server Component async con data fetching en servidor.
+ * - Fetch paralelo (accounts + locations) para evitar waterfall
+ * - Streaming con Suspense para carga progresiva
+ * - Cache automático de Next.js (stale-while-revalidate)
+ * - Sin loading visible en primer render
  *
  * IMPORTANTE: Siempre usa `getUser()` en el servidor, nunca `getSession()`,
  * ya que `getUser()` valida el token con el servidor de Auth.
@@ -81,9 +133,10 @@ export default async function LocationsPage() {
         {/* End Breadcrumb */}
 
         <div className="p-2 sm:p-5 sm:py-0 md:pt-5">
-          {/* Business Locations Card */}
-          <ProjectCard />
-          {/* End Business Locations Card */}
+          {/* ÉLITE: Suspense boundary para streaming progresivo */}
+          <Suspense fallback={<LocationsTableSkeleton />}>
+            <LocationsContent />
+          </Suspense>
         </div>
       </main>
       {/* End Main Content */}

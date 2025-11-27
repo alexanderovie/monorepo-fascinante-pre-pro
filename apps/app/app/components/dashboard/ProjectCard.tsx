@@ -321,11 +321,57 @@ function formatDate(dateString: string): string {
   }
 }
 
-export default function ProjectCard() {
-  const [locations, setLocations] = useState(mockLocations)
-  const [loading, setLoading] = useState(true)
+interface ProjectCardProps {
+  /**
+   * Datos iniciales de locations desde el servidor.
+   * Si se proporciona, se usa inmediatamente sin fetch inicial.
+   */
+  initialData?: LocationTableRow[]
+  /**
+   * AccountId para refetch client-side si es necesario.
+   */
+  accountId?: string | null
+}
+
+export default function ProjectCard({ initialData, accountId }: ProjectCardProps = {}) {
+  // ÉLITE: Si hay initialData, usarlo inmediatamente (Server Component)
+  // Si no, usar mocks y hacer fetch (compatibilidad hacia atrás)
+  const [locations, setLocations] = useState<typeof mockLocations>(
+    initialData
+      ? initialData.map((row, index) => {
+          const mockLocation = mockLocations[index % mockLocations.length]
+          return {
+            id: index + 1,
+            name: row.name || mockLocation.name,
+            category: row.category || mockLocation.category,
+            status: mapStatus(row.status || 'Active'),
+            tags: row.additionalCategories && row.additionalCategories.length > 0
+              ? row.additionalCategories
+              : mockLocation.tags,
+            progress: {
+              current: row.progress?.score || mockLocation.progress.current,
+              total: 5,
+            },
+            lastUpdated: row.lastUpdated || mockLocation.lastUpdated,
+            healthScore: row.healthScore?.score
+              ? Math.round(row.healthScore.score)
+              : mockLocation.healthScore,
+          }
+        })
+      : mockLocations
+  )
+  const [loading, setLoading] = useState(!initialData) // No loading si hay initialData
 
   useEffect(() => {
+    // ÉLITE: Si ya tenemos initialData, no hacer fetch inicial
+    if (initialData) {
+      return
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // accountId e initialData no deben estar en deps:
+    // - initialData: solo se usa para estado inicial, no para refetch
+    // - accountId: se obtiene dentro del efecto, no debe causar re-ejecución
     async function loadRealData() {
       try {
         // Intentar obtener cuentas disponibles
@@ -347,18 +393,17 @@ export default function ProjectCard() {
           return
         }
 
-        // Usar la primera cuenta disponible
-        const selectedAccount = accountsData.accounts[0]
-        const accountId = selectedAccount?.accountId
+        // Usar accountId de props si está disponible, sino usar la primera cuenta
+        const selectedAccountId = accountId || accountsData.accounts[0]?.accountId
 
-        if (!accountId) {
+        if (!selectedAccountId) {
           setLocations(mockLocations)
           setLoading(false)
           return
         }
 
         // ÉLITE: No intentar cargar si accountId es mock
-        if (accountId === '123456789' || accountId === '987654321') {
+        if (selectedAccountId === '123456789' || selectedAccountId === '987654321') {
           setLocations(mockLocations)
           setLoading(false)
           return
@@ -366,7 +411,7 @@ export default function ProjectCard() {
 
         // Obtener ubicaciones reales
         const locationsResponse = await fetch(
-          `/api/integrations/google-business-profile/locations?accountId=${accountId}&includeHealthScore=true`
+          `/api/integrations/google-business-profile/locations?accountId=${selectedAccountId}&includeHealthScore=true`
         )
 
         if (!locationsResponse.ok) {
@@ -417,6 +462,10 @@ export default function ProjectCard() {
     }
 
     loadRealData()
+    // accountId e initialData no deben estar en deps:
+    // - initialData: solo se usa para estado inicial, no para refetch
+    // - accountId: se obtiene dentro del efecto, no debe causar re-ejecución
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
