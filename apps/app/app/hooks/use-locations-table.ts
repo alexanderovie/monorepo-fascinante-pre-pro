@@ -59,12 +59,12 @@ export interface UseLocationsTableReturn {
   // Datos procesados
   filteredAndSortedLocations: Location[]
   paginatedLocations: Location[]
-  
+
   // Estado
   filterState: FilterState
   sortState: SortState
   paginationState: PaginationState
-  
+
   // Acciones
   setSearchQuery: (query: string) => void
   setStatusFilter: (status: LocationStatus | undefined) => void
@@ -74,7 +74,7 @@ export interface UseLocationsTableReturn {
   setSortDirection: (direction: SortDirection) => void
   setCurrentPage: (page: number) => void
   resetFilters: () => void
-  
+
   // Información calculada
   totalItems: number
   totalPages: number
@@ -95,7 +95,7 @@ function filterLocations(locations: Location[], filters: FilterState): Location[
         location.name.toLowerCase().includes(query) ||
         location.category.toLowerCase().includes(query) ||
         location.tags.some((tag) => tag.toLowerCase().includes(query))
-      
+
       if (!matchesSearch) return false
     }
 
@@ -292,4 +292,3 @@ export function useLocationsTable({
     hasPreviousPage,
   }
 }
-
