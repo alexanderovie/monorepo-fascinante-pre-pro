@@ -71,9 +71,12 @@ export default function GBPDashboard({ initialData }: GBPDashboardProps) {
       </div>
 
       {/* Locations Table */}
-      {/* ÉLITE: Solo mostrar tabla si hay cuenta real (no mock) */}
+      {/* ÉLITE PRO: Solo mostrar tabla si hay cuenta real (no mock) */}
+      {/* La tabla se actualiza automáticamente cuando cambia accountId gracias al useEffect */}
       {selectedAccount && selectedAccount.accountId !== '123456789' && (
-        <LocationsTable accountId={selectedAccount.accountId} includeHealthScore={false} />
+        <div className="transition-opacity duration-200">
+          <LocationsTable accountId={selectedAccount.accountId} includeHealthScore={false} />
+        </div>
       )}
     </div>
   )

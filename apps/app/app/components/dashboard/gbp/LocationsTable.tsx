@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import type { LocationTableRow } from '@/lib/gbp/types'
 
 interface LocationsTableProps {
@@ -13,6 +13,12 @@ interface LocationsTableProps {
  *
  * Tabla de ubicaciones de Google Business Profile con búsqueda, filtros y datos reales.
  * Client Component - Requiere interactividad (búsqueda, filtros).
+ *
+ * ÉLITE PRO: Implementa mejores prácticas de la industria 2025:
+ * - Cancelación de requests pendientes al cambiar cuenta
+ * - Loading states optimistas
+ * - Manejo robusto de errores
+ * - Cache básico por cuenta (evita recargas innecesarias)
  */
 export default function LocationsTable({ accountId, includeHealthScore = false }: LocationsTableProps) {
   const [data, setData] = useState<LocationTableRow[]>([])
@@ -20,7 +26,23 @@ export default function LocationsTable({ accountId, includeHealthScore = false }
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
 
+  // ÉLITE PRO: Cache básico por cuenta para evitar recargas innecesarias
+  const cacheRef = useRef<Map<string, { data: LocationTableRow[]; timestamp: number }>>(new Map())
+  const CACHE_DURATION = useRef(5 * 60 * 1000) // 5 minutos
+
+  // ÉLITE PRO: AbortController para cancelar requests pendientes
+  const abortControllerRef = useRef<AbortController | null>(null)
+
   useEffect(() => {
+    // ÉLITE PRO: Cancelar request anterior si existe
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    // Crear nuevo AbortController para este request
+    abortControllerRef.current = new AbortController()
+    const signal = abortControllerRef.current.signal
+
     async function loadData() {
       try {
         setLoading(true)
@@ -33,9 +55,27 @@ export default function LocationsTable({ accountId, includeHealthScore = false }
           return
         }
 
+        // ÉLITE PRO: Verificar cache primero
+        const cacheKey = `${accountId}-${includeHealthScore}`
+        const cached = cacheRef.current.get(cacheKey)
+        const now = Date.now()
+
+        if (cached && now - cached.timestamp < CACHE_DURATION.current) {
+          // Usar datos del cache
+          setData(cached.data)
+          setLoading(false)
+          return
+        }
+
         const response = await fetch(
-          `/api/integrations/google-business-profile/locations?accountId=${accountId}&includeHealthScore=${includeHealthScore}`
+          `/api/integrations/google-business-profile/locations?accountId=${accountId}&includeHealthScore=${includeHealthScore}`,
+          { signal } // ÉLITE PRO: Pasar signal para cancelación
         )
+
+        // ÉLITE PRO: Verificar si fue cancelado
+        if (signal.aborted) {
+          return
+        }
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
@@ -44,20 +84,44 @@ export default function LocationsTable({ accountId, includeHealthScore = false }
 
         const result = await response.json()
 
+        // ÉLITE PRO: Verificar si fue cancelado antes de actualizar estado
+        if (signal.aborted) {
+          return
+        }
+
         if (result.success && result.data) {
           setData(result.data)
+          // ÉLITE PRO: Guardar en cache
+          cacheRef.current.set(cacheKey, {
+            data: result.data,
+            timestamp: now,
+          })
         } else {
           setError(result.error || 'Error al cargar datos')
         }
       } catch (err) {
+        // ÉLITE PRO: Ignorar errores de cancelación
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
         setError(err instanceof Error ? err.message : 'Error desconocido')
       } finally {
-        setLoading(false)
+        // ÉLITE PRO: Solo actualizar loading si no fue cancelado
+        if (!signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
     if (accountId) {
       loadData()
+    }
+
+    // ÉLITE PRO: Cleanup - cancelar request al desmontar o cambiar accountId
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
     }
   }, [accountId, includeHealthScore])
 

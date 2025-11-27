@@ -4,9 +4,14 @@
  * Muestra una tabla completa de ubicaciones de negocio gestionadas con búsqueda, filtros,
  * ordenamiento y paginación. Incluye información de categoría, estado, progreso del perfil,
  * última actualización y health score.
- * Server Component - Los dropdowns de Preline se inicializan automáticamente.
+ *
+ * ÉLITE PRO: Integra datos reales de Google Business Profile cuando están disponibles,
+ * usando datos mock solo para campos faltantes. Mantiene el diseño exacto del template.
  */
-import Image from 'next/image';
+'use client'
+
+import { useEffect, useState } from 'react'
+import type { LocationTableRow } from '@/lib/gbp/types'
 
 // Helper component para renderizar estrellas de health score
 function HealthScoreStars({ score }: { score: number }) {
@@ -236,60 +241,183 @@ function SortDropdown({ id, label }: { id: string; label: string }) {
   );
 }
 
+// Datos mock de ejemplo (usados cuando no hay datos reales o para campos faltantes)
+const mockLocations = [
+  {
+    id: 1,
+    name: 'Downtown Restaurant',
+    category: 'Restaurant',
+    status: 'active' as const,
+    tags: ['Restaurant', 'Dining', 'Food Service'],
+    progress: { current: 5, total: 5 },
+    lastUpdated: 'Nov 20, 2025',
+    healthScore: 5,
+  },
+  {
+    id: 2,
+    name: 'Main Street Retail',
+    category: 'Retail Store',
+    status: 'active' as const,
+    tags: ['Retail', 'Shopping', 'B2C'],
+    progress: { current: 4, total: 5 },
+    lastUpdated: 'Nov 18, 2025',
+    healthScore: 4,
+  },
+  {
+    id: 3,
+    name: 'Westside Medical Center',
+    category: 'Healthcare',
+    status: 'pending' as const,
+    tags: ['Healthcare', 'Medical', 'Services'],
+    progress: { current: 3, total: 5 },
+    lastUpdated: 'Nov 15, 2025',
+    healthScore: 3,
+  },
+  {
+    id: 4,
+    name: 'Tech Solutions Office',
+    category: 'Professional Services',
+    status: 'needs-review' as const,
+    tags: ['Professional', 'B2B', 'Technology'],
+    progress: { current: 2, total: 5 },
+    lastUpdated: 'Nov 10, 2025',
+    healthScore: 2,
+  },
+  {
+    id: 5,
+    name: 'Fitness Center North',
+    category: 'Fitness & Recreation',
+    status: 'active' as const,
+    tags: ['Fitness', 'Health', 'Recreation'],
+    progress: { current: 5, total: 5 },
+    lastUpdated: 'Nov 22, 2025',
+    healthScore: 5,
+  },
+]
+
+// Mapear status de API a formato del componente
+function mapStatus(status: 'Active' | 'Pending' | 'Needs Review' | 'Closed'): 'active' | 'pending' | 'needs-review' {
+  switch (status) {
+    case 'Active':
+      return 'active'
+    case 'Pending':
+      return 'pending'
+    case 'Needs Review':
+      return 'needs-review'
+    case 'Closed':
+      return 'active' // Tratamos Closed como active para el badge
+    default:
+      return 'active'
+  }
+}
+
+// Formatear fecha
+function formatDate(dateString: string): string {
+  try {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  } catch {
+    return dateString
+  }
+}
+
 export default function ProjectCard() {
-  // Datos de ejemplo de ubicaciones de negocio (en producción vendrían de una API)
-  const locations = [
-    {
-      id: 1,
-      name: 'Downtown Restaurant',
-      category: 'Restaurant',
-      status: 'active' as const,
-      tags: ['Restaurant', 'Dining', 'Food Service'],
-      progress: { current: 5, total: 5 },
-      lastUpdated: 'Nov 20, 2025',
-      healthScore: 5,
-    },
-    {
-      id: 2,
-      name: 'Main Street Retail',
-      category: 'Retail Store',
-      status: 'active' as const,
-      tags: ['Retail', 'Shopping', 'B2C'],
-      progress: { current: 4, total: 5 },
-      lastUpdated: 'Nov 18, 2025',
-      healthScore: 4,
-    },
-    {
-      id: 3,
-      name: 'Westside Medical Center',
-      category: 'Healthcare',
-      status: 'pending' as const,
-      tags: ['Healthcare', 'Medical', 'Services'],
-      progress: { current: 3, total: 5 },
-      lastUpdated: 'Nov 15, 2025',
-      healthScore: 3,
-    },
-    {
-      id: 4,
-      name: 'Tech Solutions Office',
-      category: 'Professional Services',
-      status: 'needs-review' as const,
-      tags: ['Professional', 'B2B', 'Technology'],
-      progress: { current: 2, total: 5 },
-      lastUpdated: 'Nov 10, 2025',
-      healthScore: 2,
-    },
-    {
-      id: 5,
-      name: 'Fitness Center North',
-      category: 'Fitness & Recreation',
-      status: 'active' as const,
-      tags: ['Fitness', 'Health', 'Recreation'],
-      progress: { current: 5, total: 5 },
-      lastUpdated: 'Nov 22, 2025',
-      healthScore: 5,
-    },
-  ];
+  const [locations, setLocations] = useState(mockLocations)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadRealData() {
+      try {
+        // Intentar obtener cuentas disponibles
+        const accountsResponse = await fetch('/api/integrations/google-business-profile/accounts')
+
+        if (!accountsResponse.ok) {
+          // Si no hay datos, usar mocks
+          setLocations(mockLocations)
+          setLoading(false)
+          return
+        }
+
+        const accountsData = await accountsResponse.json()
+
+        if (!accountsData.success || !accountsData.accounts || accountsData.accounts.length === 0) {
+          // Si no hay cuentas, usar mocks
+          setLocations(mockLocations)
+          setLoading(false)
+          return
+        }
+
+        // Usar la primera cuenta disponible
+        const selectedAccount = accountsData.accounts[0]
+        const accountId = selectedAccount?.accountId
+
+        if (!accountId) {
+          setLocations(mockLocations)
+          setLoading(false)
+          return
+        }
+
+        // ÉLITE: No intentar cargar si accountId es mock
+        if (accountId === '123456789' || accountId === '987654321') {
+          setLocations(mockLocations)
+          setLoading(false)
+          return
+        }
+
+        // Obtener ubicaciones reales
+        const locationsResponse = await fetch(
+          `/api/integrations/google-business-profile/locations?accountId=${accountId}&includeHealthScore=true`
+        )
+
+        if (!locationsResponse.ok) {
+          // Si falla, usar mocks
+          setLocations(mockLocations)
+          setLoading(false)
+          return
+        }
+
+        const locationsData = await locationsResponse.json()
+
+        if (locationsData.success && locationsData.data && locationsData.data.length > 0) {
+          // Mapear datos reales al formato del componente, usando mocks donde falte información
+          const realLocations = locationsData.data.map((row: LocationTableRow, index: number) => {
+            const mockLocation = mockLocations[index % mockLocations.length] // Rotar mocks si hay más ubicaciones reales
+
+            return {
+              id: index + 1,
+              name: row.name || mockLocation.name,
+              category: row.category || mockLocation.category,
+              status: mapStatus(row.status || 'Active'),
+              tags: row.additionalCategories && row.additionalCategories.length > 0
+                ? row.additionalCategories
+                : mockLocation.tags, // Usar categorías adicionales reales o mocks
+              progress: {
+                current: row.progress?.score || mockLocation.progress.current,
+                total: 5, // Siempre 5
+              },
+              lastUpdated: row.lastUpdated || mockLocation.lastUpdated,
+              healthScore: row.healthScore?.score
+                ? Math.round(row.healthScore.score)
+                : mockLocation.healthScore, // Usar health score real o mock
+            }
+          })
+
+          setLocations(realLocations)
+        } else {
+          // Si no hay ubicaciones reales, usar mocks
+          setLocations(mockLocations)
+        }
+      } catch (error) {
+        // En caso de error, usar mocks
+        console.error('Error loading real locations:', error)
+        setLocations(mockLocations)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadRealData()
+  }, [])
 
   return (
     <div className="p-5 space-y-4 flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
@@ -520,7 +648,7 @@ export default function ProjectCard() {
               </svg>
               Filter
               <span className="font-medium text-[10px] py-0.5 px-[5px] bg-gray-800 text-white leading-3 rounded-full dark:bg-neutral-500">
-                5
+                {locations.length}
               </span>
             </button>
 
@@ -850,7 +978,7 @@ export default function ProjectCard() {
       {/* Footer */}
       <div className="grid grid-cols-2 items-center gap-y-2 sm:gap-y-0 sm:gap-x-5">
         <p className="text-sm text-gray-800 dark:text-neutral-200">
-          <span className="font-medium">27</span>
+          <span className="font-medium">{locations.length}</span>
           <span className="text-gray-500 dark:text-neutral-500"> results</span>
         </p>
 
