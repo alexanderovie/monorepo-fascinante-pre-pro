@@ -14,7 +14,7 @@ interface HeroTab {
 
 interface HeroProps {
   badge?: string;
-  title: string;
+  title: string | React.ReactNode;
   description: string;
   primaryButton?: {
     label: string;

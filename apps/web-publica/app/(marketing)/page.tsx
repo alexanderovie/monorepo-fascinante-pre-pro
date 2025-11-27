@@ -25,7 +25,13 @@ export default function Home() {
       <main className="flex-1">
         <Hero
           badge="Web App"
-          title="Grow Your Visibility With Data"
+          title={
+            <>
+              Grow Your Visibility
+              <br className="hidden md:block" />
+              <span className="md:hidden"> </span>With Data
+            </>
+          }
           description="Boost developer efficiency, enhance teamwork, and maximize tech investments with Preline."
           primaryButton={{
             label: 'Try it free',
