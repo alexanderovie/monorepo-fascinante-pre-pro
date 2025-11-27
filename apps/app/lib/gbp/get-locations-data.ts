@@ -5,16 +5,21 @@
  * con cache automático de Next.js para carga instantánea.
  *
  * Características:
- * - Fetch en servidor con cache automático (stale-while-revalidate)
+ * - Llamadas directas al cliente GBP (mejor práctica para Server Components)
+ * - Cache con unstable_cache (recomendado por Next.js 15)
  * - Cache por 5 minutos con tags para invalidación
  * - Manejo robusto de errores
  * - Type-safe
  * - Formato optimizado para tabla
+ *
+ * Referencia oficial Next.js:
+ * - https://nextjs.org/docs/app/building-your-application/caching#unstable_cache
+ * - Server Components deben usar funciones directas, no fetch a API routes internas
  */
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/utils/supabase/server'
 import { getGBPTokens } from '../integrations/gbp-tokens'
-import { createGBPClient } from '../integrations/gbp-client'
 import { getLocationsTableData } from './get-locations-table-data'
 import type { LocationTableRow } from './types'
 
@@ -25,33 +30,17 @@ export interface LocationsDataResult {
 }
 
 /**
- * Obtiene las ubicaciones de Google Business Profile para una cuenta específica
- * ÉLITE: Usa cache de Next.js con stale-while-revalidate para carga instantánea
- *
- * @param accountId - ID de la cuenta de GBP (sin prefijo "accounts/")
- * @param includeHealthScore - Si incluir health score (más lento pero más completo)
- * @returns Datos de ubicaciones formateados para tabla
+ * Función interna para obtener locations sin cache
+ * ÉLITE: Separada para poder aplicar cache con unstable_cache
  */
-export async function getLocationsData(
+async function _getLocationsDataInternal(
   accountId: string,
-  includeHealthScore: boolean = false
+  includeHealthScore: boolean,
+  userId: string
 ): Promise<LocationsDataResult> {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
-      return {
-        locations: [],
-        accountId: null,
-        error: 'User not authenticated',
-      }
-    }
-
     // Verificar que el usuario tiene tokens de GBP
-    const tokens = await getGBPTokens(user.id)
+    const tokens = await getGBPTokens(userId)
     if (!tokens) {
       return {
         locations: [],
@@ -89,6 +78,54 @@ export async function getLocationsData(
       error: error instanceof Error ? error.message : 'Unknown error occurred',
     }
   }
+}
+
+/**
+ * Obtiene las ubicaciones de Google Business Profile para una cuenta específica
+ * ÉLITE: Usa unstable_cache de Next.js 15 (recomendado oficialmente)
+ *
+ * Según documentación oficial Next.js:
+ * - Server Components deben usar funciones directas, no fetch a API routes
+ * - unstable_cache es la forma recomendada de cachear funciones async
+ * - Tags permiten invalidación granular con revalidateTag
+ *
+ * @param accountId - ID de la cuenta de GBP (sin prefijo "accounts/")
+ * @param includeHealthScore - Si incluir health score (más lento pero más completo)
+ * @returns Datos de ubicaciones formateados para tabla
+ */
+export async function getLocationsData(
+  accountId: string,
+  includeHealthScore: boolean = false
+): Promise<LocationsDataResult> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return {
+      locations: [],
+      accountId: null,
+      error: 'User not authenticated',
+    }
+  }
+
+  // ÉLITE: Usar unstable_cache según documentación oficial Next.js 15
+  // Cache key incluye accountId, includeHealthScore y userId para granularidad
+  // Revalidate: 300 segundos (5 minutos)
+  // Tags: para invalidación on-demand con revalidateTag
+  const getCachedLocations = unstable_cache(
+    async () => {
+      return _getLocationsDataInternal(accountId, includeHealthScore, user.id)
+    },
+    [`gbp-locations-${accountId}-${includeHealthScore}-${user.id}`],
+    {
+      revalidate: 300, // 5 minutos
+      tags: ['gbp-locations', `gbp-locations-${accountId}`, `gbp-locations-user-${user.id}`],
+    }
+  )
+
+  return getCachedLocations()
 }
 
 /**
