@@ -88,18 +88,17 @@ export async function getLocationDetail(locationId: string): Promise<LocationDet
     return { location: null, error: 'User not authenticated' }
   }
 
-  // ÉLITE: Cache con revalidate de 5 minutos (300 segundos)
+  // ÉLITE PRO: Cache con revalidate de 5 minutos (300 segundos)
   // Tags para invalidación on-demand
+  // Logging optimizado - solo eventos importantes
   const getCachedLocation = unstable_cache(
     async (locationId: string, userId: string, cookies: ReadonlyRequestCookies) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[GBP Cache] Fetching location detail for: ${locationId} (cache miss)`)
-      }
+      // ÉLITE PRO: Logging reducido - solo en casos de error o debugging específico
       return _getLocationDetailInternal(locationId, userId, cookies)
     },
     [`gbp-location-detail-${locationId}-${user.id}`],
     {
-      revalidate: 300, // 5 minutos
+      revalidate: 300, // 5 minutos - balance entre frescura y performance
       tags: ['gbp-locations', `gbp-location-${locationId}`, `gbp-location-user-${user.id}`],
     }
   )

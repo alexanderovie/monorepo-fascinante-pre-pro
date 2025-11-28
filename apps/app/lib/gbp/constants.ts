@@ -21,6 +21,10 @@ export const LOCATION_DEFAULTS = {
   UNNAMED_LOCATION: 'Unnamed Location',
   NO_CATEGORY: 'No Category',
   NO_DATE: 'N/A',
+  NO_PHONE: 'No phone available',
+  NO_ADDRESS: 'No address available',
+  NO_WEBSITE: 'No website available',
+  NO_HOURS: 'Hours not available',
 
   // Valores numéricos
   DEFAULT_PROGRESS_SCORE: 0,
@@ -61,4 +65,14 @@ export const ACCOUNT_SELECTOR_MESSAGES = {
   ERROR: 'Failed to load account',
   RETRY: 'Retry',
   NO_ACCOUNTS: 'No accounts available',
+} as const
+
+/**
+ * Configuración de Google Maps
+ * ÉLITE: API key para Maps Embed API
+ * Configurar en .env.local: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=tu_api_key
+ */
+export const GOOGLE_MAPS_CONFIG = {
+  API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+  EMBED_API_URL: 'https://www.google.com/maps/embed/v1/place',
 } as const

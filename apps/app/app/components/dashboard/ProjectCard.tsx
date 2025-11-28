@@ -822,7 +822,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   />
                 </th>
 
-                <th scope="col" className="min-w-70">
+                <th scope="col" className="min-w-[200px] sm:min-w-[250px] md:min-w-70">
                   <SortDropdown
                     id="hs-pro-dutnms"
                     label="Name"
@@ -832,7 +832,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   />
                 </th>
 
-                <th scope="col" className="min-w-45">
+                <th scope="col" className="min-w-45 hidden sm:table-cell">
                   <SortDropdown
                     id="hs-pro-duttgs"
                     label="Category"
@@ -852,7 +852,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   />
                 </th>
 
-                <th scope="col">
+                <th scope="col" className="hidden md:table-cell">
                   <SortDropdown
                     id="hs-pro-dutprs"
                     label="Progress"
@@ -862,7 +862,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   />
                 </th>
 
-                <th scope="col">
+                <th scope="col" className="hidden lg:table-cell">
                   <SortDropdown
                     id="hs-pro-dutdds"
                     label="Last Updated"
@@ -872,7 +872,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   />
                 </th>
 
-                <th scope="col">
+                <th scope="col" className="hidden md:table-cell">
                   <SortDropdown
                     id="hs-pro-dutrts"
                     label="Health Score"
@@ -926,12 +926,14 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                       />
                     </div>
                   </td>
-                  <td className="size-px whitespace-nowrap">
-                    <div className="px-5 py-2">
-                      <p className="text-sm font-semibold text-gray-800 dark:text-neutral-200">{location.name}</p>
+                  <td className="min-w-[200px] sm:min-w-[250px] md:min-w-70">
+                    <div className="px-3 sm:px-5 py-2">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-neutral-200 break-words sm:break-normal">
+                        {location.name}
+                      </p>
                     </div>
                   </td>
-                  <td className="size-px whitespace-nowrap">
+                  <td className="size-px whitespace-nowrap hidden sm:table-cell">
                     {/* ÉLITE: Mostrar solo primary category en la columna Category */}
                     <div className="px-5 py-2">
                       <p className="text-sm text-gray-800 dark:text-neutral-200">
@@ -940,21 +942,21 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
-                    <div className="px-5 py-2">
+                    <div className="px-3 sm:px-5 py-2">
                       <StatusBadge status={location.status} />
                     </div>
                   </td>
-                  <td className="size-px whitespace-nowrap">
+                  <td className="size-px whitespace-nowrap hidden md:table-cell">
                     <div className="px-5 py-2">
                       <ProfileProgressBar current={location.progress.current} total={location.progress.total} />
                     </div>
                   </td>
-                  <td className="size-px whitespace-nowrap">
+                  <td className="size-px whitespace-nowrap hidden lg:table-cell">
                     <div className="px-5 py-2">
                       <span className="text-sm text-gray-600 dark:text-neutral-400">{location.lastUpdated}</span>
                     </div>
                   </td>
-                  <td className="size-px whitespace-nowrap">
+                  <td className="size-px whitespace-nowrap hidden md:table-cell">
                     <div className="px-5 py-2">
                       <HealthScoreStars score={location.healthScore} />
                     </div>

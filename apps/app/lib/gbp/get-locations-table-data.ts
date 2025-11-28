@@ -73,10 +73,11 @@ export async function getLocationsTableData({
       // aunque esté en readMask. Por seguridad, SIEMPRE hacer getLocation completo
       // para asegurar que tenemos categories y todos los datos necesarios
       const hasCategories = !!location.categories?.primaryCategory
+      const hasPhone = !!location.phoneNumbers?.primaryPhone
       const needsFullData = !hasCategories
         || !location.title
         || !location.storefrontAddress
-        || !location.phoneNumbers
+        || !hasPhone
 
       if (needsFullData) {
         // ÉLITE: readMask según documentación oficial - campos válidos de Location resource

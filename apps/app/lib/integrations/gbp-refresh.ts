@@ -18,6 +18,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { getGBPTokens, storeGBPTokens, isTokenExpired, type GBPTokens } from './gbp-tokens'
 import { cookies } from 'next/headers'
+import { getCachedToken, setCachedToken, invalidateCachedToken } from './gbp-token-cache'
 
 // ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
 // Usamos el tipo inferido de cookies()
@@ -168,26 +169,41 @@ export async function getValidAccessToken(
   // ÉLITE PRO: Crear nueva promesa de refresh (IIFE para ejecución inmediata)
   const refreshPromise = (async () => {
     try {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('[GBP Refresh] Getting valid access token for user:', userId)
+      // ÉLITE PRO: 1. Verificar cache en memoria primero (optimización crítica)
+      // Esto evita llamadas innecesarias a la base de datos
+      if (!forceRefresh) {
+        const cachedToken = getCachedToken(userId)
+        if (cachedToken) {
+          // Token encontrado en cache y válido
+          if (process.env.NODE_ENV === 'development') {
+            console.log('[GBP Refresh] Token retrieved from memory cache for user:', userId)
+          }
+          return cachedToken
+        }
+      } else {
+        // ÉLITE: Si se fuerza refresh, invalidar cache primero
+        invalidateCachedToken(userId)
       }
 
-      // 1. Recuperar tokens actuales
-      // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+      // ÉLITE PRO: 2. Si no está en cache, obtener de la base de datos
+      // Solo llegamos aquí si:
+      // - No hay token en cache
+      // - Se fuerza refresh
       const tokens = await getGBPTokens(userId, cookieStore)
 
       if (!tokens) {
         throw new Error('No tokens found. Please connect Google Business Profile first.')
       }
 
-      // 2. Verificar si el token está expirado o cerca de expirar
-      // ÉLITE: Sigue RFC 6749 - solo refrescar cuando es necesario
+      // ÉLITE PRO: 3. Verificar si el token está expirado o cerca de expirar
+      // Sigue RFC 6749 - solo refrescar cuando es necesario
       const shouldRefresh = forceRefresh || isTokenExpired(tokens.expires_at)
 
       if (!shouldRefresh) {
-        // Token válido, retornar sin refresh (optimización)
+        // Token válido, cachearlo y retornar
+        setCachedToken(userId, tokens.access_token, tokens.expires_at)
         if (process.env.NODE_ENV === 'development') {
-          console.log('[GBP Refresh] Access token is still valid')
+          console.log('[GBP Refresh] Access token is still valid, cached in memory')
         }
         return tokens.access_token
       }
@@ -212,13 +228,19 @@ export async function getValidAccessToken(
       // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
       await storeGBPTokens(userId, updatedTokens, cookieStore)
 
+      // ÉLITE PRO: Cachear el nuevo token en memoria
+      setCachedToken(userId, refreshResponse.access_token, updatedTokens.expires_at)
+
       if (process.env.NODE_ENV === 'development') {
-        console.log('[GBP Refresh] Token refreshed successfully')
+        console.log('[GBP Refresh] Token refreshed successfully and cached')
         console.log('[GBP Refresh] New expiration:', new Date(updatedTokens.expires_at).toISOString())
       }
 
       return refreshResponse.access_token
     } catch (error) {
+      // ÉLITE PRO: Invalidar cache en caso de error para forzar refresh en próximo intento
+      invalidateCachedToken(userId)
+
       // ÉLITE PRO: Logging estructurado para debugging y auditoría
       console.error('[GBP Refresh] Failed to refresh token:', error)
       throw new Error(

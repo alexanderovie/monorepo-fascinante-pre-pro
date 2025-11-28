@@ -193,10 +193,9 @@ export async function getGBPTokens(
   userId: string,
   cookieStore?: Parameters<typeof createClient>[0]
 ): Promise<GBPTokens | null> {
-  // ÉLITE PRO: Reducir logging en producción para mejor performance
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[GBP OAuth] Getting tokens for user:', userId)
-  }
+  // ÉLITE PRO: Logging optimizado - solo eventos importantes
+  // No loguear cada llamada a getGBPTokens (ruido innecesario)
+  // Solo loguear en casos de error o debugging específico
 
   const supabase = await createClient(cookieStore)
   const { data, error } = await supabase

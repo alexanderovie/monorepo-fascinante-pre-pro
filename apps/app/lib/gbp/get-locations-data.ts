@@ -139,15 +139,13 @@ export async function getLocationsData(
       userId: string,
       cookies: ReadonlyRequestCookies
     ) => {
-      // ÉLITE: Logging solo en desarrollo y solo una vez por request real
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[GBP Cache] Fetching locations for account: ${accountId} (cache miss)`)
-      }
+      // ÉLITE PRO: Logging optimizado - solo eventos importantes
+      // No loguear cada cache miss (ruido innecesario)
       return _getLocationsDataInternal(accountId, includeHealthScore, userId, cookies)
     },
     [`gbp-locations-${accountId}-${includeHealthScore}-${user.id}`],
     {
-      revalidate: 60, // 1 minuto (reducido para desarrollo - cambiar a 300 en producción)
+      revalidate: 300, // 5 minutos - balance entre frescura y performance
       tags: ['gbp-locations', `gbp-locations-${accountId}`, `gbp-locations-user-${user.id}`],
     }
   )

@@ -58,11 +58,12 @@ class GBPAPIClient {
    * - Account Management: https://mybusinessaccountmanagement.googleapis.com/v1
    * - Business Information: https://mybusinessbusinessinformation.googleapis.com/v1
    * - Performance: https://businessprofileperformance.googleapis.com/v1
+   * - Reviews/Media: https://mybusiness.googleapis.com/v4
    */
   private async request<T>(
     endpoint: string,
     options: RequestInit = {},
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     // Seleccionar el endpoint base según el tipo de API
@@ -70,6 +71,7 @@ class GBPAPIClient {
       account: 'https://mybusinessaccountmanagement.googleapis.com/v1',
       business: 'https://mybusinessbusinessinformation.googleapis.com/v1',
       performance: 'https://businessprofileperformance.googleapis.com/v1',
+      reviews: 'https://mybusiness.googleapis.com/v4', // Reviews y Media API
     }
 
     const url = `${baseUrls[apiBase]}${endpoint}`
@@ -103,8 +105,9 @@ class GBPAPIClient {
           if (!response.ok) {
             const errorText = await response.text()
 
-            // ÉLITE: Logging detallado del error
-            console.error('[GBP Client] Request failed:', {
+        // ÉLITE PRO: Logging estructurado solo para errores
+        // No loguear requests exitosos (ruido innecesario)
+        console.error('[GBP Client] Request failed:', {
               url,
               status: response.status,
               statusText: response.statusText,
@@ -168,7 +171,7 @@ class GBPAPIClient {
    */
   async get<T>(
     endpoint: string,
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     return this.request<T>(endpoint, { method: 'GET' }, apiBase, retryConfig)
@@ -181,7 +184,7 @@ class GBPAPIClient {
   async post<T>(
     endpoint: string,
     body?: unknown,
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     return this.request<T>(
@@ -202,7 +205,7 @@ class GBPAPIClient {
   async put<T>(
     endpoint: string,
     body?: unknown,
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     return this.request<T>(
@@ -223,7 +226,7 @@ class GBPAPIClient {
   async patch<T>(
     endpoint: string,
     body?: unknown,
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     return this.request<T>(
@@ -243,7 +246,7 @@ class GBPAPIClient {
    */
   async delete<T>(
     endpoint: string,
-    apiBase: 'account' | 'business' | 'performance' = 'account',
+    apiBase: 'account' | 'business' | 'performance' | 'reviews' = 'account',
     retryConfig?: RetryConfig
   ): Promise<T> {
     return this.request<T>(endpoint, { method: 'DELETE' }, apiBase, retryConfig)
@@ -331,15 +334,9 @@ class GBPAPIClient {
     const queryString = params.toString()
     const endpoint = `/accounts/${normalizedAccountId}/locations${queryString ? `?${queryString}` : ''}`
 
-    // ÉLITE: Logging detallado para debugging
-    console.log('[GBP Client] listLocations request:', {
-      accountId,
-      normalizedAccountId,
-      endpoint,
-      readMask,
-      pageSize,
-      pageToken,
-    })
+    // ÉLITE PRO: Logging optimizado - solo en desarrollo y solo para debugging específico
+    // No loguear cada request exitoso (ruido innecesario)
+    // Comentar o remover en producción para mejor performance
 
     const response = await this.get<GBPLocationsListResponse>(endpoint, 'business')
 
@@ -408,6 +405,246 @@ class GBPAPIClient {
 
     return this.patch<GBPLocation>(endpoint, locationData, 'business')
   }
+
+  // ==================== REVIEWS API ====================
+
+  /**
+   * Lista reviews de una ubicación
+   * GET /v4/accounts/{accountId}/locations/{locationId}/reviews
+   *
+   * Referencia oficial: https://developers.google.com/my-business/content/review-data#list_all_reviews
+   * Endpoint: https://mybusiness.googleapis.com/v4/accounts/{accountId}/locations/{locationId}/reviews
+   *
+   * @param accountId - ID de la cuenta
+   * @param locationId - ID de la ubicación
+   * @param options - Opciones de paginación
+   * @returns Respuesta con reviews, averageRating, totalReviewCount, nextPageToken
+   */
+  async listReviews(
+    accountId: string,
+    locationId: string,
+    options?: {
+      pageSize?: number
+      pageToken?: string
+      orderBy?: string
+    }
+  ): Promise<GBPReviewsResponse> {
+    const { pageSize, pageToken, orderBy } = options || {}
+    const normalizedAccountId = accountId.replace(/^accounts\//, '')
+    const params = new URLSearchParams()
+    if (pageSize) params.append('pageSize', pageSize.toString())
+    if (pageToken) params.append('pageToken', pageToken)
+    if (orderBy) params.append('orderBy', orderBy)
+
+    const queryString = params.toString()
+    const endpoint = `/accounts/${normalizedAccountId}/locations/${locationId}/reviews${queryString ? `?${queryString}` : ''}`
+
+    // ÉLITE: Reviews API usa base URL diferente (mybusiness.googleapis.com/v4)
+    return this.get<GBPReviewsResponse>(endpoint, 'reviews')
+  }
+
+  /**
+   * Obtiene un review específico
+   * GET /v4/accounts/{accountId}/locations/{locationId}/reviews/{reviewId}
+   *
+   * Referencia oficial: https://developers.google.com/my-business/content/review-data#get_a_specific_review
+   */
+  async getReview(accountId: string, locationId: string, reviewId: string): Promise<GBPReview> {
+    const normalizedAccountId = accountId.replace(/^accounts\//, '')
+    const endpoint = `/accounts/${normalizedAccountId}/locations/${locationId}/reviews/${reviewId}`
+
+    return this.get<GBPReview>(endpoint, 'reviews')
+  }
+
+  /**
+   * Responde a un review
+   * PUT /v4/accounts/{accountId}/locations/{locationId}/reviews/{reviewId}/reply
+   *
+   * Referencia oficial: https://developers.google.com/my-business/content/review-data#reply_to_a_review
+   * Body: { reply: { comment: string } }
+   */
+  async replyToReview(
+    accountId: string,
+    locationId: string,
+    reviewId: string,
+    reply: { comment: string }
+  ): Promise<{ reply: { comment: string; updateTime: string } }> {
+    const normalizedAccountId = accountId.replace(/^accounts\//, '')
+    const endpoint = `/accounts/${normalizedAccountId}/locations/${locationId}/reviews/${reviewId}/reply`
+
+    return this.put<{ reply: { comment: string; updateTime: string } }>(endpoint, { reply }, 'reviews')
+  }
+
+  // ==================== MEDIA API ====================
+
+  /**
+   * Lista media (fotos/videos) de una ubicación
+   * GET /v4/accounts/{accountId}/locations/{locationId}/media
+   *
+   * Referencia oficial: https://developers.google.com/my-business/reference/rest/v4/accounts.locations.media/list
+   */
+  async listMedia(
+    accountId: string,
+    locationId: string,
+    options?: {
+      pageSize?: number
+      pageToken?: string
+    }
+  ): Promise<GBPMediaResponse> {
+    const { pageSize, pageToken } = options || {}
+    const normalizedAccountId = accountId.replace(/^accounts\//, '')
+    const params = new URLSearchParams()
+    if (pageSize) params.append('pageSize', pageSize.toString())
+    if (pageToken) params.append('pageToken', pageToken)
+
+    const queryString = params.toString()
+    const endpoint = `/accounts/${normalizedAccountId}/locations/${locationId}/media${queryString ? `?${queryString}` : ''}`
+
+    // ÉLITE: Media API usa la misma base URL que Reviews (mybusiness.googleapis.com/v4)
+    return this.get<GBPMediaResponse>(endpoint, 'reviews')
+  }
+
+  /**
+   * Obtiene un media específico
+   * GET /v4/accounts/{accountId}/locations/{locationId}/media/{mediaKey}
+   */
+  async getMedia(accountId: string, locationId: string, mediaKey: string): Promise<GBPMedia> {
+    const normalizedAccountId = accountId.replace(/^accounts\//, '')
+    const endpoint = `/accounts/${normalizedAccountId}/locations/${locationId}/media/${mediaKey}`
+
+    return this.get<GBPMedia>(endpoint, 'reviews')
+  }
+
+  // ==================== PLACE ACTIONS API ====================
+
+  /**
+   * Lista place action links de una ubicación
+   * GET /v1/locations/{locationId}/placeActionLinks
+   *
+   * Referencia oficial: https://developers.google.com/my-business/reference/placeactions/rest
+   */
+  async listPlaceActions(locationId: string): Promise<GBPPlaceActionsResponse> {
+    const endpoint = `/locations/${locationId}/placeActionLinks`
+
+    return this.get<GBPPlaceActionsResponse>(endpoint, 'business')
+  }
+
+  /**
+   * Obtiene un place action específico
+   * GET /v1/locations/{locationId}/placeActionLinks/{id}
+   */
+  async getPlaceAction(locationId: string, actionId: string): Promise<GBPPlaceAction> {
+    const endpoint = `/locations/${locationId}/placeActionLinks/${actionId}`
+
+    return this.get<GBPPlaceAction>(endpoint, 'business')
+  }
+
+  /**
+   * Crea un place action link
+   * POST /v1/locations/{locationId}/placeActionLinks
+   */
+  async createPlaceAction(
+    locationId: string,
+    placeAction: {
+      placeActionType: string
+      uri: string
+      providerType?: string
+      isPreferred?: boolean
+    }
+  ): Promise<GBPPlaceAction> {
+    const endpoint = `/locations/${locationId}/placeActionLinks`
+
+    return this.post<GBPPlaceAction>(endpoint, placeAction, 'business')
+  }
+
+  /**
+   * Actualiza un place action link
+   * PATCH /v1/locations/{locationId}/placeActionLinks/{id}
+   */
+  async updatePlaceAction(
+    locationId: string,
+    actionId: string,
+    updateMask: string,
+    placeAction: Partial<{
+      uri: string
+      isPreferred: boolean
+    }>
+  ): Promise<GBPPlaceAction> {
+    const params = new URLSearchParams()
+    params.append('updateMask', updateMask)
+
+    const endpoint = `/locations/${locationId}/placeActionLinks/${actionId}?${params.toString()}`
+
+    return this.patch<GBPPlaceAction>(endpoint, placeAction, 'business')
+  }
+
+  /**
+   * Obtiene metadata de tipos de place actions disponibles
+   * GET /v1/placeActionTypeMetadata
+   */
+  async getPlaceActionTypeMetadata(): Promise<{ placeActionTypeMetadata: GBPPlaceActionTypeMetadata[] }> {
+    const endpoint = '/placeActionTypeMetadata'
+
+    return this.get<{ placeActionTypeMetadata: GBPPlaceActionTypeMetadata[] }>(endpoint, 'business')
+  }
+
+  // ==================== ATTRIBUTES API ====================
+
+  /**
+   * Obtiene atributos de una ubicación
+   * GET /v1/locations/{locationId}/attributes
+   *
+   * Referencia oficial: https://developers.google.com/my-business/reference/businessinformation/rest/v1/Attributes
+   */
+  async getLocationAttributes(locationId: string): Promise<GBPLocationAttributesResponse> {
+    const endpoint = `/locations/${locationId}/attributes`
+
+    return this.get<GBPLocationAttributesResponse>(endpoint, 'business')
+  }
+
+  /**
+   * Actualiza atributos de una ubicación
+   * PATCH /v1/locations/{locationId}/attributes?attributeMask={mask}
+   *
+   * Referencia oficial: https://developers.google.com/my-business/reference/businessinformation/rest/v1/Attributes
+   * Body: { name: string, attributes: Array<Attribute> }
+   */
+  async updateLocationAttributes(
+    locationId: string,
+    attributeMask: string,
+    attributes: {
+      name: string
+      attributes: Array<{
+        name: string
+        repeatedEnumValue?: {
+          setValues: string[]
+          unsetValues: string[]
+        }
+        uriValues?: Array<{ uri: string }>
+        values?: string[]
+      }>
+    }
+  ): Promise<GBPLocationAttributesResponse> {
+    const params = new URLSearchParams()
+    params.append('attributeMask', attributeMask)
+
+    const endpoint = `/locations/${locationId}/attributes?${params.toString()}`
+
+    return this.patch<GBPLocationAttributesResponse>(endpoint, attributes, 'business')
+  }
+
+  /**
+   * Obtiene atributos disponibles para una ubicación
+   * GET /v1/attributes?parent=locations/{locationId}
+   */
+  async getAvailableAttributes(locationId: string): Promise<GBPAvailableAttributesResponse> {
+    const params = new URLSearchParams()
+    params.append('parent', `locations/${locationId}`)
+
+    const endpoint = `/attributes?${params.toString()}`
+
+    return this.get<GBPAvailableAttributesResponse>(endpoint, 'business')
+  }
 }
 
 /**
@@ -450,6 +687,16 @@ export async function createGBPClient(
 import type {
   GBPLocation,
   GBPLocationsListResponse,
+  GBPReview,
+  GBPReviewsResponse,
+  GBPMedia,
+  GBPMediaResponse,
+  GBPPlaceAction,
+  GBPPlaceActionsResponse,
+  GBPPlaceActionTypeMetadata,
+  GBPAttribute,
+  GBPLocationAttributesResponse,
+  GBPAvailableAttributesResponse,
 } from '@/lib/gbp/types'
 
 /**

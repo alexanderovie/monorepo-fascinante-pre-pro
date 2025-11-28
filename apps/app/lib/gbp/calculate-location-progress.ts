@@ -13,6 +13,7 @@
  */
 
 import type { GBPLocation, LocationProgress } from './types'
+import { hasValidPhone } from './utils'
 
 /**
  * Calcula el progreso de completitud de una ubicación
@@ -30,7 +31,7 @@ export function calculateLocationProgress(location: GBPLocation): LocationProgre
   const fields = {
     title: !!location.title,
     address: !!location.storefrontAddress?.addressLines?.length,
-    phone: !!location.phoneNumbers?.length && !!location.phoneNumbers[0]?.phoneNumber,
+    phone: hasValidPhone(location), // ÉLITE PRO: Usar función utilitaria con validación robusta
     website: !!location.websiteUri,
     hours: !!location.regularHours?.periods?.length,
     category: !!location.categories?.primaryCategory,

@@ -66,9 +66,9 @@ export interface GBPLocation {
     regionCode?: string
   }
   phoneNumbers?: {
-    phoneNumber?: string
-    phoneNumberType?: string
-  }[]
+    primaryPhone?: string
+    additionalPhones?: string[]
+  }
   websiteUri?: string
   regularHours?: {
     periods?: {
@@ -184,6 +184,37 @@ export interface PerformanceMetrics {
 }
 
 /**
+ * Review (Reseña) de Google Business Profile API
+ * Basado en: https://developers.google.com/my-business/reference/businessinformation/rest/v4/accounts.locations.reviews
+ */
+export interface GBPReview {
+  reviewId: string
+  reviewer: {
+    displayName: string
+    profilePhotoUrl?: string
+    isAnonymous: boolean
+  }
+  starRating: 'ONE' | 'TWO' | 'THREE' | 'FOUR' | 'FIVE'
+  comment?: string
+  createTime: string
+  updateTime: string
+  reviewReply?: {
+    comment: string
+    updateTime: string
+  }
+}
+
+/**
+ * Respuesta de la API para listar reviews
+ */
+export interface GBPReviewsResponse {
+  reviews?: GBPReview[]
+  averageRating?: number
+  totalReviewCount?: number
+  nextPageToken?: string
+}
+
+/**
  * Métricas de reviews
  */
 export interface ReviewMetrics {
@@ -199,6 +230,108 @@ export interface ReviewMetrics {
     two: number
     one: number
   }
+}
+
+/**
+ * Media (Foto/Video) de Google Business Profile API
+ * Basado en: https://developers.google.com/my-business/reference/businessinformation/rest/v4/accounts.locations.media
+ */
+export interface GBPMedia {
+  mediaFormat: 'PHOTO' | 'VIDEO'
+  sourceUrl?: string
+  thumbnailUrl?: string
+  name?: string // "accounts/{accountId}/locations/{locationId}/media/{mediaKey}"
+  createTime?: string
+  attribution?: {
+    provider?: string
+    photoUri?: string
+  }
+  googleUrl?: string
+  thumbnailGoogleUrl?: string
+}
+
+/**
+ * Respuesta de la API para listar media
+ */
+export interface GBPMediaResponse {
+  media?: GBPMedia[]
+  nextPageToken?: string
+}
+
+/**
+ * Place Action (Acción de Lugar) de Google Business Profile API
+ * Basado en: https://developers.google.com/my-business/reference/businessinformation/rest/v1/placeActionLinks
+ */
+export interface GBPPlaceAction {
+  name: string // "locations/{locationId}/placeActionLinks/{id}"
+  placeActionType: 'APPOINTMENT' | 'ONLINE_APPOINTMENT' | 'DINING_RESERVATION' | 'FOOD_ORDERING' | 'FOOD_DELIVERY' | 'FOOD_TAKEOUT' | 'SHOP_ONLINE'
+  uri?: string
+  providerType?: 'MERCHANT' | 'AGGREGATOR_3P'
+  isPreferred?: boolean
+  updateTime?: string
+}
+
+/**
+ * Respuesta de la API para listar place actions
+ */
+export interface GBPPlaceActionsResponse {
+  placeActionLinks?: GBPPlaceAction[]
+  nextPageToken?: string
+}
+
+/**
+ * Metadata de tipos de place actions disponibles
+ */
+export interface GBPPlaceActionTypeMetadata {
+  placeActionType: string
+  displayName: string
+}
+
+/**
+ * Attribute (Atributo) de Google Business Profile API
+ * Basado en documentación oficial: https://developers.google.com/my-business/reference/businessinformation/rest/v1/Attributes
+ *
+ * ÉLITE PRO: Estructura exacta según documentación oficial (2024-10-16)
+ */
+export type AttributeValueType = 'URL' | 'REPEATED_ENUM' | 'ENUM' | 'BOOL'
+
+export interface GBPAttribute {
+  name: string // "locations/{locationId}/attributes/{attributeId}" - Required según doc oficial
+  valueType: AttributeValueType // Output only según doc oficial
+  // ÉLITE: Según doc oficial, los valores dependen del valueType:
+  // - REPEATED_ENUM: usar repeatedEnumValue
+  // - URL: usar uriValues
+  // - ENUM/BOOL: usar values[]
+  values?: string[] // Para ENUM y BOOL
+  repeatedEnumValue?: {
+    setValues: string[] // Enum values que están set (true)
+    unsetValues: string[] // Enum values que están unset (false)
+  }
+  uriValues?: Array<{
+    uri: string // Required según doc oficial
+  }>
+  displayName?: string // Campo adicional para UI
+}
+
+/**
+ * Respuesta de la API para obtener atributos de una ubicación
+ * Basado en documentación oficial: https://developers.google.com/my-business/reference/businessinformation/rest/v1/Attributes
+ */
+export interface GBPLocationAttributesResponse {
+  name: string // "locations/{locationId}/attributes" - Required según doc oficial
+  attributes: GBPAttribute[] // Required según doc oficial
+}
+
+/**
+ * Respuesta de la API para obtener atributos disponibles
+ */
+export interface GBPAvailableAttributesResponse {
+  attributes?: Array<{
+    name: string
+    valueType: AttributeValueType
+    displayName?: string
+    description?: string
+  }>
 }
 
 /**
