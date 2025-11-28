@@ -7,33 +7,8 @@
  * @module lib/crisp/config
  */
 
-/**
- * Opciones de configuración para Crisp Chat
- *
- * @see https://docs.crisp.chat/guides/chatbox-sdks/web-sdk/npm/#configure
- */
-export interface CrispConfigOptions {
-  /** Autocarga Crisp una vez configurado. Default: true */
-  autoload?: boolean;
-  /** Token de continuidad de sesión. Default: null */
-  tokenId?: string | null;
-  /** Establece un locale personalizado (en, es, fr, de, ...). Default: null */
-  locale?: string | null;
-  /** Habilita merge de sesión. Default: false */
-  sessionMerge?: boolean;
-  /** Fuerza un dominio personalizado para almacenamiento de cookies. Default: null */
-  cookieDomain?: string | null;
-  /** Fuerza un tiempo de expiración personalizado para cookies. Default: null */
-  cookieExpire?: number | null;
-  /** Previene que el chatbox se cierre. Default: false */
-  lockMaximized?: boolean;
-  /** Fuerza modo pantalla completa del chatbox. Default: false */
-  lockFullview?: boolean;
-  /** Fuerza modo seguro del chatbox. Default: false */
-  safeMode?: boolean;
-  /** Usa una URL personalizada para el loader del chatbox. Default: https://client.crisp.chat/l.js */
-  clientUrl?: string;
-}
+import type { Options } from 'crisp-sdk-web';
+import type { CrispConfigOptions } from './types';
 
 /**
  * Obtiene el Website ID de Crisp desde variables de entorno
@@ -49,12 +24,12 @@ export function getCrispWebsiteId(): string | null {
  *
  * @param locale - Locale actual (es/en) para sincronizar con next-intl
  * @param options - Opciones adicionales de configuración
- * @returns Configuración completa de Crisp
+ * @returns Configuración completa de Crisp compatible con el SDK
  */
 export function getCrispConfig(
   locale: string = 'en',
   options: Partial<CrispConfigOptions> = {}
-): CrispConfigOptions {
+): Options {
   // Mapeo de locales de next-intl a locales de Crisp
   const crispLocaleMap: Record<string, string> = {
     en: 'en',
@@ -63,15 +38,32 @@ export function getCrispConfig(
 
   const crispLocale = crispLocaleMap[locale] || 'en';
 
-  return {
+  // Construir configuración base compatible con el tipo Options del SDK
+  const baseConfig: Options = {
     autoload: true, // Carga automática por defecto
     locale: crispLocale, // Sincronizado con next-intl
     sessionMerge: false,
     lockMaximized: false,
     lockFullview: false,
     safeMode: false,
-    ...options, // Permite override de opciones
   };
+
+  // Aplicar opciones personalizadas, filtrando valores null/undefined
+  const mergedConfig: Options = { ...baseConfig };
+
+  // Aplicar opciones válidas (no null, no undefined)
+  if (options.autoload !== undefined) mergedConfig.autoload = options.autoload;
+  if (options.tokenId !== undefined && options.tokenId !== null) mergedConfig.tokenId = options.tokenId;
+  if (options.locale !== undefined && options.locale !== null) mergedConfig.locale = options.locale;
+  if (options.sessionMerge !== undefined) mergedConfig.sessionMerge = options.sessionMerge;
+  if (options.cookieDomain !== undefined && options.cookieDomain !== null) mergedConfig.cookieDomain = options.cookieDomain;
+  if (options.cookieExpire !== undefined && options.cookieExpire !== null) mergedConfig.cookieExpire = options.cookieExpire;
+  if (options.lockMaximized !== undefined) mergedConfig.lockMaximized = options.lockMaximized;
+  if (options.lockFullview !== undefined) mergedConfig.lockFullview = options.lockFullview;
+  if (options.safeMode !== undefined) mergedConfig.safeMode = options.safeMode;
+  if (options.clientUrl !== undefined && options.clientUrl !== null) mergedConfig.clientUrl = options.clientUrl;
+
+  return mergedConfig;
 }
 
 /**
@@ -86,6 +78,15 @@ export function validateCrispConfig(): void {
     throw new Error(
       'CRISP_WEBSITE_ID no está configurado. ' +
       'Agrega NEXT_PUBLIC_CRISP_WEBSITE_ID a tus variables de entorno.'
+    );
+  }
+
+  // Validar formato básico del Website ID (UUID)
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(websiteId)) {
+    throw new Error(
+      'CRISP_WEBSITE_ID tiene un formato inválido. ' +
+      'Debe ser un UUID válido (ej: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).'
     );
   }
 }

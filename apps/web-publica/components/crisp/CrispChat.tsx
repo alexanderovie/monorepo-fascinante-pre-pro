@@ -10,7 +10,8 @@
  * - Integración con next-intl para multi-idioma (locale recibido como prop)
  * - Configuración mediante variables de entorno
  * - Lazy loading opcional para mejor rendimiento
- * - TypeScript con tipos completos
+ * - TypeScript con tipos completos del SDK oficial
+ * - Manejo robusto de errores
  * - Sigue el patrón "Server-First" de Next.js 15 App Router
  *
  * @see https://docs.crisp.chat/guides/chatbox-sdks/web-sdk/npm/
@@ -18,8 +19,8 @@
  * @module components/crisp/CrispChat
  */
 
-import { useEffect } from 'react';
-import { Crisp } from 'crisp-sdk-web';
+import { useEffect, useRef } from 'react';
+import { Crisp, ChatboxPosition, ChatboxColors } from 'crisp-sdk-web';
 import { getCrispWebsiteId, getCrispConfig, validateCrispConfig } from '@/lib/crisp/config';
 import type { CrispUserData, CrispSessionData } from '@/lib/crisp/types';
 
@@ -34,29 +35,10 @@ interface CrispChatProps {
   sessionData?: CrispSessionData;
   /** Si es true, oculta el widget en móviles */
   hideOnMobile?: boolean;
-  /** Posición del widget: 'left' o 'right' */
-  position?: 'left' | 'right';
-  /** Tema de color del widget */
-  colorTheme?:
-    | 'default'
-    | 'amber'
-    | 'black'
-    | 'blue'
-    | 'blue_grey'
-    | 'light_blue'
-    | 'brown'
-    | 'cyan'
-    | 'green'
-    | 'light_green'
-    | 'grey'
-    | 'indigo'
-    | 'orange'
-    | 'deep_orange'
-    | 'pink'
-    | 'purple'
-    | 'deep_purple'
-    | 'red'
-    | 'teal';
+  /** Posición del widget usando enum del SDK */
+  position?: ChatboxPosition;
+  /** Tema de color del widget usando enum del SDK */
+  colorTheme?: ChatboxColors;
 }
 
 /**
@@ -71,14 +53,23 @@ export default function CrispChat({
   userData,
   sessionData,
   hideOnMobile = false,
-  position = 'right',
-  colorTheme = 'blue',
+  position = ChatboxPosition.Right,
+  colorTheme = ChatboxColors.Blue,
 }: CrispChatProps) {
+  // Ref para evitar múltiples inicializaciones
+  const isInitialized = useRef(false);
 
   useEffect(() => {
+    // Prevenir múltiples inicializaciones
+    if (isInitialized.current) {
+      return;
+    }
+
     // Validar configuración
+    let websiteId: string | null = null;
     try {
       validateCrispConfig();
+      websiteId = getCrispWebsiteId();
     } catch (error) {
       // En desarrollo, mostrar error; en producción, silenciar
       if (process.env.NODE_ENV === 'development') {
@@ -87,80 +78,125 @@ export default function CrispChat({
       return;
     }
 
-    const websiteId = getCrispWebsiteId();
     if (!websiteId) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[CrispChat] Website ID no configurado');
+      }
       return;
     }
 
-    // Obtener configuración optimizada
-    const config = getCrispConfig(locale, {
-      autoload: !lazyLoad, // Si lazyLoad está activo, desactivar autoload
-    });
+    try {
+      // Obtener configuración optimizada
+      const config = getCrispConfig(locale, {
+        autoload: !lazyLoad, // Si lazyLoad está activo, desactivar autoload
+      });
 
-    // Configurar Crisp
-    Crisp.configure(websiteId, config);
+      // Configurar Crisp
+      Crisp.configure(websiteId, config);
 
-    // Configuración adicional del widget
-    if (hideOnMobile) {
-      Crisp.setHideOnMobile(true);
-    }
-
-    if (position) {
-      Crisp.setPosition(position);
-    }
-
-    if (colorTheme) {
-      Crisp.setColorTheme(colorTheme);
-    }
-
-    // Enriquecer datos de usuario si están disponibles
-    if (userData) {
-      if (userData.email) {
-        Crisp.user.setEmail(userData.email);
-      }
-      if (userData.nickname) {
-        Crisp.user.setNickname(userData.nickname);
-      }
-      if (userData.phone) {
-        Crisp.user.setPhone(userData.phone);
-      }
-      if (userData.avatar) {
-        Crisp.user.setAvatar(userData.avatar);
-      }
-      if (userData.company) {
-        // setCompany puede recibir solo el nombre o el nombre + objeto de detalles
-        if (userData.company.url || userData.company.description || userData.company.employment || userData.company.geolocation) {
-          Crisp.user.setCompany(userData.company.name, {
-            url: userData.company.url,
-            description: userData.company.description,
-            employment: userData.company.employment,
-            geolocation: userData.company.geolocation,
-          });
-        } else {
-          Crisp.user.setCompany(userData.company.name);
+      // Configuración adicional del widget con manejo de errores
+      try {
+        if (hideOnMobile) {
+          Crisp.setHideOnMobile(true);
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[CrispChat] Error al configurar hideOnMobile:', error);
         }
       }
-    }
 
-    // Configurar datos de sesión personalizados
-    if (sessionData) {
-      Crisp.session.setData(sessionData);
-    }
+      try {
+        Crisp.setPosition(position);
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[CrispChat] Error al configurar posición:', error);
+        }
+      }
 
-    // Si lazyLoad está activo, no cargar automáticamente
-    // El widget se cargará cuando el usuario interactúe o se llame a Crisp.load()
-    if (lazyLoad) {
-      // Opcional: Cargar después de un delay o interacción
-      // Por ahora, se carga cuando el usuario abre el chat
-    } else {
-      // Cargar inmediatamente si no es lazy
-      Crisp.load();
+      try {
+        Crisp.setColorTheme(colorTheme);
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[CrispChat] Error al configurar tema de color:', error);
+        }
+      }
+
+      // Enriquecer datos de usuario si están disponibles
+      if (userData) {
+        try {
+          if (userData.email) {
+            Crisp.user.setEmail(userData.email);
+          }
+          if (userData.nickname) {
+            Crisp.user.setNickname(userData.nickname);
+          }
+          if (userData.phone) {
+            Crisp.user.setPhone(userData.phone);
+          }
+          if (userData.avatar) {
+            Crisp.user.setAvatar(userData.avatar);
+          }
+          if (userData.company) {
+            // setCompany requiere siempre 2 argumentos: nombre y objeto de detalles (puede ser vacío)
+            const companyDetails: {
+              url?: string;
+              description?: string;
+              employment?: { title: string };
+              geolocation?: { city: string; country: string };
+            } = {};
+
+            if (userData.company.url) companyDetails.url = userData.company.url;
+            if (userData.company.description) companyDetails.description = userData.company.description;
+            if (userData.company.employment) companyDetails.employment = userData.company.employment;
+            if (userData.company.geolocation) companyDetails.geolocation = userData.company.geolocation;
+
+            Crisp.user.setCompany(userData.company.name, companyDetails);
+          }
+        } catch (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('[CrispChat] Error al enriquecer datos de usuario:', error);
+          }
+        }
+      }
+
+      // Configurar datos de sesión personalizados
+      if (sessionData) {
+        try {
+          Crisp.session.setData(sessionData);
+        } catch (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('[CrispChat] Error al configurar datos de sesión:', error);
+          }
+        }
+      }
+
+      // Si lazyLoad está activo, no cargar automáticamente
+      // El widget se cargará cuando el usuario interactúe o se llame a Crisp.load()
+      if (!lazyLoad) {
+        try {
+          // Cargar inmediatamente si no es lazy
+          Crisp.load();
+        } catch (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('[CrispChat] Error al cargar widget:', error);
+          }
+        }
+      }
+
+      // Marcar como inicializado
+      isInitialized.current = true;
+    } catch (error) {
+      // Error general en la inicialización
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[CrispChat] Error en la inicialización:', error);
+      }
+      return;
     }
 
     // Cleanup: No hay cleanup necesario ya que Crisp maneja su propio ciclo de vida
-    // Pero podemos resetear en caso de desmontaje si es necesario
+    // El widget persiste entre re-renders del componente
     return () => {
-      // Opcional: Resetear sesión si es necesario
+      // Opcional: Resetear sesión si es necesario en el futuro
       // Crisp.session.reset();
     };
   }, [locale, lazyLoad, userData, sessionData, hideOnMobile, position, colorTheme]);

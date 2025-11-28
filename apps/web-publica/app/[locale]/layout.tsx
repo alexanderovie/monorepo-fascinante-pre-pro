@@ -304,8 +304,6 @@ export default async function RootLayout({
         <PrelineScriptWrapper />
         <CrispChat
           locale={locale}
-          position="right"
-          colorTheme="blue"
           hideOnMobile={false}
         />
       </body>

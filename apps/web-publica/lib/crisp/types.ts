@@ -1,11 +1,26 @@
 /**
  * Tipos TypeScript para integración con Crisp Chat SDK
  *
- * Estos tipos complementan los tipos del paquete crisp-sdk-web
+ * Estos tipos complementan y extienden los tipos del paquete crisp-sdk-web
  * para una mejor experiencia de desarrollo con TypeScript.
  *
  * @module lib/crisp/types
  */
+
+import type { Options, ChatboxPosition, ChatboxColors } from 'crisp-sdk-web';
+
+/**
+ * Re-exportar tipos del SDK para uso interno
+ */
+export type { Options, ChatboxPosition, ChatboxColors };
+
+/**
+ * Opciones de configuración para Crisp Chat
+ *
+ * Extiende el tipo Options del SDK para mantener compatibilidad
+ * y agregar documentación adicional.
+ */
+export type CrispConfigOptions = Options;
 
 /**
  * Datos de usuario para enriquecer la sesión de Crisp
