@@ -25,7 +25,12 @@
     "titleOn": "en Google",
     "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita de visibilidad que muestra cómo apareces en Google y qué te falta.",
     "primaryButton": "Pruébalo gratis",
-    "secondaryButton": "Solicita una demo"
+    "secondaryButton": "Solicita una demo",
+    "contact": {
+      "badge": "Contacto",
+      "title": "Solicita una demo gratuita",
+      "description": "Descubre cómo Fascinante Digital puede mejorar la visibilidad de tu negocio en Google. Obtén una presentación personalizada y respuestas a todas tus preguntas."
+    }
   },
   "navigation": {
     "home": "Inicio",

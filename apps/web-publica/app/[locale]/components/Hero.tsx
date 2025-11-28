@@ -12,18 +12,17 @@ interface HeroTab {
   alt: string;
 }
 
+interface HeroButton {
+  label: string;
+  href: string;
+}
+
 interface HeroProps {
   badge?: string;
   title: string | React.ReactNode;
   description: string;
-  primaryButton?: {
-    label: string;
-    href: string;
-  };
-  secondaryButton?: {
-    label: string;
-    href: string;
-  };
+  primaryButton?: HeroButton | null;
+  secondaryButton?: HeroButton | null;
   downloadSection?: {
     title: string;
     apps: Array<{
@@ -39,7 +38,23 @@ interface HeroProps {
     light: string;
     dark: string;
   };
+  showBackground?: boolean;
 }
+
+const DEFAULT_BACKGROUND_IMAGE = {
+  light: '/assets/img/pro/startup/img11.webp',
+  dark: '/assets/img/pro/startup-dark/img11.webp',
+};
+
+const DEFAULT_PRIMARY_BUTTON: HeroButton = {
+  label: 'Try it free',
+  href: '#',
+};
+
+const DEFAULT_SECONDARY_BUTTON: HeroButton = {
+  label: 'Get a demo',
+  href: '#',
+};
 
 const defaultTabs: HeroTab[] = [
   {
@@ -199,15 +214,19 @@ export default function Hero({
   badge = 'Web App',
   title,
   description,
-  primaryButton = { label: 'Try it free', href: '#' },
-  secondaryButton = { label: 'Get a demo', href: '#' },
+  primaryButton,
+  secondaryButton,
   downloadSection,
   tabs = defaultTabs,
-  backgroundImage = {
-    light: '/assets/img/pro/startup/img11.webp',
-    dark: '/assets/img/pro/startup-dark/img11.webp',
-  },
+  backgroundImage = DEFAULT_BACKGROUND_IMAGE,
+  showBackground = true,
 }: HeroProps) {
+  // Resolver botones: usar valores por defecto solo si no se pasan explícitamente
+  // null significa ocultar explícitamente, undefined significa usar valor por defecto
+  const resolvedPrimaryButton = primaryButton === null ? null : primaryButton ?? DEFAULT_PRIMARY_BUTTON;
+  const resolvedSecondaryButton = secondaryButton === null ? null : secondaryButton ?? DEFAULT_SECONDARY_BUTTON;
+  const hasButtons = resolvedPrimaryButton !== null || resolvedSecondaryButton !== null;
+
   useEffect(() => {
     const initHeroTabs = () => {
       if (
@@ -280,32 +299,36 @@ export default function Hero({
   return (
     <div className="relative bg-no-repeat bg-cover bg-top">
       {/* Background Image Light - LCP Optimized */}
-      <div className="absolute inset-0 dark:hidden">
-        <Image
-          src={backgroundImage.light}
-          alt="Hero background"
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover object-top"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-          quality={85}
-        />
-      </div>
-      {/* Background Image Dark */}
-      <div className="absolute inset-0 hidden dark:block">
-        <Image
-          src={backgroundImage.dark}
-          alt="Hero background dark"
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover object-top"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-          quality={85}
-        />
-      </div>
-      <div className="pt-10 md:pt-20 pb-14 md:pb-20 relative z-10">
+      {showBackground && (
+        <>
+          <div className="absolute inset-0 dark:hidden">
+            <Image
+              src={backgroundImage.light}
+              alt="Hero background"
+              fill
+              priority
+              fetchPriority="high"
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              quality={85}
+            />
+          </div>
+          {/* Background Image Dark */}
+          <div className="absolute inset-0 hidden dark:block">
+            <Image
+              src={backgroundImage.dark}
+              alt="Hero background dark"
+              fill
+              priority
+              fetchPriority="high"
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              quality={85}
+            />
+          </div>
+        </>
+      )}
+      <div className="pt-10 md:pt-20 pb-0 md:pb-20 relative z-10">
         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}
           <div className="mb-4 md:mb-8 grid md:grid-cols-12 items-center gap-y-12 gap-x-5 lg:gap-x-8">
@@ -322,45 +345,47 @@ export default function Hero({
                 {description}
               </p>
 
-              <div className="mt-5 flex flex-wrap items-center gap-2 md:justify-center">
-                {primaryButton && (
-                  <a
-                    className="py-2 px-3 md:py-2.5 md:px-4 inline-flex justify-center items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
-                    href={primaryButton.href}
-                  >
-                    {primaryButton.label}
-                  </a>
-                )}
-                {secondaryButton && (
-                  <a
-                    className="group py-2 px-3 md:py-2.5 md:px-4 inline-flex justify-center items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm font-semibold rounded-lg border border-transparent text-gray-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden dark:text-neutral-200"
-                    href={secondaryButton.href}
-                  >
-                    {secondaryButton.label}
-                    <svg
-                      className="shrink-0 size-3.5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+              {hasButtons && (
+                <div className="mt-5 flex flex-wrap items-center gap-2 md:justify-center">
+                  {resolvedPrimaryButton && (
+                    <a
+                      className="py-2 px-3 md:py-2.5 md:px-4 inline-flex justify-center items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
+                      href={resolvedPrimaryButton.href}
                     >
-                      <path
-                        className="lg:opacity-0 lg:-translate-x-1 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 lg:group-focus:opacity-100 lg:group-focus:translate-x-0 lg:transition"
-                        d="M5 12h14"
-                      />
-                      <path
-                        className="lg:-translate-x-1.5 lg:group-hover:translate-x-0 lg:group-focus:translate-x-0 lg:transition"
-                        d="m12 5 7 7-7 7"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </div>
+                      {resolvedPrimaryButton.label}
+                    </a>
+                  )}
+                  {resolvedSecondaryButton && (
+                    <a
+                      className="group py-2 px-3 md:py-2.5 md:px-4 inline-flex justify-center items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm font-semibold rounded-lg border border-transparent text-gray-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden dark:text-neutral-200"
+                      href={resolvedSecondaryButton.href}
+                    >
+                      {resolvedSecondaryButton.label}
+                      <svg
+                        className="shrink-0 size-3.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path
+                          className="lg:opacity-0 lg:-translate-x-1 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 lg:group-focus:opacity-100 lg:group-focus:translate-x-0 lg:transition"
+                          d="M5 12h14"
+                        />
+                        <path
+                          className="lg:-translate-x-1.5 lg:group-hover:translate-x-0 lg:group-focus:translate-x-0 lg:transition"
+                          d="m12 5 7 7-7 7"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
             {/* End Col */}
 
