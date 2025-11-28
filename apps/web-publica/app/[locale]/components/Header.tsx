@@ -136,17 +136,7 @@ export default function Header() {
   };
 
   return (
-    <>
-      {/* Overlay/Backdrop - Solo visible en móvil cuando el menú está abierto */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300"
-          onClick={closeMenu}
-          aria-hidden="true"
-        />
-      )}
-
-      <header className="sticky top-0 inset-x-0 z-50 bg-white dark:bg-neutral-900">
+    <header className="sticky top-0 inset-x-0 z-50 bg-white dark:bg-neutral-900">
         <nav className="max-w-6xl lg:max-w-7xl xl:max-w-7xl basis-full w-full py-4 px-4 sm:px-6 lg:px-8 lg:mx-auto">
           <div className="flex flex-wrap lg:flex-nowrap basis-full justify-between gap-x-2 lg:gap-x-20 w-full">
             {/* Logo */}
@@ -216,7 +206,7 @@ export default function Header() {
             <div
               ref={menuRef}
               id="hs-pro-dmh"
-              className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block bg-white dark:bg-neutral-900 lg:relative fixed lg:top-auto top-16 left-0 right-0 lg:shadow-none shadow-lg z-50"
+              className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block bg-white dark:bg-neutral-900"
               aria-labelledby="hs-pro-dmh-collapse"
             >
               <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-thumb]:bg-white/30 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
@@ -330,7 +320,6 @@ export default function Header() {
             </div>
           </div>
         </nav>
-      </header>
-    </>
+    </header>
   );
 }
