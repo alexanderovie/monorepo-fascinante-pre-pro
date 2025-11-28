@@ -77,3 +77,5 @@ export default function CustomerCard({ customer, className = '' }: CustomerCardP
     </div>
   );
 }
+
+

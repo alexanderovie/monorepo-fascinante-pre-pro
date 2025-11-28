@@ -27,12 +27,12 @@ export default function Home() {
           badge="Web App"
           title={
             <>
-              Grow Your Visibility
+              Make Your Business Visible
               <br className="hidden md:block" />
-              <span className="md:hidden"> </span>With Data
+              <span className="md:hidden"> </span>on Google
             </>
           }
-          description="Boost developer efficiency, enhance teamwork, and maximize tech investments with Preline."
+          description="Before spending on ads, find out if your business is ready to attract real clients. Fascinante Digital gives you a free visibility audit that shows how you appear on Google and what's missing."
           primaryButton={{
             label: 'Try it free',
             href: URLS.tryItFree,
@@ -47,7 +47,8 @@ export default function Home() {
         <ProductsCarousel title="Products" items={defaultProductsData} />
         <Features
           badge="What we do"
-          title="Since 2007, we have helped 2.5k+ companies launch over 100k incredible products"
+          title="Helping small businesses grow their visibility online"
+          description="At Fascinante Digital, we believe every local business deserves to be seen. We combine technology, automation, and strategy to make you visible on Google — no marketing knowledge required."
           items={defaultFeaturesData}
         />
         <FeaturesAccordion />
@@ -62,9 +63,9 @@ export default function Home() {
           badge="Get started"
           title={
             <>
-              The Web App powering
+              Automate your visibility and
               <br />
-              thousands of companies.
+              attract real customers
             </>
           }
           primaryButton={{

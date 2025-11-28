@@ -84,8 +84,11 @@ export default function FeaturesAccordion() {
           <div className="md:ps-[15%] md:order-2">
             <div className="mb-8">
               <h2 className="font-semibold text-3xl text-gray-800 dark:text-neutral-200">
-                Fully customizable rules to match your unique needs
+                A dashboard that reveals how your business performs on Google
               </h2>
+              <p className="mt-4 text-gray-500 dark:text-neutral-400">
+                Fascinante Digital connects directly with your Google Business Profile and tracks real metrics: calls, searches, reviews, and clicks. You&apos;ll get clear weekly reports that show how your visibility and engagement are growing.
+              </p>
             </div>
 
             {/* Accordion Navs */}
@@ -101,7 +104,7 @@ export default function FeaturesAccordion() {
                 >
                   <span className="grow">
                     <span className="block font-medium text-lg text-gray-800 dark:text-neutral-200">
-                      Advanced tools
+                      Dashboard & Analytics
                     </span>
                   </span>
                   <svg
@@ -126,62 +129,8 @@ export default function FeaturesAccordion() {
                   style={{ display: 'block' }}
                 >
                   <p className="mt-2 text-gray-500 dark:text-neutral-400">
-                    Use Preline thoroughly thought and automated libraries to manage your businesses.
+                    Fascinante Digital connects directly with your Google Business Profile and tracks real metrics: calls, searches, reviews, and clicks. You&apos;ll get clear weekly reports that show how your visibility and engagement are growing.
                   </p>
-
-                  <ul className="mt-3 space-y-1">
-                    <li className="flex items-center gap-x-1 text-gray-500 dark:text-neutral-400">
-                      <svg
-                        className="shrink-0 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m9 18 6-6-6-6" />
-                      </svg>
-                      Automate everything
-                    </li>
-                    <li className="flex items-center gap-x-1 text-gray-500 dark:text-neutral-400">
-                      <svg
-                        className="shrink-0 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m9 18 6-6-6-6" />
-                      </svg>
-                      Connect any type of data
-                    </li>
-                    <li className="flex items-center gap-x-1 text-gray-500 dark:text-neutral-400">
-                      <svg
-                        className="shrink-0 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m9 18 6-6-6-6" />
-                      </svg>
-                      Powerful reporting
-                    </li>
-                  </ul>
 
                   <div className="mt-3">
                     <Link
@@ -504,10 +453,10 @@ export default function FeaturesAccordion() {
 
                   <div className="mt-1.5 md:mt-3">
                     <blockquote className="md:text-xl text-white">
-                      I&apos;m absolutely floored by the level of care and attention to detail the team at Preline have put into this project and for one can guarantee that we will be a return customer.
+                      I used to boost posts on Instagram and get no results. After my Fascinante Digital audit, I realized my Google listing wasn&apos;t even verified. Two weeks later, I started getting real calls.
 
                       <footer className="mt-4 md:mt-6 text-sm">
-                        Luisa, <span className="opacity-70">Director of Canva</span>
+                        Maria R., <span className="opacity-70">Spa Owner, Miami</span>
                       </footer>
                     </blockquote>
                   </div>

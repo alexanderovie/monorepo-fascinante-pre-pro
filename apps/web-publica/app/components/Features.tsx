@@ -3,6 +3,7 @@ import type { FeatureItem } from '../lib/features-data';
 interface FeaturesProps {
   badge?: string;
   title: string;
+  description?: string;
   items: FeatureItem[];
   className?: string;
 }
@@ -10,6 +11,7 @@ interface FeaturesProps {
 export default function Features({
   badge = 'What we do',
   title,
+  description,
   items,
   className = '',
 }: FeaturesProps) {
@@ -28,6 +30,9 @@ export default function Features({
           <h2 className="font-semibold text-2xl md:text-3xl text-gray-800 dark:text-neutral-200">
             {title}
           </h2>
+          {description && (
+            <p className="mt-4 text-gray-500 dark:text-neutral-400">{description}</p>
+          )}
         </div>
         {/* End Heading */}
 

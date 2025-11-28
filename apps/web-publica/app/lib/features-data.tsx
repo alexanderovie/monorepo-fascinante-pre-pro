@@ -101,80 +101,29 @@ const DesigningForPeopleIcon = () => (
   </svg>
 );
 
-const StrongEmpathyIcon = () => (
-  <svg
-    className="shrink-0 size-6 md:size-8 mt-1 text-blue-600 dark:text-blue-500"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
-  </svg>
-);
-
-const StayCuriousIcon = () => (
-  <svg
-    className="shrink-0 size-6 md:size-8 mt-1 text-blue-600 dark:text-blue-500"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <path d="M12 17h.01" />
-  </svg>
-);
-
 export const defaultFeaturesData: FeatureItem[] = [
   {
-    id: 'creative-minds',
-    title: 'Creative minds',
-    description: 'We choose our teams carefully. Our people are the secret to great work.',
+    id: 'human-first',
+    title: 'Human-first',
+    description: 'We speak your language, not tech jargon. Plain and simple.',
     icon: <CreativeMindsIcon />,
   },
   {
-    id: 'conquer-best',
-    title: 'Conquer the best',
-    description: 'We stay lean and help your product do one thing well.',
+    id: 'automated',
+    title: 'Automated',
+    description: 'Your online presence improves while you focus on your work.',
     icon: <ConquerBestIcon />,
   },
   {
-    id: 'effortless-updates',
-    title: 'Effortless updates',
-    description:
-      'Benefit from automatic updates to all boards any time you need to make a change to your website.',
+    id: 'transparent',
+    title: 'Transparent',
+    description: 'We show your real results in a simple dashboard.',
     icon: <EffortlessUpdatesIcon />,
   },
   {
-    id: 'designing-for-people',
-    title: 'Designing for people',
-    description:
-      'We actively pursue the right balance between functionality and aesthetics, creating delightful experiences.',
+    id: 'empathetic',
+    title: 'Empathetic',
+    description: "We understand how hard it is to grow — that's why we make it easier.",
     icon: <DesigningForPeopleIcon />,
-  },
-  {
-    id: 'strong-empathy',
-    title: 'Strong empathy',
-    description: "We've user tested our own process by shipping over 1k products for clients.",
-    icon: <StrongEmpathyIcon />,
-  },
-  {
-    id: 'stay-curious',
-    title: 'Stay curious',
-    description:
-      'We dedicate time for researching and experimentation to increase creativity and imagine new challenges.',
-    icon: <StayCuriousIcon />,
   },
 ];

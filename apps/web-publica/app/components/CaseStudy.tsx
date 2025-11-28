@@ -12,8 +12,8 @@ interface CaseStudyProps {
  * Server Component para mostrar casos de éxito con métricas
  */
 export default function CaseStudy({
-  title = 'Success stories',
-  description = 'Global brands see measurable success when they collaborate with us. From higher conversion and payment approval rates to faster processing speeds. Discover their stories here.',
+  title = 'Real results from small businesses like yours — proven and measurable',
+  description = '',
   items,
 }: CaseStudyProps) {
   if (!items || items.length === 0) {

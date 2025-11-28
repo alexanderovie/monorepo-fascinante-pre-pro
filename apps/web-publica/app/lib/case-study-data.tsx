@@ -101,39 +101,39 @@ export interface CaseStudyItem {
 
 export const defaultCaseStudyData: CaseStudyItem[] = [
   {
-    id: 'mailchimp',
+    id: 'more-calls',
     icon: <MailchimpIcon />,
-    metric: '43%',
-    title: 'Enhancement in customer engagement',
+    metric: '+43%',
+    title: 'More calls from Google Maps',
     description:
-      "With the aim of optimizing customer interactions and boosting brand loyalty, the team at Preline leveraged Mailchimp's powerful tools and expertise to deliver exceptional results.",
+      'Optimization + weekly automation = more customers without paid ads.',
     href: '/customer-details',
   },
   {
-    id: 'shopify',
+    id: 'more-reviews',
     icon: <ShopifyIcon />,
-    metric: '20%',
-    title: 'Rise in E-commerce',
+    metric: '+20%',
+    title: 'More verified reviews',
     description:
-      "In collaboration with Shopify, Preline embarked on a mission to revolutionize the e-commerce experience for a fictitious fashion brand, 'StyleAura.'.",
+      'Optimization + weekly automation = more customers without paid ads.',
     href: '/customer-details',
   },
   {
-    id: 'gitlab-savings',
+    id: 'more-visibility',
     icon: <GitLabIcon />,
-    metric: '$125,000',
-    title: 'Saved annually',
+    metric: '+125%',
+    title: 'Local search visibility',
     description:
-      'Gitlab spent the equivalent of $25k per year in spreadsheet processes. Now Preline does it for them.',
+      'Optimization + weekly automation = more customers without paid ads.',
     href: '/customer-details',
   },
   {
-    id: 'gitlab-dev',
+    id: 'zero-ads',
     icon: <AsanaIcon />,
-    metric: '57%',
-    title: 'Streamlining development',
+    metric: '$0',
+    title: 'Spent on ads after optimization',
     description:
-      "With the goal of accelerating project delivery and enhancing collaboration among development teams, Preline leveraged GitLab's comprehensive suite of tools.",
+      'Optimization + weekly automation = more customers without paid ads.',
     href: '/customer-details',
   },
 ];

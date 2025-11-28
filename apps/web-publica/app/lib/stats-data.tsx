@@ -79,21 +79,27 @@ const G2Logo = () => (
 
 export const defaultStatsData: StatItem[] = [
   {
-    value: '4.7',
+    value: '4.9',
     rating: 5,
-    description: 'Average review on Capterra, independent review site',
+    description: 'Average satisfaction score',
     logo: <CapterraLogo />,
   },
   {
-    value: '4.9',
+    value: '350+',
     rating: 5,
-    description: 'Average rating based on 970+ support conversations',
+    description: 'Free audits delivered',
     logo: <TrustpilotLogo />,
   },
   {
-    value: '4.8',
+    value: '120+',
     rating: 5,
-    description: 'Average review from 25+ reviews on G2 review site',
+    description: 'Verified reviews',
     logo: <G2Logo />,
+  },
+  {
+    value: '500+',
+    rating: 5,
+    description: 'Business profiles optimized',
+    logo: <CapterraLogo />,
   },
 ];
