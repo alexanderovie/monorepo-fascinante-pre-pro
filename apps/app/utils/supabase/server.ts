@@ -3,7 +3,8 @@ import { cookies } from 'next/headers'
 
 // ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
 // Usamos el tipo inferido de cookies()
-type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
+// Exportado para uso en funciones que reciben cookies como parámetro (unstable_cache)
+export type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
 
 /**
  * Crea un cliente de Supabase para usar en Server Components, Server Actions,

@@ -217,6 +217,27 @@ class GBPAPIClient {
   }
 
   /**
+   * PATCH request
+   * ÉLITE: Con retry logic y manejo de errores robusto
+   */
+  async patch<T>(
+    endpoint: string,
+    body?: unknown,
+    apiBase: 'account' | 'business' | 'performance' = 'account',
+    retryConfig?: RetryConfig
+  ): Promise<T> {
+    return this.request<T>(
+      endpoint,
+      {
+        method: 'PATCH',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      apiBase,
+      retryConfig
+    )
+  }
+
+  /**
    * DELETE request
    * ÉLITE: Con retry logic y manejo de errores robusto
    */
@@ -359,6 +380,33 @@ class GBPAPIClient {
     const endpoint = `/locations/${locationId}${queryString ? `?${queryString}` : ''}`
 
     return this.get<GBPLocation>(endpoint, 'business')
+  }
+
+  /**
+   * Actualiza una ubicación usando PATCH
+   * ÉLITE: Endpoint oficial de Google Business Profile API
+   * PATCH /v1/locations/{locationId}?updateMask={fields}
+   *
+   * IMPORTANTE: Este método NO incluye rate limiting ni activity logging.
+   * Para operaciones de edición, usar updateLocationWithRateLimit() en lugar de este método.
+   *
+   * @param locationId - ID de la ubicación
+   * @param updateMask - Campos a actualizar (ej: "title,phoneNumbers,storefrontAddress")
+   * @param locationData - Datos a actualizar
+   *
+   * Referencia: https://developers.google.com/my-business/content/location-data#update_a_location
+   */
+  async updateLocation(
+    locationId: string,
+    updateMask: string,
+    locationData: Partial<GBPLocation>
+  ): Promise<GBPLocation> {
+    const params = new URLSearchParams()
+    params.append('updateMask', updateMask)
+
+    const endpoint = `/locations/${locationId}?${params.toString()}`
+
+    return this.patch<GBPLocation>(endpoint, locationData, 'business')
   }
 }
 
