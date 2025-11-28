@@ -7,7 +7,7 @@ const baseUrl = "https://fascinantedigital.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Fascinante Digital – Free Google Visibility Audit for Small Businesses",
+    default: "Fascinante Digital – Free Google Visibility Audit",
     template: "%s | Fascinante Digital",
   },
   description:
