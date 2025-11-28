@@ -204,8 +204,8 @@ export default function Hero({
   downloadSection,
   tabs = defaultTabs,
   backgroundImage = {
-    light: 'https://preline.co/assets/img/pro/startup/img11.webp',
-    dark: 'https://preline.co/assets/img/pro/startup-dark/img11.webp',
+    light: '/assets/img/pro/startup/img11.webp',
+    dark: '/assets/img/pro/startup-dark/img11.webp',
   },
 }: HeroProps) {
   useEffect(() => {
@@ -288,7 +288,7 @@ export default function Hero({
           priority
           fetchPriority="high"
           className="object-cover object-top"
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
           quality={85}
         />
       </div>
@@ -301,7 +301,7 @@ export default function Hero({
           priority
           fetchPriority="high"
           className="object-cover object-top"
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
           quality={85}
         />
       </div>

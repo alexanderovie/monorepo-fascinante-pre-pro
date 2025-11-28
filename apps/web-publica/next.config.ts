@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   // Optimización de imágenes
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Configurar qualities para Next.js 16 (evita warnings)
+    qualities: [75, 85, 100],
     remotePatterns: [
       {
         protocol: 'https',
