@@ -183,15 +183,18 @@ export default function LocationDetailContent({ location, locationId }: Location
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2">
-            <Link
-              href={`/google-business-profile/locations/${locationId}/edit`}
-              className="w-full min-[390px]:w-full min-[390px]:max-w-[320px] inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+            {/* ÉLITE: Botón de edición deshabilitado temporalmente hasta implementar página de edición */}
+            <button
+              type="button"
+              disabled
+              className="w-full min-[390px]:w-full min-[390px]:max-w-[320px] inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-lg cursor-not-allowed opacity-50 focus:outline-hidden focus:ring-2 focus:ring-gray-400"
+              title="Funcionalidad de edición próximamente"
             >
               <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
               </svg>
               Editar
-            </Link>
+            </button>
             {phoneForTelLink && (
               <a
                 href={`tel:${phoneForTelLink}`}
