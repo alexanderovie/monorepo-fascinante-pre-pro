@@ -16,29 +16,33 @@ import { defaultCaseStudyData } from '../lib/case-study-data';
 import { defaultFAQData } from '../lib/faq-data';
 import { defaultFooterData } from '../lib/footer-data';
 import { defaultHeroDownloadData } from '../lib/hero-download-data';
-import { URLS } from '../../lib/constants';
+import { URLS } from '../../../lib/constants';
+import { getTranslations } from 'next-intl/server';
 
-export default function Home() {
+export default async function Home() {
+  const t = await getTranslations('hero');
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
         <Hero
-          badge="Web App"
+          badge={t('badge')}
           title={
             <>
-              Make Your Business Visible
+              {t('title')}
               <br className="hidden md:block" />
-              <span className="md:hidden"> </span>on Google
+              <span className="md:hidden"> </span>
+              {t('titleOn')}
             </>
           }
-          description="Before spending on ads, find out if your business is ready to attract real clients. Fascinante Digital gives you a free visibility audit that shows how you appear on Google and what's missing."
+          description={t('description')}
           primaryButton={{
-            label: 'Try it free',
+            label: t('primaryButton'),
             href: URLS.tryItFree,
           }}
           secondaryButton={{
-            label: 'Get a demo',
+            label: t('secondaryButton'),
             href: URLS.getDemo,
           }}
           downloadSection={defaultHeroDownloadData}

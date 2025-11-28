@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "Fascinante Digital – Free Google Visibility Audit & SEO",
+    "titleTemplate": "%s | Fascinante Digital",
+    "description": "Get a free audit and discover how your business appears on Google. Improve your visibility and attract real customers automatically.",
+    "keywords": [
+      "google business profile",
+      "local seo",
+      "free audit",
+      "digital visibility",
+      "small business seo",
+      "google maps optimization",
+      "business visibility",
+      "local search optimization"
+    ]
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "tryAgain": "Try again"
+  },
+  "hero": {
+    "badge": "Web App",
+    "title": "Make Your Business Visible",
+    "titleOn": "on Google",
+    "description": "Before spending on ads, find out if your business is ready to attract real clients. Fascinante Digital gives you a free visibility audit that shows how you appear on Google and what's missing.",
+    "primaryButton": "Try it free",
+    "secondaryButton": "Get a demo"
+  }
+}

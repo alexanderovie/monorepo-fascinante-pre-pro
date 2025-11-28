@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "Fascinante Digital – Auditoría Gratuita de Visibilidad en Google y SEO",
+    "titleTemplate": "%s | Fascinante Digital",
+    "description": "Obtén una auditoría gratuita y descubre cómo aparece tu negocio en Google. Mejora tu visibilidad y atrae clientes reales automáticamente.",
+    "keywords": [
+      "perfil de negocio de google",
+      "seo local",
+      "auditoría gratuita",
+      "visibilidad digital",
+      "seo para pequeñas empresas",
+      "optimización de google maps",
+      "visibilidad empresarial",
+      "optimización de búsqueda local"
+    ]
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "tryAgain": "Intentar de nuevo"
+  },
+  "hero": {
+    "badge": "Aplicación Web",
+    "title": "Haz Visible Tu Negocio",
+    "titleOn": "en Google",
+    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita de visibilidad que muestra cómo apareces en Google y qué te falta.",
+    "primaryButton": "Pruébalo gratis",
+    "secondaryButton": "Solicita una demo"
+  }
+}

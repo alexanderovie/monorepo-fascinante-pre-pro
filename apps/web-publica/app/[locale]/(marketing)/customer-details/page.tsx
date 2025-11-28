@@ -4,7 +4,7 @@ import CTA from '../../components/CTA';
 import Footer from '../../components/Footer';
 import { shopifyCustomerDetailsData } from '../../lib/customer-details-data';
 import { defaultFooterData } from '../../lib/footer-data';
-import { URLS } from '../../../lib/constants';
+import { URLS } from '../../../../lib/constants';
 
 export default function CustomerDetailsPage() {
   return (

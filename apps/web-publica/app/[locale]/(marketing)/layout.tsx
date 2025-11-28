@@ -1,4 +1,4 @@
-import { Banner2 } from '../../components/banner2';
+import { Banner2 } from '../../../components/banner2';
 
 /**
  * Layout compartido para páginas de marketing

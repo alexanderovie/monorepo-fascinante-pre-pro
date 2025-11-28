@@ -4,7 +4,7 @@ import CTA from '../../components/CTA';
 import Footer from '../../components/Footer';
 import { customerLogos } from '../../lib/customers-logo-data';
 import { defaultFooterData } from '../../lib/footer-data';
-import { URLS } from '../../../lib/constants';
+import { URLS } from '../../../../lib/constants';
 
 /**
  * Customers Page - Server Component

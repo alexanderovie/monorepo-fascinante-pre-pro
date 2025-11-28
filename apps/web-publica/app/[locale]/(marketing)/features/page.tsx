@@ -12,7 +12,7 @@ import { defaultTestimonialData } from '../../lib/testimonial-data';
 import { defaultDownloadAppsData } from '../../lib/download-apps-data';
 import { defaultFooterData } from '../../lib/footer-data';
 import { defaultFloatingCards } from '../../lib/features-hero-cards-data';
-import { URLS } from '../../../lib/constants';
+import { URLS } from '../../../../lib/constants';
 
 export default function FeaturesPage() {
   return (

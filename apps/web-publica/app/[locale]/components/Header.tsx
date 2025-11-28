@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import { ASSETS, BRAND } from '../../lib/constants';
-import { getUrl } from '../../lib/url-builder';
+import { ASSETS, BRAND } from '../../../lib/constants';
+import { getUrl } from '../../../lib/url-builder';
 
 /**
  * Header Component - Plantilla Startup

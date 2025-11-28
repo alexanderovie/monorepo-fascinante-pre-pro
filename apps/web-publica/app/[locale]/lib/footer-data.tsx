@@ -161,7 +161,7 @@ const GooglePlayIcon = () => (
   </svg>
 );
 
-import { ASSETS, BRAND } from '../../lib/constants';
+import { ASSETS, BRAND } from '../../../lib/constants';
 
 // Logo Component - Usa el mismo logo que el header
 const FascinanteLogo = () => (

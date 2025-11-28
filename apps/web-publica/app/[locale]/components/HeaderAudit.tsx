@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
-import { ASSETS, BRAND } from '../../lib/constants';
-import { getUrl } from '../../lib/url-builder';
+import { ASSETS, BRAND } from '../../../lib/constants';
+import { getUrl } from '../../../lib/url-builder';
 import RequestCallModal from './RequestCallModal';
 
 /**
