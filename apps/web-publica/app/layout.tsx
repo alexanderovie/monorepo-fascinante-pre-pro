@@ -104,6 +104,7 @@ export default function RootLayout({
               name: 'Fascinante Digital',
               url: baseUrl,
               logo: `${baseUrl}/assets/logo-fascinante.svg`,
+              image: `${baseUrl}/assets/logo-fascinante.svg`,
               email: 'info@fascinantedigital.com',
               telephone: '+1-800-886-4981',
               address: {

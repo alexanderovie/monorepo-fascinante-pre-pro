@@ -15,7 +15,7 @@
  * Basado en mejores prácticas de React 2025 y patrones de diseño modernos.
  */
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 
 export type LocationStatus = 'active' | 'pending' | 'needs-review'
 export type SortField = 'name' | 'category' | 'status' | 'progress' | 'lastUpdated' | 'healthScore'
@@ -206,19 +206,34 @@ export function useLocationsTable({
     return sorted
   }, [initialData, filterState, sortState])
 
-  // ÉLITE: Memoizar ubicaciones paginadas
+  // Información calculada
+  // ÉLITE PRO: Cálculo robusto según estándares de la industria
+  const totalItems = filteredAndSortedLocations.length
+  // ÉLITE: totalPages nunca debe ser 0 (mínimo 1 para evitar división por cero)
+  // Si no hay items, totalPages = 1 pero la paginación se oculta en la UI
+  const totalPages = Math.max(1, Math.ceil(totalItems / paginationState.itemsPerPage))
+
+  // ÉLITE PRO: Ajustar página actual si excede totalPages (cuando filtros cambian)
+  // Esto previene mostrar páginas vacías cuando los filtros reducen los resultados
+  const validCurrentPage = Math.min(paginationState.currentPage, totalPages)
+
+  const hasNextPage = validCurrentPage < totalPages && totalItems > 0
+  const hasPreviousPage = validCurrentPage > 1
+
+  // ÉLITE: Memoizar ubicaciones paginadas con página válida
   // Solo recalcula cuando cambian las ubicaciones filtradas o la paginación
   const paginatedLocations = useMemo(() => {
-    const startIndex = (paginationState.currentPage - 1) * paginationState.itemsPerPage
+    const startIndex = (validCurrentPage - 1) * paginationState.itemsPerPage
     const endIndex = startIndex + paginationState.itemsPerPage
     return filteredAndSortedLocations.slice(startIndex, endIndex)
-  }, [filteredAndSortedLocations, paginationState])
+  }, [filteredAndSortedLocations, validCurrentPage, paginationState.itemsPerPage])
 
-  // Información calculada
-  const totalItems = filteredAndSortedLocations.length
-  const totalPages = Math.ceil(totalItems / paginationState.itemsPerPage)
-  const hasNextPage = paginationState.currentPage < totalPages
-  const hasPreviousPage = paginationState.currentPage > 1
+  // ÉLITE PRO: Sincronizar página actual si excede totalPages (solo cuando cambian los filtros)
+  useEffect(() => {
+    if (paginationState.currentPage > totalPages && totalPages > 0) {
+      setPaginationState((prev) => ({ ...prev, currentPage: totalPages }))
+    }
+  }, [totalPages]) // Solo cuando totalPages cambia (por filtros), no cuando currentPage cambia
 
   // Acciones para filtros
   const setSearchQuery = useCallback((query: string) => {
@@ -261,9 +276,21 @@ export function useLocationsTable({
   }, [])
 
   // Acciones para paginación
+  // ÉLITE PRO: Validación robusta según estándares de la industria
   const setCurrentPage = useCallback((page: number) => {
-    setPaginationState((prev) => ({ ...prev, currentPage: page }))
-  }, [])
+    setPaginationState((prev) => {
+      // ÉLITE: Calcular totalPages actual para validación
+      const currentTotalItems = filteredAndSortedLocations.length
+      const currentTotalPages = Math.max(1, Math.ceil(currentTotalItems / prev.itemsPerPage))
+
+      // ÉLITE: Validar que la página esté en rango válido
+      // Si la página solicitada es mayor que totalPages, usar la última página válida
+      // Si es menor que 1, usar página 1
+      const validPage = Math.max(1, Math.min(page, currentTotalPages))
+
+      return { ...prev, currentPage: validPage }
+    })
+  }, [filteredAndSortedLocations])
 
   // Resetear todos los filtros
   const resetFilters = useCallback(() => {
@@ -277,7 +304,10 @@ export function useLocationsTable({
     paginatedLocations,
     filterState,
     sortState,
-    paginationState,
+    paginationState: {
+      ...paginationState,
+      currentPage: validCurrentPage, // ÉLITE: Retornar página válida (ajustada si excede totalPages)
+    },
     setSearchQuery,
     setStatusFilter,
     setCategoryFilter,
