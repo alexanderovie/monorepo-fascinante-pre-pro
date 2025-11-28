@@ -57,7 +57,7 @@ export interface ActivityEvent {
 
 /**
  * ÉLITE PRO: Servicio de logging de actividad
- * 
+ *
  * Registra todos los cambios para cumplir con políticas de transparencia de Google
  */
 export class ActivityLogger {
@@ -69,13 +69,13 @@ export class ActivityLogger {
 
   /**
    * Registra un evento de actividad
-   * 
+   *
    * @param event - Evento a registrar
    */
   async logActivity(event: ActivityEvent): Promise<void> {
     try {
       const supabase = await createClient(this.cookieStore)
-      
+
       // Preparar datos para insertar
       const activityData = {
         user_id: event.userId,
@@ -115,7 +115,7 @@ export class ActivityLogger {
 
   /**
    * Obtiene el historial de actividad de una ubicación
-   * 
+   *
    * @param locationId - ID de la ubicación
    * @param limit - Límite de resultados (default: 50)
    */
@@ -125,7 +125,7 @@ export class ActivityLogger {
   ): Promise<ActivityEvent[]> {
     try {
       const supabase = await createClient(this.cookieStore)
-      
+
       const { data, error } = await supabase
         .from('activity_events')
         .select('*')
@@ -147,7 +147,7 @@ export class ActivityLogger {
 
   /**
    * Obtiene el historial de actividad de un usuario
-   * 
+   *
    * @param userId - ID del usuario
    * @param limit - Límite de resultados (default: 50)
    */
@@ -157,7 +157,7 @@ export class ActivityLogger {
   ): Promise<ActivityEvent[]> {
     try {
       const supabase = await createClient(this.cookieStore)
-      
+
       const { data, error } = await supabase
         .from('activity_events')
         .select('*')
@@ -179,7 +179,7 @@ export class ActivityLogger {
 
   /**
    * Verifica si una acción requiere notificación según política de Google
-   * 
+   *
    * Según política: "debes notificar al cliente final en 48 horas después del cambio"
    * Acciones críticas que requieren notificación:
    * - Agregar/remover administradores
@@ -193,19 +193,19 @@ export class ActivityLogger {
       'location_delete',
       'verification_initiated',
     ]
-    
+
     return criticalActions.includes(action)
   }
 
   /**
    * Programa una notificación para el evento
-   * 
+   *
    * ÉLITE: Las notificaciones se envían dentro de 48 horas según política de Google
    */
   private async scheduleNotification(event: ActivityEvent): Promise<void> {
     try {
       const supabase = await createClient(this.cookieStore)
-      
+
       // Crear registro de notificación pendiente
       const notificationData = {
         user_id: event.userId,
@@ -278,4 +278,3 @@ export class ActivityLogger {
 export function createActivityLogger(cookieStore?: ReadonlyRequestCookies): ActivityLogger {
   return new ActivityLogger(cookieStore)
 }
-

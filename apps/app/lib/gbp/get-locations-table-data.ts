@@ -136,7 +136,7 @@ export async function getLocationsTableData({
           ? fullLocation.categories.primaryCategory.name.replace(/^gcid:/, '')
           : null)
         || LOCATION_DEFAULTS.NO_CATEGORY
-      
+
       // ÉLITE: Logging para debugging (solo en desarrollo)
       if (process.env.NODE_ENV === 'development') {
         if (!fullLocation.categories?.primaryCategory) {
@@ -201,7 +201,7 @@ export async function getLocationsTableData({
         healthScore,
         location: fullLocation,
       }
-      
+
       // ÉLITE: Logging para verificar que category se asigna correctamente
       if (process.env.NODE_ENV === 'development') {
         console.log('[GBP Locations] 📊 Table row created:', {
@@ -212,7 +212,7 @@ export async function getLocationsTableData({
           categoryLength: tableRow.category?.length,
         })
       }
-      
+
       tableRows.push(tableRow)
 
       // Respetar límite de 300 QPM (pausa de 200ms entre ubicaciones)

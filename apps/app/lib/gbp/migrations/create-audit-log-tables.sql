@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS activity_events (
   timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   notified BOOLEAN NOT NULL DEFAULT FALSE,
   notification_sent_at TIMESTAMPTZ,
-  
+
   -- Índices para búsquedas eficientes
   CONSTRAINT activity_events_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS notifications (
   read BOOLEAN NOT NULL DEFAULT FALSE,
   read_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  
+
   CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS notification_preferences (
   channel VARCHAR NOT NULL CHECK (channel IN ('email', 'in_app', 'both')) DEFAULT 'both',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  
+
   UNIQUE(user_id, notification_type),
   CONSTRAINT notification_preferences_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
@@ -153,4 +153,3 @@ COMMENT ON TABLE notification_preferences IS 'Preferencias de notificación por 
 COMMENT ON COLUMN activity_events.changes IS 'JSON con cambios realizados: {campo: {old: valor_anterior, new: valor_nuevo}}';
 COMMENT ON COLUMN activity_events.metadata IS 'Metadata adicional: IP, user agent, source, etc.';
 COMMENT ON COLUMN notifications.scheduled_for IS 'Fecha programada para enviar notificación (48 horas después del cambio según política de Google)';
-

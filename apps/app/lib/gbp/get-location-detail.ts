@@ -40,6 +40,8 @@ async function _getLocationDetailInternal(
 
     // ÉLITE: Obtener todos los campos relevantes para la página de detalle
     // Referencia: https://developers.google.com/my-business/content/location-data#get_a_location_by_name
+    // IMPORTANTE: Usar solo campos válidos según documentación oficial
+    // Campos probados y funcionando en get-locations-table-data.ts
     const readMask = [
       'name',
       'title',
@@ -48,12 +50,11 @@ async function _getLocationDetailInternal(
       'phoneNumbers',
       'websiteUri',
       'regularHours',
-      'specialHours',
       'openInfo',
       'metadata',
-      'updateTime',
-      'createTime',
     ].join(',')
+    // ÉLITE: updateTime y createTime vienen automáticamente en la respuesta sin incluirlos en readMask
+    // specialHours no es un campo válido en readMask según la API
 
     const location = await client.getLocation(locationId, readMask)
 
@@ -105,4 +106,3 @@ export async function getLocationDetail(locationId: string): Promise<LocationDet
 
   return getCachedLocation(locationId, user.id, cookieStore)
 }
-

@@ -25,7 +25,7 @@ export default function LocationDetailContent({ location, locationId }: Location
   // ÉLITE: Formatear dirección
   const formatAddress = () => {
     if (!location.storefrontAddress) return 'No address available'
-    
+
     const { addressLines, locality, administrativeArea, postalCode, regionCode } = location.storefrontAddress
     const parts = [
       ...(addressLines || []),
@@ -34,7 +34,7 @@ export default function LocationDetailContent({ location, locationId }: Location
       postalCode,
       regionCode,
     ].filter(Boolean)
-    
+
     return parts.join(', ') || 'No address available'
   }
 
@@ -81,7 +81,7 @@ export default function LocationDetailContent({ location, locationId }: Location
   // ÉLITE: Obtener estado de apertura
   const getOpenStatus = () => {
     if (!location.openInfo) return { status: 'unknown', label: 'Status unknown' }
-    
+
     switch (location.openInfo.status) {
       case 'OPEN':
         return { status: 'open', label: 'Open' }
@@ -96,8 +96,8 @@ export default function LocationDetailContent({ location, locationId }: Location
 
   // ÉLITE: Obtener categoría principal
   const getPrimaryCategory = () => {
-    return location.categories?.primaryCategory?.displayName || 
-           location.categories?.primaryCategory?.name?.replace(/^gcid:/, '') || 
+    return location.categories?.primaryCategory?.displayName ||
+           location.categories?.primaryCategory?.name?.replace(/^gcid:/, '') ||
            'No category'
   }
 
@@ -125,7 +125,7 @@ export default function LocationDetailContent({ location, locationId }: Location
         ? 'text-red-600 dark:text-red-400'
         : 'text-gray-600 dark:text-neutral-400'
     }`
-    
+
     if (openStatus.status === 'open') {
       return (
         <svg className={iconClass} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +165,7 @@ export default function LocationDetailContent({ location, locationId }: Location
               <span>{getPrimaryCategory()}</span>
             </div>
           </div>
-          
+
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-2">
             {getMapsUrl() && (
@@ -329,4 +329,3 @@ export default function LocationDetailContent({ location, locationId }: Location
     </div>
   )
 }
-
