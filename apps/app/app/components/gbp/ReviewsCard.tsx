@@ -15,6 +15,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import type { GBPReview, ReviewMetrics } from '@/lib/gbp/types'
 import { replyToReviewAction } from '@/app/google-business-profile/locations/[locationId]/actions'
 
@@ -170,10 +171,13 @@ export default function ReviewsCard({ reviews, metrics, accountId, locationId }:
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-3">
                     {review.reviewer.profilePhotoUrl ? (
-                      <img
+                      <Image
                         src={review.reviewer.profilePhotoUrl}
                         alt={review.reviewer.displayName}
-                        className="size-10 rounded-full"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                        unoptimized
                       />
                     ) : (
                       <div className="size-10 rounded-full bg-gray-300 dark:bg-neutral-600 flex items-center justify-center">

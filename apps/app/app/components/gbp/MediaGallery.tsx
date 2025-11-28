@@ -14,6 +14,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import type { GBPMedia } from '@/lib/gbp/types'
 
 interface MediaGalleryProps {
@@ -42,11 +43,13 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
                 className="relative aspect-square cursor-pointer group"
                 onClick={() => setSelectedMedia(photo)}
               >
-                <img
+                <Image
                   src={photo.thumbnailUrl || photo.sourceUrl || photo.googleUrl || ''}
                   alt={`Foto ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg border border-gray-200 dark:border-neutral-700 group-hover:opacity-90 transition-opacity"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover rounded-lg border border-gray-200 dark:border-neutral-700 group-hover:opacity-90 transition-opacity"
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all rounded-lg flex items-center justify-center">
                   <svg
@@ -85,11 +88,13 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
               >
                 {video.thumbnailUrl ? (
                   <>
-                    <img
+                    <Image
                       src={video.thumbnailUrl}
                       alt={`Video ${index + 1}`}
-                      className="w-full h-full object-cover rounded-lg border border-gray-200 dark:border-neutral-700"
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover rounded-lg border border-gray-200 dark:border-neutral-700"
+                      unoptimized
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg
@@ -143,10 +148,13 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
         >
           <div className="relative max-w-4xl max-h-full" onClick={(e) => e.stopPropagation()}>
             {selectedMedia.mediaFormat === 'PHOTO' ? (
-              <img
+              <Image
                 src={selectedMedia.sourceUrl || selectedMedia.googleUrl || selectedMedia.thumbnailUrl || ''}
                 alt="Media ampliada"
-                className="max-w-full max-h-[90vh] rounded-lg"
+                width={1200}
+                height={1200}
+                className="max-w-full max-h-[90vh] rounded-lg object-contain"
+                unoptimized
               />
             ) : (
               <div className="bg-black rounded-lg p-4">

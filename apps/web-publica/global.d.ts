@@ -40,6 +40,16 @@ declare global {
         };
       } | null;
     };
+    HSDatepicker: {
+      getInstance: (selector: string | HTMLElement, createIfNotExists?: boolean) => {
+        element: {
+          vanillaCalendar: any;
+          addEventListener: (event: string, callback: (e: CustomEvent) => void) => void;
+          getCurrentState: () => any;
+          formatDate: (date: Date) => string;
+        };
+      } | null;
+    };
   }
 }
 

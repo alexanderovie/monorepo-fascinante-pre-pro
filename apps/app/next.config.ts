@@ -21,6 +21,25 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // Google Business Profile API - Media y Profile Photos
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.googleapis.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.google.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     // Permitir SVGs con seguridad
     dangerouslyAllowSVG: true,

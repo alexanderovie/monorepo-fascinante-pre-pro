@@ -220,7 +220,7 @@ export default function BookingForm({ locale }: BookingFormProps) {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white dark:bg-neutral-800 rounded-lg shadow-sm">
+    <div className="flex flex-col lg:flex-row bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden">
       {/* PANEL IZQUIERDO: Información del Servicio (como Cal.com) */}
       <div className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6">
         {/* Logo/Marca */}

@@ -168,6 +168,9 @@ importers:
       date-fns-tz:
         specifier: ^2.0.0
         version: 2.0.1(date-fns@3.6.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       lucide-react:
         specifier: ^0.555.0
         version: 0.555.0(react@19.2.0)
@@ -195,6 +198,9 @@ importers:
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
+      vanilla-calendar-pro:
+        specifier: ^3.0.5
+        version: 3.0.5
       zod:
         specifier: ^3.23.8
         version: 3.25.76
@@ -208,6 +214,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.1.17
         version: 4.1.17
+      '@types/lodash':
+        specifier: ^4.17.21
+        version: 4.17.21
       '@types/node':
         specifier: ^20
         version: 20.19.25

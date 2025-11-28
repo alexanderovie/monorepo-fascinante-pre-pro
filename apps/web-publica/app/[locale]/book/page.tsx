@@ -2,12 +2,12 @@
  * Book Appointment Page - Fascinante Digital
  *
  * Página pública para que los clientes reserven citas de consultoría/auditoría.
- * Server Component que renderiza el formulario de reserva.
+ * Server Component con diseño élite pro: Sección centrada vertical y horizontalmente en toda la pantalla.
  */
 
 import { notFound } from 'next/navigation';
 import { routing } from '../../../i18n/routing';
-import BookingForm from '@/components/booking/BookingForm';
+import BookingContainer from './components/BookingContainer';
 
 interface BookPageProps {
   params: Promise<{ locale: string }>;
@@ -15,6 +15,7 @@ interface BookPageProps {
 
 /**
  * Página pública de reserva de citas
+ * Diseño centrado vertical y horizontalmente - Marco con 3 columnas
  */
 export default async function BookPage({ params }: BookPageProps) {
   const { locale } = await params;
@@ -25,10 +26,10 @@ export default async function BookPage({ params }: BookPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 flex items-center justify-center">
-      {/* Layout tipo Cal.com: 3 paneles horizontales - Centrado verticalmente */}
-      <div className="w-full max-w-7xl mx-auto px-4">
-        <BookingForm locale={locale} />
+    <div className="min-h-screen w-full bg-gray-50 dark:bg-neutral-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      {/* Marco centrado estilo Cal.com - Diseño élite pro con 3 columnas */}
+      <div className="w-full max-w-7xl mx-auto">
+        <BookingContainer locale={locale} />
       </div>
     </div>
   );
