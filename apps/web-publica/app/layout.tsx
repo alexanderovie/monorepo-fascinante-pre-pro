@@ -200,8 +200,15 @@ export default function RootLayout({
               provider: {
                 '@type': 'ProfessionalService',
                 name: 'Fascinante Digital',
+                image: {
+                  '@type': 'ImageObject',
+                  url: `${baseUrl}/assets/img/pro/startup/dashboard-fascinante.webp`,
+                  width: 1200,
+                  height: 630,
+                },
                 url: baseUrl,
                 telephone: '+1-800-886-4981',
+                priceRange: '$$',
                 address: {
                   '@type': 'PostalAddress',
                   streetAddress: '2054 Vista Pkwy #400',
