@@ -42,7 +42,9 @@
     },
     "cta": {
       "getFreeAudit": "Auditoría Gratis",
-      "login": "Iniciar Sesión"
+      "getFreeAuditShort": "Auditoría",
+      "login": "Iniciar Sesión",
+      "loginShort": "Entrar"
     }
   }
 }

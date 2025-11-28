@@ -42,7 +42,9 @@
     },
     "cta": {
       "getFreeAudit": "Get Free Audit",
-      "login": "Log in"
+      "getFreeAuditShort": "Audit",
+      "login": "Log in",
+      "loginShort": "Login"
     }
   }
 }
