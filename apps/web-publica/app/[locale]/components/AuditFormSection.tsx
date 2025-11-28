@@ -105,7 +105,7 @@ export default function AuditFormSection() {
                       name="fullName"
                       type="text"
                       placeholder="Juan Pérez"
-                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required
                     />
                   </div>
@@ -120,7 +120,7 @@ export default function AuditFormSection() {
                       name="email"
                       type="email"
                       placeholder="nombre@empresa.com"
-                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required
                     />
                   </div>
@@ -135,7 +135,7 @@ export default function AuditFormSection() {
                       name="phone"
                       type="tel"
                       placeholder="+1 234 567 8900"
-                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     />
                   </div>
 
@@ -149,7 +149,7 @@ export default function AuditFormSection() {
                       name="businessName"
                       type="text"
                       placeholder="Mi Negocio S.L."
-                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required
                     />
                   </div>
@@ -162,7 +162,7 @@ export default function AuditFormSection() {
                     <select
                       id="country"
                       name="country"
-                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:focus:ring-neutral-600"
+                      className="block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:focus:ring-neutral-600"
                       required
                     >
                       <option value="">{t('form.selectCountry')}</option>
