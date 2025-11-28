@@ -46,5 +46,67 @@
       "login": "Log in",
       "loginShort": "Login"
     }
+  },
+  "audit": {
+    "title": "Get Your Free Audit",
+    "description": "Before spending on ads, find out if your business is ready to attract real customers. Fascinante Digital offers you a free audit that shows how you appear on Google and what's missing.",
+    "benefits": {
+      "title": "What you'll receive:",
+      "completeAnalysis": "Complete analysis of your Google visibility",
+      "missingInfo": "Identification of missing information in your profile",
+      "recommendations": "Personalized recommendations to improve"
+    },
+    "form": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone number",
+      "businessName": "Business name",
+      "country": "Country",
+      "selectCountry": "Select a country",
+      "submit": "Get free audit",
+      "submitting": "Submitting...",
+      "privacy": "By submitting this form, you agree to our",
+      "privacyLink": "privacy policy",
+      "privacyNote": ". Your information is safe and will not be shared."
+    }
+  },
+  "contact": {
+    "title": "Request a Free Demo",
+    "description": "Discover how Fascinante Digital can improve your business visibility on Google. Get a personalized presentation and answers to all your questions.",
+    "benefits": {
+      "title": "What you can expect:",
+      "presentation": "Detailed product presentation tailored to your business",
+      "consulting": "Consulting on your digital visibility strategy",
+      "answers": "Answers to all the questions you have"
+    },
+    "form": {
+      "fullName": "Full name",
+      "company": "Company",
+      "phone": "Phone number",
+      "email": "Email (business)",
+      "country": "Country",
+      "selectCountry": "Select a country",
+      "companySize": "Company size",
+      "selectSize": "Select",
+      "companySizes": {
+        "1-10": "1-10 employees",
+        "11-50": "11-50 employees",
+        "51-200": "51-200 employees",
+        "200+": "200+ employees"
+      },
+      "referral": "How did you hear about us?",
+      "referralOptional": "(Optional)",
+      "referralOptions": {
+        "search": "Web Search",
+        "social": "Social Media",
+        "referral": "Recommendation",
+        "other": "Other"
+      },
+      "submit": "Book demo",
+      "submitting": "Submitting...",
+      "privacy": "For more information about how we handle your personal information, please visit our",
+      "privacyLink": "privacy policy",
+      "privacyNote": "."
+    }
   }
 }

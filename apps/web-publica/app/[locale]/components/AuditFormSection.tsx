@@ -3,6 +3,7 @@
 import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 /**
  * Audit Form Section Component
@@ -10,6 +11,7 @@ import Link from 'next/link';
  * Más simple y enfocado que el formulario de contacto
  */
 export default function AuditFormSection() {
+  const t = useTranslations('audit');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,11 +38,10 @@ export default function AuditFormSection() {
           <div className="w-full pb-10 md:space-y-10 md:pb-0">
             <div className="space-y-4 md:max-w-[40rem]">
               <h1 className="text-4xl font-semibold text-gray-800 dark:text-white sm:text-5xl lg:text-6xl">
-                Obtén tu auditoría gratuita
+                {t('title')}
               </h1>
               <div className="text-base text-gray-600 dark:text-neutral-400 md:text-lg lg:leading-7">
-                Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales.
-                Fascinante Digital te ofrece una auditoría gratuita que muestra cómo apareces en Google y qué te falta.
+                {t('description')}
               </div>
             </div>
 
@@ -63,24 +64,24 @@ export default function AuditFormSection() {
 
                   <div className="space-y-4">
                     <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                      Lo que recibirás:
+                      {t('benefits.title')}
                     </p>
                     <div className="flex items-center space-x-2.5">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
-                        Análisis completo de tu visibilidad en Google
+                        {t('benefits.completeAnalysis')}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2.5">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
-                        Identificación de información faltante en tu perfil
+                        {t('benefits.missingInfo')}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2.5">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
-                        Recomendaciones personalizadas para mejorar
+                        {t('benefits.recommendations')}
                       </p>
                     </div>
                   </div>
@@ -97,7 +98,7 @@ export default function AuditFormSection() {
                   {/* Nombre completo */}
                   <div>
                     <div className="mb-2.5 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <label htmlFor="fullName">Nombre completo</label>
+                      <label htmlFor="fullName">{t('form.fullName')}</label>
                     </div>
                     <input
                       id="fullName"
@@ -112,7 +113,7 @@ export default function AuditFormSection() {
                   {/* Email */}
                   <div>
                     <div className="mb-2.5 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="email">{t('form.email')}</label>
                     </div>
                     <input
                       id="email"
@@ -127,7 +128,7 @@ export default function AuditFormSection() {
                   {/* Teléfono */}
                   <div>
                     <div className="mb-2.5 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <label htmlFor="phone">Número de teléfono</label>
+                      <label htmlFor="phone">{t('form.phone')}</label>
                     </div>
                     <input
                       id="phone"
@@ -141,7 +142,7 @@ export default function AuditFormSection() {
                   {/* Nombre del negocio */}
                   <div>
                     <div className="mb-2.5 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <label htmlFor="businessName">Nombre del negocio</label>
+                      <label htmlFor="businessName">{t('form.businessName')}</label>
                     </div>
                     <input
                       id="businessName"
@@ -156,7 +157,7 @@ export default function AuditFormSection() {
                   {/* País */}
                   <div>
                     <div className="mb-2.5 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <label htmlFor="country">País</label>
+                      <label htmlFor="country">{t('form.country')}</label>
                     </div>
                     <select
                       id="country"
@@ -164,7 +165,7 @@ export default function AuditFormSection() {
                       className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:focus:ring-neutral-600"
                       required
                     >
-                      <option value="">Selecciona un país</option>
+                      <option value="">{t('form.selectCountry')}</option>
                       {/* Países principales al inicio */}
                       <option value="us">Estados Unidos</option>
                       <option value="ve">Venezuela</option>
@@ -203,14 +204,14 @@ export default function AuditFormSection() {
                       disabled={isSubmitting}
                       className="inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-gray-600"
                     >
-                      {isSubmitting ? 'Enviando...' : 'Obtener auditoría gratuita'}
+                      {isSubmitting ? t('form.submitting') : t('form.submit')}
                     </button>
                     <div className="text-xs text-gray-500 dark:text-neutral-500">
-                      Al enviar este formulario, aceptas nuestra{' '}
+                      {t('form.privacy')}{' '}
                       <Link href="/privacy" className="underline hover:text-gray-700 dark:hover:text-neutral-300">
-                        política de privacidad
+                        {t('form.privacyLink')}
                       </Link>
-                      . Tu información está segura y no será compartida.
+                      {t('form.privacyNote')}
                     </div>
                   </div>
                 </div>

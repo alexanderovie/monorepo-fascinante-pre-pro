@@ -46,5 +46,67 @@
       "login": "Iniciar Sesión",
       "loginShort": "Entrar"
     }
+  },
+  "audit": {
+    "title": "Obtén tu auditoría gratuita",
+    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita que muestra cómo apareces en Google y qué te falta.",
+    "benefits": {
+      "title": "Lo que recibirás:",
+      "completeAnalysis": "Análisis completo de tu visibilidad en Google",
+      "missingInfo": "Identificación de información faltante en tu perfil",
+      "recommendations": "Recomendaciones personalizadas para mejorar"
+    },
+    "form": {
+      "fullName": "Nombre completo",
+      "email": "Email",
+      "phone": "Número de teléfono",
+      "businessName": "Nombre del negocio",
+      "country": "País",
+      "selectCountry": "Selecciona un país",
+      "submit": "Obtener auditoría gratuita",
+      "submitting": "Enviando...",
+      "privacy": "Al enviar este formulario, aceptas nuestra",
+      "privacyLink": "política de privacidad",
+      "privacyNote": ". Tu información está segura y no será compartida."
+    }
+  },
+  "contact": {
+    "title": "Solicita una demo gratuita",
+    "description": "Descubre cómo Fascinante Digital puede mejorar la visibilidad de tu negocio en Google. Obtén una presentación personalizada y respuestas a todas tus preguntas.",
+    "benefits": {
+      "title": "Lo que puedes esperar:",
+      "presentation": "Presentación detallada del producto adaptada a tu negocio",
+      "consulting": "Consultoría sobre tu estrategia de visibilidad digital",
+      "answers": "Respuestas a todas las preguntas que tengas"
+    },
+    "form": {
+      "fullName": "Nombre completo",
+      "company": "Empresa",
+      "phone": "Número de teléfono",
+      "email": "Email (empresarial)",
+      "country": "País",
+      "selectCountry": "Selecciona un país",
+      "companySize": "Tamaño de empresa",
+      "selectSize": "Selecciona",
+      "companySizes": {
+        "1-10": "1-10 empleados",
+        "11-50": "11-50 empleados",
+        "51-200": "51-200 empleados",
+        "200+": "200+ empleados"
+      },
+      "referral": "¿Cómo nos conociste?",
+      "referralOptional": "(Opcional)",
+      "referralOptions": {
+        "search": "Búsqueda web",
+        "social": "Redes sociales",
+        "referral": "Recomendación",
+        "other": "Otro"
+      },
+      "submit": "Solicitar demo",
+      "submitting": "Enviando...",
+      "privacy": "Para más información sobre cómo manejamos tu información personal, visita nuestra",
+      "privacyLink": "política de privacidad",
+      "privacyNote": "."
+    }
   }
 }
