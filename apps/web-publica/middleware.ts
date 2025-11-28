@@ -35,7 +35,7 @@ function getClientIP(request: NextRequest): string {
   if (cfConnectingIP) return cfConnectingIP;
   if (realIP) return realIP;
   if (forwarded) return forwarded.split(',')[0].trim();
-  
+
   return 'unknown';
 }
 

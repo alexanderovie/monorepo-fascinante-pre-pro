@@ -12,12 +12,12 @@ interface HeroTab {
   alt: string;
 }
 
-interface HeroButton {
+export interface HeroButton {
   label: string;
   href: string;
 }
 
-interface HeroProps {
+export interface HeroProps {
   badge?: string;
   title: string | React.ReactNode;
   description: string;
@@ -56,7 +56,7 @@ const DEFAULT_SECONDARY_BUTTON: HeroButton = {
   href: '#',
 };
 
-const defaultTabs: HeroTab[] = [
+export const defaultTabs: HeroTab[] = [
   {
     id: 'dashboard',
     label: 'Dashboard',
