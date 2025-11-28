@@ -14,6 +14,7 @@ import { useEffect, useState, useRef, useMemo } from 'react'
 import type { LocationTableRow } from '@/lib/gbp/types'
 import { useLocationsTable, type Location } from '@/app/hooks/use-locations-table'
 import { useDebounce } from '@/app/hooks/use-debounce'
+import { LOCATION_DEFAULTS, EMPTY_STATE_MESSAGES } from '@/lib/gbp/constants'
 
 // Helper component para renderizar estrellas de health score
 function HealthScoreStars({ score }: { score: number }) {
@@ -143,59 +144,25 @@ function SortDropdown({
   )
 }
 
-// Datos mock de ejemplo (usados cuando no hay datos reales o para campos faltantes)
-const mockLocations = [
-  {
-    id: 1,
-    name: 'Downtown Restaurant',
-    category: 'Restaurant',
-    status: 'active' as const,
-    tags: ['Restaurant', 'Dining', 'Food Service'],
-    progress: { current: 5, total: 5 },
-    lastUpdated: 'Nov 20, 2025',
-    healthScore: 5,
-  },
-  {
-    id: 2,
-    name: 'Main Street Retail',
-    category: 'Retail Store',
-    status: 'active' as const,
-    tags: ['Retail', 'Shopping', 'B2C'],
-    progress: { current: 4, total: 5 },
-    lastUpdated: 'Nov 18, 2025',
-    healthScore: 4,
-  },
-  {
-    id: 3,
-    name: 'Westside Medical Center',
-    category: 'Healthcare',
-    status: 'pending' as const,
-    tags: ['Healthcare', 'Medical', 'Services'],
-    progress: { current: 3, total: 5 },
-    lastUpdated: 'Nov 15, 2025',
-    healthScore: 3,
-  },
-  {
-    id: 4,
-    name: 'Tech Solutions Office',
-    category: 'Professional Services',
-    status: 'needs-review' as const,
-    tags: ['Professional', 'B2B', 'Technology'],
-    progress: { current: 2, total: 5 },
-    lastUpdated: 'Nov 10, 2025',
-    healthScore: 2,
-  },
-  {
-    id: 5,
-    name: 'Fitness Center North',
-    category: 'Fitness & Recreation',
-    status: 'active' as const,
-    tags: ['Fitness', 'Health', 'Recreation'],
-    progress: { current: 5, total: 5 },
-    lastUpdated: 'Nov 22, 2025',
-    healthScore: 5,
-  },
-]
+/**
+ * ÉLITE: Función helper para crear una ubicación vacía con valores por defecto
+ * Sin hardcodeo - usa constantes centralizadas
+ */
+function createEmptyLocation(id: number): Location {
+  return {
+    id,
+    name: LOCATION_DEFAULTS.UNNAMED_LOCATION,
+    category: LOCATION_DEFAULTS.NO_CATEGORY,
+    status: 'active',
+    tags: [],
+    progress: {
+      current: LOCATION_DEFAULTS.DEFAULT_PROGRESS_SCORE,
+      total: LOCATION_DEFAULTS.DEFAULT_PROGRESS_TOTAL,
+    },
+    lastUpdated: LOCATION_DEFAULTS.NO_DATE,
+    healthScore: LOCATION_DEFAULTS.DEFAULT_HEALTH_SCORE,
+  }
+}
 
 // Mapear status de API a formato del componente
 function mapStatus(status: 'Active' | 'Pending' | 'Needs Review' | 'Closed'): 'active' | 'pending' | 'needs-review' {
@@ -237,30 +204,29 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ initialData, accountId }: ProjectCardProps = {}) {
   // ÉLITE: Si hay initialData, usarlo inmediatamente (Server Component)
-  // Si no, usar mocks y hacer fetch (compatibilidad hacia atrás)
-  const [rawLocations, setRawLocations] = useState<typeof mockLocations>(
+  // Si no, usar array vacío y hacer fetch (sin hardcodeo)
+  const [rawLocations, setRawLocations] = useState<Location[]>(
     initialData
       ? initialData.map((row, index) => {
-          const mockLocation = mockLocations[index % mockLocations.length]
+          // ÉLITE: Mapear datos reales sin usar mocks hardcodeados
           return {
             id: index + 1,
-            name: row.name || mockLocation.name,
-            category: row.category || mockLocation.category,
-            status: mapStatus(row.status || 'Active'),
-            tags: row.additionalCategories && row.additionalCategories.length > 0
-              ? row.additionalCategories
-              : mockLocation.tags,
+            name: row.name || LOCATION_DEFAULTS.UNNAMED_LOCATION,
+            category: row.category || LOCATION_DEFAULTS.NO_CATEGORY,
+            status: mapStatus(row.status || LOCATION_DEFAULTS.DEFAULT_STATUS),
+            // ÉLITE: No mostrar additionalCategories - solo primary category
+            tags: [],
             progress: {
-              current: row.progress?.score || mockLocation.progress.current,
-              total: 5,
+              current: row.progress?.score ?? LOCATION_DEFAULTS.DEFAULT_PROGRESS_SCORE,
+              total: LOCATION_DEFAULTS.DEFAULT_PROGRESS_TOTAL,
             },
-            lastUpdated: row.lastUpdated || mockLocation.lastUpdated,
+            lastUpdated: row.lastUpdated || LOCATION_DEFAULTS.NO_DATE,
             healthScore: row.healthScore?.score
               ? Math.round(row.healthScore.score)
-              : mockLocation.healthScore,
+              : LOCATION_DEFAULTS.DEFAULT_HEALTH_SCORE,
           }
         })
-      : mockLocations
+      : [] // ÉLITE: Array vacío en lugar de mocks hardcodeados
   )
   const [loading, setLoading] = useState(!initialData) // No loading si hay initialData
 
@@ -280,8 +246,8 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         const accountsResponse = await fetch('/api/integrations/google-business-profile/accounts')
 
         if (!accountsResponse.ok) {
-          // Si no hay datos, usar mocks
-          setRawLocations(mockLocations)
+          // ÉLITE: Sin datos - array vacío (no hardcodeo)
+          setRawLocations([])
           setLoading(false)
           return
         }
@@ -289,8 +255,8 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         const accountsData = await accountsResponse.json()
 
         if (!accountsData.success || !accountsData.accounts || accountsData.accounts.length === 0) {
-          // Si no hay cuentas, usar mocks
-          setRawLocations(mockLocations)
+          // ÉLITE: Sin cuentas - array vacío (no hardcodeo)
+          setRawLocations([])
           setLoading(false)
           return
         }
@@ -299,14 +265,15 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         const selectedAccountId = accountId || accountsData.accounts[0]?.accountId
 
         if (!selectedAccountId) {
-          setRawLocations(mockLocations)
+          // ÉLITE: Sin accountId - array vacío (no hardcodeo)
+          setRawLocations([])
           setLoading(false)
           return
         }
 
         // ÉLITE: No intentar cargar si accountId es mock
         if (selectedAccountId === '123456789' || selectedAccountId === '987654321') {
-          setRawLocations(mockLocations)
+          setRawLocations([])
           setLoading(false)
           return
         }
@@ -317,8 +284,8 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         )
 
         if (!locationsResponse.ok) {
-          // Si falla, usar mocks
-          setRawLocations(mockLocations)
+          // ÉLITE: Error al cargar - array vacío (no hardcodeo)
+          setRawLocations([])
           setLoading(false)
           return
         }
@@ -326,38 +293,35 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
         const locationsData = await locationsResponse.json()
 
         if (locationsData.success && locationsData.data && locationsData.data.length > 0) {
-          // Mapear datos reales al formato del componente, usando mocks donde falte información
+          // ÉLITE: Mapear datos reales sin usar mocks hardcodeados
           const realLocations = locationsData.data.map((row: LocationTableRow, index: number) => {
-            const mockLocation = mockLocations[index % mockLocations.length] // Rotar mocks si hay más ubicaciones reales
-
             return {
               id: index + 1,
-              name: row.name || mockLocation.name,
-              category: row.category || mockLocation.category,
-              status: mapStatus(row.status || 'Active'),
-              tags: row.additionalCategories && row.additionalCategories.length > 0
-                ? row.additionalCategories
-                : mockLocation.tags, // Usar categorías adicionales reales o mocks
+              name: row.name || LOCATION_DEFAULTS.UNNAMED_LOCATION,
+              category: row.category || LOCATION_DEFAULTS.NO_CATEGORY,
+              status: mapStatus(row.status || LOCATION_DEFAULTS.DEFAULT_STATUS),
+              // ÉLITE: No mostrar additionalCategories - solo primary category
+              tags: [],
               progress: {
-                current: row.progress?.score || mockLocation.progress.current,
-                total: 5, // Siempre 5
+                current: row.progress?.score ?? LOCATION_DEFAULTS.DEFAULT_PROGRESS_SCORE,
+                total: LOCATION_DEFAULTS.DEFAULT_PROGRESS_TOTAL,
               },
-              lastUpdated: row.lastUpdated || mockLocation.lastUpdated,
+              lastUpdated: row.lastUpdated || LOCATION_DEFAULTS.NO_DATE,
               healthScore: row.healthScore?.score
                 ? Math.round(row.healthScore.score)
-                : mockLocation.healthScore, // Usar health score real o mock
+                : LOCATION_DEFAULTS.DEFAULT_HEALTH_SCORE,
             }
           })
 
           setRawLocations(realLocations)
         } else {
-          // Si no hay ubicaciones reales, usar mocks
-          setRawLocations(mockLocations)
+          // ÉLITE: Sin ubicaciones - array vacío (no hardcodeo)
+          setRawLocations([])
         }
       } catch (error) {
-        // En caso de error, usar mocks
+        // ÉLITE: Error - array vacío y log (no hardcodeo)
         console.error('Error loading real locations:', error)
-        setRawLocations(mockLocations)
+        setRawLocations([])
       } finally {
         setLoading(false)
       }
@@ -928,19 +892,14 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
                   <td className="size-px whitespace-nowrap">
                     <div className="px-5 py-2">
                       <p className="text-sm font-semibold text-gray-800 dark:text-neutral-200">{location.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-neutral-500">{location.category}</p>
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">
-                    <div className="flex flex-wrap gap-1.5 px-4 py-1">
-                      {location.tags.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="p-2 bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    {/* ÉLITE: Mostrar solo primary category en la columna Category */}
+                    <div className="px-5 py-2">
+                      <p className="text-sm text-gray-800 dark:text-neutral-200">
+                        {location.category || LOCATION_DEFAULTS.NO_CATEGORY}
+                      </p>
                     </div>
                   </td>
                   <td className="size-px whitespace-nowrap">

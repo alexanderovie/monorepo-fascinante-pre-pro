@@ -12,31 +12,48 @@
  */
 
 import { createGBPClient } from '@/lib/integrations/gbp-client'
+import { cookies } from 'next/headers'
 import type { GBPLocation, LocationTableRow, HealthScore } from './types'
 import { calculateLocationProgress } from './calculate-location-progress'
 import { calculateHealthScore } from './calculate-health-score'
+import { LOCATION_DEFAULTS } from './constants'
+
+// ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
+// Usamos el tipo inferido de cookies()
+type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
 
 interface GetLocationsTableDataParams {
   accountId: string
   includeHealthScore?: boolean
+  cookieStore?: ReadonlyRequestCookies
+  userId?: string
 }
 
 /**
  * Obtiene los datos formateados para la tabla de ubicaciones
  * ÉLITE: Optimizado para rendimiento y respeto de cuotas
+ *
+ * @param accountId - ID de la cuenta de GBP
+ * @param includeHealthScore - Si incluir health score
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
+ * @param userId - Opcional: ID del usuario (requerido si se proporciona cookieStore)
  */
 export async function getLocationsTableData({
   accountId,
   includeHealthScore = false,
+  cookieStore,
+  userId,
 }: GetLocationsTableDataParams): Promise<LocationTableRow[]> {
-  const client = await createGBPClient()
+  // ÉLITE: Si se proporciona cookieStore, también debe proporcionarse userId
+  // para cumplir con restricciones de unstable_cache
+  const client = await createGBPClient(userId, cookieStore)
 
   // 1. Obtener lista de ubicaciones
   // ÉLITE: readMask es REQUERIDO según la API de Google
-  // Según documentación oficial y Stack Overflow, 'name,title' es el mínimo que funciona
+  // Incluir categories para obtener primaryCategory desde el inicio
   // Campos válidos según: https://developers.google.com/my-business/reference/businessinformation/rest/v1/locations
   const locationsResponse = await client.listLocations(accountId, {
-    readMask: 'name,title',
+    readMask: 'name,title,categories',
   })
 
   const locations = locationsResponse.locations || []
@@ -50,14 +67,45 @@ export async function getLocationsTableData({
       // Obtener detalles completos si no vienen en la lista inicial
       let fullLocation: GBPLocation = location
 
-      // Si necesitamos más datos para calcular progreso, obtenerlos
-      // ÉLITE: Usar solo campos válidos según documentación oficial
-      // updateTime NO es un campo válido del recurso Location
-      if (!location.title || !location.storefrontAddress || !location.phoneNumbers) {
+      // ÉLITE: Obtener datos completos según documentación oficial
+      // Referencia: https://developers.google.com/my-business/content/location-data#get_a_location_by_name
+      // IMPORTANTE: Según documentación oficial, categories puede no venir en listLocations
+      // aunque esté en readMask. Por seguridad, SIEMPRE hacer getLocation completo
+      // para asegurar que tenemos categories y todos los datos necesarios
+      const hasCategories = !!location.categories?.primaryCategory
+      const needsFullData = !hasCategories
+        || !location.title
+        || !location.storefrontAddress
+        || !location.phoneNumbers
+
+      if (needsFullData) {
+        // ÉLITE: readMask según documentación oficial - campos válidos de Location resource
+        // IMPORTANTE: Incluir 'categories' explícitamente según documentación
+        // Referencia: https://developers.google.com/my-business/content/location-data#get_a_location_by_name
         fullLocation = await client.getLocation(
           locationId,
           'name,title,categories,openInfo,storefrontAddress,phoneNumbers,websiteUri,regularHours,metadata'
         )
+      }
+
+      // ÉLITE: Verificación final - asegurar que tenemos categories
+      // Si aún no tenemos categories después de getLocation, es un problema de la API
+      if (!fullLocation.categories?.primaryCategory) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[GBP Locations] ⚠️ Categories missing after getLocation - API may not be returning categories:', {
+            locationId,
+            locationName: fullLocation.title,
+            hasCategories: !!fullLocation.categories,
+            hasPrimaryCategory: !!fullLocation.categories?.primaryCategory,
+          })
+        }
+      } else if (process.env.NODE_ENV === 'development') {
+        // Log exitoso solo en desarrollo para confirmar que funciona
+        console.log('[GBP Locations] ✅ Category found:', {
+          locationId,
+          locationName: fullLocation.title,
+          category: fullLocation.categories.primaryCategory.displayName || fullLocation.categories.primaryCategory.name,
+        })
       }
 
       // Calcular progreso
@@ -78,8 +126,38 @@ export async function getLocationsTableData({
         await new Promise((resolve) => setTimeout(resolve, 200))
       }
 
-      // Formatear categorías
-      const primaryCategory = fullLocation.categories?.primaryCategory?.displayName || 'N/A'
+      // ÉLITE: Formatear categorías según documentación oficial de Google Business Profile API
+      // Referencia: https://developers.google.com/my-business/reference/businessinformation/rest/v1/locations#Categories
+      // primaryCategory tiene displayName (legible) y name (formato "gcid:xxx")
+      // Prioridad: displayName > name (sin prefijo gcid:) > constante por defecto
+      // IMPORTANTE: Verificar que categories esté en readMask para obtener estos datos
+      const primaryCategory = fullLocation.categories?.primaryCategory?.displayName
+        || (fullLocation.categories?.primaryCategory?.name
+          ? fullLocation.categories.primaryCategory.name.replace(/^gcid:/, '')
+          : null)
+        || LOCATION_DEFAULTS.NO_CATEGORY
+      
+      // ÉLITE: Logging para debugging (solo en desarrollo)
+      if (process.env.NODE_ENV === 'development') {
+        if (!fullLocation.categories?.primaryCategory) {
+          console.warn('[GBP Locations] ⚠️ No categories found for location:', {
+            locationId,
+            locationName: fullLocation.title,
+            hasCategories: !!fullLocation.categories,
+            hasPrimaryCategory: !!fullLocation.categories?.primaryCategory,
+            readMaskUsed: needsFullData ? 'full' : 'list',
+          })
+        } else {
+          // Log exitoso para confirmar que funciona
+          console.log('[GBP Locations] ✅ Category found:', {
+            locationId,
+            locationName: fullLocation.title,
+            category: primaryCategory,
+            displayName: fullLocation.categories.primaryCategory.displayName,
+            name: fullLocation.categories.primaryCategory.name,
+          })
+        }
+      }
       const additionalCategories =
         fullLocation.categories?.additionalCategories
           ?.map((cat) => cat.displayName)
@@ -99,27 +177,43 @@ export async function getLocationsTableData({
 
       // Formatear fecha
       // ÉLITE: updateTime puede estar disponible en la respuesta sin incluirlo en readMask
-      // Si no está disponible, usar 'N/A'
+      // Si no está disponible, usar constante (preparado para i18n)
       // NOTA: Formatear en servidor para evitar problemas de hidratación
+      // TODO: Usar i18n para formateo de fechas cuando esté disponible
       const lastUpdated = fullLocation.updateTime
-        ? new Date(fullLocation.updateTime).toLocaleDateString('es-ES', {
+        ? new Date(fullLocation.updateTime).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
           })
-        : 'N/A'
+        : LOCATION_DEFAULTS.NO_DATE
 
-      tableRows.push({
+      // ÉLITE: Construir objeto de fila con todos los datos
+      const tableRow: LocationTableRow = {
         locationId,
-        name: fullLocation.title || 'Sin nombre',
-        category: primaryCategory,
-        additionalCategories: additionalCategories.length > 0 ? additionalCategories : undefined,
+        name: fullLocation.title || LOCATION_DEFAULTS.UNNAMED_LOCATION,
+        category: primaryCategory, // ✅ Categoría principal extraída correctamente
+        // ÉLITE: No incluir additionalCategories - solo mostrar primary category
+        additionalCategories: undefined,
         status,
         progress,
         lastUpdated,
         healthScore,
         location: fullLocation,
-      })
+      }
+      
+      // ÉLITE: Logging para verificar que category se asigna correctamente
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[GBP Locations] 📊 Table row created:', {
+          locationId,
+          name: tableRow.name,
+          category: tableRow.category,
+          categoryType: typeof tableRow.category,
+          categoryLength: tableRow.category?.length,
+        })
+      }
+      
+      tableRows.push(tableRow)
 
       // Respetar límite de 300 QPM (pausa de 200ms entre ubicaciones)
       await new Promise((resolve) => setTimeout(resolve, 200))

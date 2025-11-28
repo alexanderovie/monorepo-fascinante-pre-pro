@@ -24,12 +24,18 @@ import { createClient } from '@/utils/supabase/server'
 import { GBPAPIError, GBPErrorCode, requiresTokenRefresh } from './gbp-errors'
 import { withRetry, type RetryConfig } from './gbp-retry'
 
+// ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
+// Usamos el tipo inferido de cookies()
+import { cookies } from 'next/headers'
+type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
+
 /**
  * Cliente base para hacer requests a Google Business Profile API
  * ÉLITE: Implementación robusta con manejo de errores de nivel industrial
  */
 class GBPAPIClient {
   private userId: string
+  private cookieStore?: ReadonlyRequestCookies
   private readonly defaultTimeout: number = 30000 // 30 segundos
   private readonly defaultRetryConfig: RetryConfig = {
     maxRetries: 3,
@@ -39,8 +45,9 @@ class GBPAPIClient {
     jitter: true,
   }
 
-  constructor(userId: string) {
+  constructor(userId: string, cookieStore?: ReadonlyRequestCookies) {
     this.userId = userId
+    this.cookieStore = cookieStore
   }
 
   /**
@@ -72,7 +79,8 @@ class GBPAPIClient {
     return withRetry(
       async () => {
         // Obtener access token válido (se refresca automáticamente si es necesario)
-        const accessToken = await getValidAccessToken(this.userId)
+        // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+        const accessToken = await getValidAccessToken(this.userId, false, this.cookieStore)
 
         // Crear AbortController para timeout
         const controller = new AbortController()
@@ -109,7 +117,8 @@ class GBPAPIClient {
             // Si requiere refresh de token, hacerlo y retry
             if (requiresTokenRefresh(gbpError)) {
               console.log('[GBP API] Token refresh required, refreshing and retrying...')
-              await getValidAccessToken(this.userId, true)
+              // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+              await getValidAccessToken(this.userId, true, this.cookieStore)
               // El retry logic se encargará de reintentar
               throw gbpError
             }
@@ -356,9 +365,22 @@ class GBPAPIClient {
 /**
  * Factory function para crear un cliente GBP API
  * ÉLITE: Obtiene el userId del usuario autenticado automáticamente
+ *
+ * @param userId - Opcional: ID del usuario (si se proporciona, evita llamar a createClient)
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
  */
-export async function createGBPClient(): Promise<GBPAPIClient> {
-  const supabase = await createClient()
+export async function createGBPClient(
+  userId?: string,
+  cookieStore?: Parameters<typeof createClient>[0]
+): Promise<GBPAPIClient> {
+  // Si se proporciona userId, usarlo directamente (para funciones cacheadas)
+  // ÉLITE: Pasar cookieStore al constructor para cumplir con restricciones de unstable_cache
+  if (userId) {
+    return new GBPAPIClient(userId, cookieStore)
+  }
+
+  // Si no se proporciona userId, obtenerlo del usuario autenticado (uso normal)
+  const supabase = await createClient(cookieStore)
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -367,7 +389,7 @@ export async function createGBPClient(): Promise<GBPAPIClient> {
     throw new Error('User not authenticated')
   }
 
-  return new GBPAPIClient(user.id)
+  return new GBPAPIClient(user.id, cookieStore)
 }
 
 /**

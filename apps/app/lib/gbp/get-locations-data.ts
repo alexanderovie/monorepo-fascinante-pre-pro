@@ -17,11 +17,16 @@
  * - Server Components deben usar funciones directas, no fetch a API routes internas
  */
 
-import { unstable_cache } from 'next/cache'
 import { createClient } from '@/utils/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { getGBPTokens } from '../integrations/gbp-tokens'
 import { getLocationsTableData } from './get-locations-table-data'
 import type { LocationTableRow } from './types'
+
+// ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
+// Usamos el tipo inferido de cookies()
+type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
 
 export interface LocationsDataResult {
   locations: LocationTableRow[]
@@ -32,15 +37,19 @@ export interface LocationsDataResult {
 /**
  * Función interna para obtener locations sin cache
  * ÉLITE: Separada para poder aplicar cache con unstable_cache
+ *
+ * IMPORTANTE: Recibe cookies como parámetro para cumplir con restricciones de unstable_cache
  */
 async function _getLocationsDataInternal(
   accountId: string,
   includeHealthScore: boolean,
-  userId: string
+  userId: string,
+  cookieStore: ReadonlyRequestCookies
 ): Promise<LocationsDataResult> {
   try {
     // Verificar que el usuario tiene tokens de GBP
-    const tokens = await getGBPTokens(userId)
+    // ÉLITE: Pasar cookies como parámetro para evitar acceso dinámico dentro de cache
+    const tokens = await getGBPTokens(userId, cookieStore)
     if (!tokens) {
       return {
         locations: [],
@@ -59,10 +68,12 @@ async function _getLocationsDataInternal(
     }
 
     // Obtener datos de la tabla usando la función existente
-    // Esta función ya maneja el formato y mapeo de datos
+    // ÉLITE: Pasar cookies y userId como parámetros para evitar acceso dinámico dentro de cache
     const locations = await getLocationsTableData({
       accountId,
       includeHealthScore,
+      cookieStore,
+      userId,
     })
 
     return {
@@ -97,7 +108,10 @@ export async function getLocationsData(
   accountId: string,
   includeHealthScore: boolean = false
 ): Promise<LocationsDataResult> {
-  const supabase = await createClient()
+  // ÉLITE: Obtener cookies FUERA de unstable_cache (requisito de Next.js 15)
+  const cookieStore = await cookies()
+
+  const supabase = await createClient(cookieStore)
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -110,22 +124,35 @@ export async function getLocationsData(
     }
   }
 
-  // ÉLITE: Usar unstable_cache según documentación oficial Next.js 15
+  // ÉLITE PRO: Usar unstable_cache según documentación oficial Next.js 15
   // Cache key incluye accountId, includeHealthScore y userId para granularidad
-  // Revalidate: 300 segundos (5 minutos)
+  // Revalidate: 60 segundos (1 minuto) - reducido para ver cambios más rápido durante desarrollo
   // Tags: para invalidación on-demand con revalidateTag
+  // IMPORTANTE: Pasar cookies como argumento, no accederlas dentro de la función
+  //
+  // NOTA: En desarrollo, React Strict Mode puede causar llamadas duplicadas.
+  // Esto es normal y no afecta producción. El cache previene llamadas reales duplicadas.
   const getCachedLocations = unstable_cache(
-    async () => {
-      return _getLocationsDataInternal(accountId, includeHealthScore, user.id)
+    async (
+      accountId: string,
+      includeHealthScore: boolean,
+      userId: string,
+      cookies: ReadonlyRequestCookies
+    ) => {
+      // ÉLITE: Logging solo en desarrollo y solo una vez por request real
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[GBP Cache] Fetching locations for account: ${accountId} (cache miss)`)
+      }
+      return _getLocationsDataInternal(accountId, includeHealthScore, userId, cookies)
     },
     [`gbp-locations-${accountId}-${includeHealthScore}-${user.id}`],
     {
-      revalidate: 300, // 5 minutos
+      revalidate: 60, // 1 minuto (reducido para desarrollo - cambiar a 300 en producción)
       tags: ['gbp-locations', `gbp-locations-${accountId}`, `gbp-locations-user-${user.id}`],
     }
   )
 
-  return getCachedLocations()
+  return getCachedLocations(accountId, includeHealthScore, user.id, cookieStore)
 }
 
 /**
@@ -193,4 +220,3 @@ export async function getLocationsDataCached(
     }
   }
 }
-

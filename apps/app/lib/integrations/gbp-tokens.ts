@@ -38,9 +38,18 @@ export interface GBPTokens {
  * - Manejo robusto de errores
  * - Logging para auditoría (sin exponer valores sensibles)
  */
+/**
+ * Almacena los tokens de GBP para un usuario en Supabase
+ * ÉLITE: Encripta los tokens automáticamente antes de guardarlos.
+ *
+ * @param userId - ID del usuario
+ * @param tokens - Tokens a almacenar (sin user_id)
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
+ */
 export async function storeGBPTokens(
   userId: string,
-  tokens: Omit<GBPTokens, 'user_id'>
+  tokens: Omit<GBPTokens, 'user_id'>,
+  cookieStore?: Parameters<typeof createClient>[0]
 ): Promise<void> {
   // Validar formato de tokens antes de guardar
   if (!validateTokenFormat(tokens.access_token, 'access')) {
@@ -58,7 +67,8 @@ export async function storeGBPTokens(
   console.log('[GBP OAuth] Refresh token length:', tokens.refresh_token?.length || 0)
   console.log('[GBP OAuth] Access token length:', tokens.access_token?.length || 0)
 
-  const supabase = await createClient()
+  // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+  const supabase = await createClient(cookieStore)
 
   // Verificar que el usuario esté autenticado antes de intentar guardar
   const {
@@ -175,11 +185,20 @@ export async function storeGBPTokens(
  * - Desencriptación segura a nivel de base de datos
  * - Validación de tokens después de desencriptar
  * - Manejo robusto de errores
+ *
+ * @param userId - ID del usuario
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
  */
-export async function getGBPTokens(userId: string): Promise<GBPTokens | null> {
-  console.log('[GBP OAuth] Getting tokens for user:', userId)
+export async function getGBPTokens(
+  userId: string,
+  cookieStore?: Parameters<typeof createClient>[0]
+): Promise<GBPTokens | null> {
+  // ÉLITE PRO: Reducir logging en producción para mejor performance
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[GBP OAuth] Getting tokens for user:', userId)
+  }
 
-  const supabase = await createClient()
+  const supabase = await createClient(cookieStore)
   const { data, error } = await supabase
     .from('user_integrations')
     .select('*')

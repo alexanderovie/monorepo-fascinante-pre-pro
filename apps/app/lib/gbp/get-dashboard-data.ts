@@ -12,18 +12,28 @@
  */
 
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import { getGBPTokens } from '../integrations/gbp-tokens'
 import { createGBPClient } from '../integrations/gbp-client'
 import type { GBPDashboardData, GBPAccount } from './types'
 import { mockGBPDashboardData } from './mock-data'
 
+// ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
+// Usamos el tipo inferido de cookies()
+type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
+
 /**
  * Obtiene las cuentas de Google Business Profile desde la API
  * ÉLITE: Usa el cliente GBP directamente (mejor práctica que fetch interno)
+ *
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
  */
-async function fetchAccountsFromAPI(): Promise<GBPAccount[]> {
+async function fetchAccountsFromAPI(
+  cookieStore?: ReadonlyRequestCookies
+): Promise<GBPAccount[]> {
   try {
-    const supabase = await createClient()
+    // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+    const supabase = await createClient(cookieStore)
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -33,14 +43,16 @@ async function fetchAccountsFromAPI(): Promise<GBPAccount[]> {
     }
 
     // Verificar que el usuario tiene tokens de GBP
-    const tokens = await getGBPTokens(user.id)
+    // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+    const tokens = await getGBPTokens(user.id, cookieStore)
     if (!tokens) {
       console.log('[GBP Dashboard] No tokens found, user needs to connect GBP first')
       return []
     }
 
     // Usar el cliente GBP directamente (mejor práctica)
-    const client = await createGBPClient()
+    // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+    const client = await createGBPClient(user.id, cookieStore)
     const response = await client.listAccounts()
 
     // Transformar la respuesta de Google al formato interno
@@ -73,11 +85,16 @@ async function fetchAccountsFromAPI(): Promise<GBPAccount[]> {
  * 2. Si hay cuentas, usar la primera como seleccionada
  * 3. Para métricas, usar datos mock por ahora (se actualizarán cuando implementemos esos endpoints)
  * 4. Si no hay cuentas, retornar datos mock para desarrollo
+ *
+ * @param cookieStore - Opcional: cookies obtenidas fuera de función cacheada (para uso con unstable_cache)
  */
-export async function getGBPDashboardData(): Promise<GBPDashboardData> {
+export async function getGBPDashboardData(
+  cookieStore?: ReadonlyRequestCookies
+): Promise<GBPDashboardData> {
   try {
     // 1. Obtener cuentas reales de la API
-    const accounts = await fetchAccountsFromAPI()
+    // ÉLITE: Pasar cookieStore para cumplir con restricciones de unstable_cache
+    const accounts = await fetchAccountsFromAPI(cookieStore)
 
     // 2. Si hay cuentas, construir datos reales
     if (accounts.length > 0) {

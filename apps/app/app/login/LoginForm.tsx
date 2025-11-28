@@ -43,6 +43,8 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
       <div className="flex flex-col sm:flex-row gap-2">
         <button
           type="button"
+          id="google-signin"
+          name="google-signin"
           onClick={handleGoogleSignIn}
           disabled={isLoading}
           className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
@@ -84,6 +86,8 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
 
         <button
           type="button"
+          id="apple-signin"
+          name="apple-signin"
           onClick={handleAppleSignIn}
           disabled={isLoading}
           className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
@@ -129,6 +133,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
               type="email"
               id="email"
               name="email"
+              autoComplete="email"
               required
               disabled={isLoading}
               className="py-2 sm:py-2.5 px-3 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
@@ -154,6 +159,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="current-password"
                 required
                 disabled={isLoading}
                 data-hs-toggle-password='{"target": "#password"}'
@@ -162,6 +168,9 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
               />
               <button
                 type="button"
+                id="toggle-password"
+                name="toggle-password"
+                aria-label="Mostrar u ocultar contraseña"
                 data-hs-toggle-password='{"target": "#password"}'
                 className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
               >
@@ -207,6 +216,8 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
 
           <button
             type="submit"
+            id="login-submit"
+            name="login-submit"
             disabled={isPending}
             className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
           >
