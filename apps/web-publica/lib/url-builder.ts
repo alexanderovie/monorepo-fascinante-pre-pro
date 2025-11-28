@@ -110,7 +110,7 @@ function getHost(): string | null {
 const DEFAULT_URLS = {
   login: 'https://app.fascinantedigital.com/',
   signup: '/audit', // Ruta interna - página de audit
-  demo: 'https://cal.com/fascinante-digital/consultoria-digital?overlayCalendar=true',
+  demo: '/book', // Página de agendar cita en lugar de Cal.com
 } as const;
 
 /**
@@ -148,9 +148,13 @@ export function getUrl(route: 'login' | 'signup' | 'demo'): string {
     return '/audit';
   }
 
+  // 'demo' siempre apunta a /book (página de agendar cita - ruta interna)
+  if (route === 'demo') {
+    return '/book';
+  }
+
   // 3. Rutas externas: usar detección de subdominio o DEFAULT_URLS
   // 'login' puede usar detección de subdominio
-  // 'demo' siempre usa la URL externa de Cal.com (DEFAULT_URLS)
 
   if (route === 'login') {
     // Detección automática de subdominio para 'login'

@@ -17,6 +17,27 @@ importers:
 
   apps/app:
     dependencies:
+      '@fullcalendar/core':
+        specifier: ^6.1.19
+        version: 6.1.19
+      '@fullcalendar/daygrid':
+        specifier: ^6.1.19
+        version: 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/interaction':
+        specifier: ^6.1.19
+        version: 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/react':
+        specifier: ^6.1.19
+        version: 6.1.19(@fullcalendar/core@6.1.19)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@fullcalendar/timegrid':
+        specifier: ^6.1.19
+        version: 6.1.19(@fullcalendar/core@6.1.19)
+      '@hookform/resolvers':
+        specifier: ^3.9.0
+        version: 3.10.0(react-hook-form@7.66.1(react@19.2.0))
+      '@stripe/stripe-js':
+        specifier: ^4.9.0
+        version: 4.10.0
       '@supabase/ssr':
         specifier: ^0.8.0
         version: 0.8.0(@supabase/supabase-js@2.86.0)
@@ -29,6 +50,12 @@ importers:
       datatables.net:
         specifier: ^2.3.5
         version: 2.3.5
+      date-fns:
+        specifier: ^3.6.0
+        version: 3.6.0
+      date-fns-tz:
+        specifier: ^2.0.0
+        version: 2.0.1(date-fns@3.6.0)
       dropzone:
         specifier: 6.0.0-beta.2
         version: 6.0.0-beta.2
@@ -56,9 +83,18 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: ^7.53.0
+        version: 7.66.1(react@19.2.0)
+      stripe:
+        specifier: ^17.3.1
+        version: 17.7.0
       vanilla-calendar-pro:
         specifier: ^3.0.5
         version: 3.0.5
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
     devDependencies:
       '@tailwindcss/forms':
         specifier: ^0.5.10
@@ -105,9 +141,18 @@ importers:
 
   apps/web-publica:
     dependencies:
+      '@hookform/resolvers':
+        specifier: ^3.9.0
+        version: 3.10.0(react-hook-form@7.66.1(react@19.2.0))
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@19.2.7)(react@19.2.0)
+      '@stripe/stripe-js':
+        specifier: ^4.9.0
+        version: 4.10.0
+      '@supabase/supabase-js':
+        specifier: ^2.86.0
+        version: 2.86.0
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -117,6 +162,12 @@ importers:
       crisp-sdk-web:
         specifier: ^1.0.26
         version: 1.0.26
+      date-fns:
+        specifier: ^3.6.0
+        version: 3.6.0
+      date-fns-tz:
+        specifier: ^2.0.0
+        version: 2.0.1(date-fns@3.6.0)
       lucide-react:
         specifier: ^0.555.0
         version: 0.555.0(react@19.2.0)
@@ -132,12 +183,21 @@ importers:
       react:
         specifier: ^19.2.0
         version: 19.2.0
+      react-day-picker:
+        specifier: ^9.4.4
+        version: 9.11.2(react@19.2.0)
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: ^7.53.0
+        version: 7.66.1(react@19.2.0)
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -178,6 +238,9 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@date-fns/tz@1.4.1':
+    resolution: {integrity: sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA==}
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -252,6 +315,36 @@ packages:
 
   '@formatjs/intl-localematcher@0.6.2':
     resolution: {integrity: sha512-XOMO2Hupl0wdd172Y06h6kLpBz6Dv+J4okPLl4LPtzbr8f66WbIoy4ev98EBuZ6ZK4h5ydTN6XneT4QVpD7cdA==}
+
+  '@fullcalendar/core@6.1.19':
+    resolution: {integrity: sha512-z0aVlO5e4Wah6p6mouM0UEqtRf1MZZPt4mwzEyU6kusaNL+dlWQgAasF2cK23hwT4cmxkEmr4inULXgpyeExdQ==}
+
+  '@fullcalendar/daygrid@6.1.19':
+    resolution: {integrity: sha512-IAAfnMICnVWPjpT4zi87i3FEw0xxSza0avqY/HedKEz+l5MTBYvCDPOWDATpzXoLut3aACsjktIyw9thvIcRYQ==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+
+  '@fullcalendar/interaction@6.1.19':
+    resolution: {integrity: sha512-GOciy79xe8JMVp+1evAU3ytdwN/7tv35t5i1vFkifiuWcQMLC/JnLg/RA2s4sYmQwoYhTw/p4GLcP0gO5B3X5w==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+
+  '@fullcalendar/react@6.1.19':
+    resolution: {integrity: sha512-FP78vnyylaL/btZeHig8LQgfHgfwxLaIG6sKbNkzkPkKEACv11UyyBoTSkaavPsHtXvAkcTED1l7TOunAyPEnA==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+      react: ^16.7.0 || ^17 || ^18 || ^19
+      react-dom: ^16.7.0 || ^17 || ^18 || ^19
+
+  '@fullcalendar/timegrid@6.1.19':
+    resolution: {integrity: sha512-OuzpUueyO9wB5OZ8rs7TWIoqvu4v3yEqdDxZ2VcsMldCpYJRiOe7yHWKr4ap5Tb0fs7Rjbserc/b6Nt7ol6BRg==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+
+  '@hookform/resolvers@3.10.0':
+    resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -521,6 +614,10 @@ packages:
 
   '@schummar/icu-type-parser@1.21.5':
     resolution: {integrity: sha512-bXHSaW5jRTmke9Vd0h5P7BtWZG9Znqb8gSDxZnxaGSJnGwPLDPfS+3g0BKzeWqzgZPsIVZkM7m2tbo18cm5HBw==}
+
+  '@stripe/stripe-js@4.10.0':
+    resolution: {integrity: sha512-KrMOL+sH69htCIXCaZ4JluJ35bchuCCznyPyrbN8JXSGQfwBI1SuIEMZNwvy8L8ykj29t6sa5BAAiL7fNoLZ8A==}
+    engines: {node: '>=12.16'}
 
   '@supabase/auth-js@2.86.0':
     resolution: {integrity: sha512-3xPqMvBWC6Haqpr6hEWmSUqDq+6SA1BAEdbiaHdAZM9QjZ5uiQJ+6iD9pZOzOa6MVXZh4GmwjhC9ObIG0K1NcA==}
@@ -1137,6 +1234,20 @@ packages:
 
   datatables.net@2.3.5:
     resolution: {integrity: sha512-Qrwc+vuw8GHo42u1usWTuriNAMW0VvLPSW3j8g3GxvatiD8wS/ZGW32VAYLLfmF4Hz0C/fo2KB3xZBfcpqqVTQ==}
+
+  date-fns-jalali@4.1.0-0:
+    resolution: {integrity: sha512-hTIP/z+t+qKwBDcmmsnmjWTduxCg+5KfdqWQvb2X/8C9+knYY6epN/pfxdDuyVlSVeFz0sM5eEfwIUQ70U4ckg==}
+
+  date-fns-tz@2.0.1:
+    resolution: {integrity: sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==}
+    peerDependencies:
+      date-fns: 2.x
+
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -1940,6 +2051,9 @@ packages:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
 
+  preact@10.12.1:
+    resolution: {integrity: sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==}
+
   preline@3.2.3:
     resolution: {integrity: sha512-S13MFdC/1FWFz3S+oW1PlyZ6Alo0SZxJ9HwaZRg5IQZjcbKqCFIOXAbAhQeX0izauqWJXIQdKofhfCWBizwleQ==}
 
@@ -1954,6 +2068,10 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  qs@6.14.0:
+    resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
+    engines: {node: '>=0.6'}
+
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -1963,10 +2081,22 @@ packages:
       apexcharts: '>=4.0.0'
       react: '>=0.13'
 
+  react-day-picker@9.11.2:
+    resolution: {integrity: sha512-TD/xMUGg2oiKX8jUR21MST5pj+7Y36097YtnDHQFlIcZOu3mbLLw2B2JqEByEGrR3HHveWYnKlyls6WqJgohAg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: '>=16.8.0'
+
   react-dom@19.2.0:
     resolution: {integrity: sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==}
     peerDependencies:
       react: ^19.2.0
+
+  react-hook-form@7.66.1:
+    resolution: {integrity: sha512-2KnjpgG2Rhbi+CIiIBQQ9Df6sMGH5ExNyFl4Hw9qO7pIqMBR8Bvu9RQyjl3JM4vehzCh9soiNUM/xYMswb2EiA==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -2131,6 +2261,10 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
+  stripe@17.7.0:
+    resolution: {integrity: sha512-aT2BU9KkizY9SATf14WhhYVv2uOapBWX0OFWF4xvcj1mPaNotlSc2CsxpS4DS46ZueSppmCF5BX1sNYBtwBvfw==}
+    engines: {node: '>=12.*'}
+
   styled-jsx@5.1.6:
     resolution: {integrity: sha512-qSVyDTeMotdvQYoHWLNGwRFJHC+i+ZvdBRYosOFgC+Wg1vx4frN2/RG/NA7SYqqvKNLf39P2LSRA2pu6n0XYZA==}
     engines: {node: '>= 12.0.0'}
@@ -2293,9 +2427,14 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
+
+  '@date-fns/tz@1.4.1': {}
 
   '@emnapi/core@1.7.1':
     dependencies:
@@ -2399,6 +2538,33 @@ snapshots:
   '@formatjs/intl-localematcher@0.6.2':
     dependencies:
       tslib: 2.8.1
+
+  '@fullcalendar/core@6.1.19':
+    dependencies:
+      preact: 10.12.1
+
+  '@fullcalendar/daygrid@6.1.19(@fullcalendar/core@6.1.19)':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+
+  '@fullcalendar/interaction@6.1.19(@fullcalendar/core@6.1.19)':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+
+  '@fullcalendar/react@6.1.19(@fullcalendar/core@6.1.19)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+
+  '@fullcalendar/timegrid@6.1.19(@fullcalendar/core@6.1.19)':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+      '@fullcalendar/daygrid': 6.1.19(@fullcalendar/core@6.1.19)
+
+  '@hookform/resolvers@3.10.0(react-hook-form@7.66.1(react@19.2.0))':
+    dependencies:
+      react-hook-form: 7.66.1(react@19.2.0)
 
   '@humanfs/core@0.19.1': {}
 
@@ -2596,6 +2762,8 @@ snapshots:
   '@rushstack/eslint-patch@1.15.0': {}
 
   '@schummar/icu-type-parser@1.21.5': {}
+
+  '@stripe/stripe-js@4.10.0': {}
 
   '@supabase/auth-js@2.86.0':
     dependencies:
@@ -3221,6 +3389,16 @@ snapshots:
   datatables.net@2.3.5:
     dependencies:
       jquery: 3.7.1
+
+  date-fns-jalali@4.1.0-0: {}
+
+  date-fns-tz@2.0.1(date-fns@3.6.0):
+    dependencies:
+      date-fns: 3.6.0
+
+  date-fns@3.6.0: {}
+
+  date-fns@4.1.0: {}
 
   debug@3.2.7:
     dependencies:
@@ -4143,6 +4321,8 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+  preact@10.12.1: {}
+
   preline@3.2.3:
     dependencies:
       '@floating-ui/dom': 1.7.4
@@ -4162,6 +4342,10 @@ snapshots:
 
   punycode@2.3.1: {}
 
+  qs@6.14.0:
+    dependencies:
+      side-channel: 1.1.0
+
   queue-microtask@1.2.3: {}
 
   react-apexcharts@1.8.0(apexcharts@5.3.6)(react@19.2.0):
@@ -4170,10 +4354,21 @@ snapshots:
       prop-types: 15.8.1
       react: 19.2.0
 
+  react-day-picker@9.11.2(react@19.2.0):
+    dependencies:
+      '@date-fns/tz': 1.4.1
+      date-fns: 4.1.0
+      date-fns-jalali: 4.1.0-0
+      react: 19.2.0
+
   react-dom@19.2.0(react@19.2.0):
     dependencies:
       react: 19.2.0
       scheduler: 0.27.0
+
+  react-hook-form@7.66.1(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   react-is@16.13.1: {}
 
@@ -4415,6 +4610,11 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
+  stripe@17.7.0:
+    dependencies:
+      '@types/node': 20.19.25
+      qs: 6.14.0
+
   styled-jsx@5.1.6(react@19.2.0):
     dependencies:
       client-only: 0.0.1
@@ -4615,3 +4815,5 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@0.1.0: {}
+
+  zod@3.25.76: {}
