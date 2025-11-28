@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
+import CrispChat from "@/components/crisp/CrispChat";
 
 const baseUrl = "https://fascinantedigital.com";
 
@@ -133,6 +134,12 @@ export default async function RootLayout({
         {/* Resource Hints: Optimiza carga de app.fascinantedigital.com */}
         <link rel="dns-prefetch" href="https://app.fascinantedigital.com" />
         <link rel="preconnect" href="https://app.fascinantedigital.com" crossOrigin="anonymous" />
+
+        {/* Resource Hints: Optimiza carga de Crisp Chat */}
+        <link rel="dns-prefetch" href="https://client.crisp.chat" />
+        <link rel="preconnect" href="https://client.crisp.chat" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://storage.crisp.chat" />
+        <link rel="preconnect" href="https://storage.crisp.chat" crossOrigin="anonymous" />
 
         {/* Schema.org Structured Data - Organization */}
         <script
@@ -295,6 +302,12 @@ export default async function RootLayout({
           {children}
         </NextIntlClientProvider>
         <PrelineScriptWrapper />
+        <CrispChat
+          locale={locale}
+          position="right"
+          colorTheme="blue"
+          hideOnMobile={false}
+        />
       </body>
     </html>
   );
