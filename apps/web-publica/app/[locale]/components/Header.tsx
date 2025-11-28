@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '../../../i18n/navigation';
-import { useMemo, useEffect, useRef, useState } from 'react';
+import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import { ASSETS, BRAND } from '../../../lib/constants';
 import { getUrl } from '../../../lib/url-builder';
 
@@ -33,8 +33,8 @@ export default function Header() {
     { id: 'automation', href: '/features', label: t('solutionsDropdown.digitalAutomation') },
   ];
 
-  // Función para cerrar el menú
-  const closeMenu = () => {
+  // Función para cerrar el menú (memoizada para evitar recreaciones)
+  const closeMenu = useCallback(() => {
     const button = buttonRef.current;
     const menu = menuRef.current;
 
@@ -52,7 +52,7 @@ export default function Header() {
       }
       setIsMenuOpen(false);
     }
-  };
+  }, []);
 
   // Detectar cuando el menú se abre/cierra (usando MutationObserver para detectar cambios de clase)
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  // Cerrar al hacer click fuera del menú
+  // Cerrar al hacer click fuera del menú (patrón estándar de la industria)
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -101,16 +101,15 @@ export default function Header() {
       }
     };
 
-    // Agregar listener con delay para evitar que se cierre inmediatamente al abrir
-    const timeoutId = setTimeout(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-    }, 100);
+    // Usar 'click' en lugar de 'mousedown' para mejor UX (patrón estándar)
+    // Agregar listener inmediatamente, sin delay
+    // Usar capture: false (default) para evitar interferir con clicks en el botón
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, closeMenu]);
 
   // Cerrar con tecla Escape
   useEffect(() => {
