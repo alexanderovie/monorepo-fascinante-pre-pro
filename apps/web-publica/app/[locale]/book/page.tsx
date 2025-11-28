@@ -25,19 +25,9 @@ export default async function BookPage({ params }: BookPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
-      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            {locale === 'es' ? 'Reserva tu Consultoría' : 'Book Your Consultation'}
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-neutral-400">
-            {locale === 'es'
-              ? 'Selecciona una fecha y hora para tu sesión de consultoría o auditoría'
-              : 'Select a date and time for your consultation or audit session'}
-          </p>
-        </div>
-
+    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 flex items-center justify-center">
+      {/* Layout tipo Cal.com: 3 paneles horizontales - Centrado verticalmente */}
+      <div className="w-full max-w-7xl mx-auto px-4">
         <BookingForm locale={locale} />
       </div>
     </div>

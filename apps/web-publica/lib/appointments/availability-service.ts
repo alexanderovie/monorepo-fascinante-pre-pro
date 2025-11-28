@@ -69,7 +69,7 @@ async function getAvailabilitySettings(): Promise<AvailabilitySettings | null> {
       .from('availability_settings')
       .select('*')
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Error fetching availability settings:', error);
