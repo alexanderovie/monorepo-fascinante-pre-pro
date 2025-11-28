@@ -1,11 +1,13 @@
+import AuditFormSection from '../components/AuditFormSection';
+
 /**
- * Audit Page - Sin contenido por ahora
- * El layout (Header y Footer) está definido en app/audit/layout.tsx
+ * Audit Page - Página de auditoría gratuita
+ * Formulario para solicitar auditoría de visibilidad en Google
  */
 export default function AuditPage() {
   return (
     <>
-      {/* Contenido pendiente */}
+      <AuditFormSection />
     </>
   );
 }
