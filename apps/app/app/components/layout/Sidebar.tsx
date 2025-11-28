@@ -33,11 +33,11 @@ export default function Sidebar({ user }: { user: User | null }) {
               aria-label="Fascinante Digital"
             >
               <Image
-                className="w-28 h-auto dark:invert"
+                className="w-28 dark:invert"
                 src="/assets/logo-fascinante.svg"
                 alt="Fascinante Digital Logo"
                 width={112}
-                height={32}
+                height={24}
                 priority
               />
             </Link>

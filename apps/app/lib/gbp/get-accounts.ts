@@ -17,26 +17,38 @@
  */
 
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { getGBPTokens } from '../integrations/gbp-tokens'
 import { createGBPClient } from '../integrations/gbp-client'
 import type { GBPAccount } from './types'
 
+// ÉLITE: En Next.js 15, ReadonlyRequestCookies no se exporta directamente
+// Usamos el tipo inferido de cookies()
+type ReadonlyRequestCookies = Awaited<ReturnType<typeof cookies>>
+
 /**
  * Función interna para obtener accounts sin cache
  * ÉLITE: Separada para poder aplicar cache con unstable_cache
+ *
+ * IMPORTANTE: Recibe cookies como parámetro para cumplir con restricciones de unstable_cache
  */
-async function _getAccountsInternal(userId: string): Promise<GBPAccount[]> {
+async function _getAccountsInternal(
+  userId: string,
+  cookieStore: ReadonlyRequestCookies
+): Promise<GBPAccount[]> {
   try {
     // Verificar que el usuario tiene tokens de GBP
-    const tokens = await getGBPTokens(userId)
+    // ÉLITE: Pasar cookies como parámetro para evitar acceso dinámico dentro de cache
+    const tokens = await getGBPTokens(userId, cookieStore)
     if (!tokens) {
       console.log('[GBP getAccounts] No tokens found, user needs to connect GBP first')
       return []
     }
 
     // Usar el cliente GBP directamente (mejor práctica para Server Components)
-    const client = await createGBPClient()
+    // ÉLITE: Pasar userId directamente para evitar crear cliente dentro de cache
+    const client = await createGBPClient(userId, cookieStore)
     const response = await client.listAccounts()
 
     // Transformar la respuesta de Google al formato interno
@@ -68,11 +80,15 @@ async function _getAccountsInternal(userId: string): Promise<GBPAccount[]> {
  * - Server Components deben usar funciones directas, no fetch a API routes
  * - unstable_cache es la forma recomendada de cachear funciones async
  * - Tags permiten invalidación granular con revalidateTag
+ * - IMPORTANTE: Cookies deben obtenerse FUERA de la función cacheada
  *
  * @returns Array de cuentas GBP, o array vacío si hay error o no hay cuentas
  */
 export async function getAccounts(): Promise<GBPAccount[]> {
-  const supabase = await createClient()
+  // ÉLITE: Obtener cookies FUERA de unstable_cache (requisito de Next.js 15)
+  const cookieStore = await cookies()
+
+  const supabase = await createClient(cookieStore)
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -86,9 +102,10 @@ export async function getAccounts(): Promise<GBPAccount[]> {
   // Cache key incluye userId para granularidad por usuario
   // Revalidate: 300 segundos (5 minutos)
   // Tags: para invalidación on-demand con revalidateTag
+  // IMPORTANTE: Pasar cookies como argumento, no accederlas dentro de la función
   const getCachedAccounts = unstable_cache(
-    async () => {
-      return _getAccountsInternal(user.id)
+    async (userId: string, cookies: ReadonlyRequestCookies) => {
+      return _getAccountsInternal(userId, cookies)
     },
     [`gbp-accounts-${user.id}`],
     {
@@ -97,6 +114,5 @@ export async function getAccounts(): Promise<GBPAccount[]> {
     }
   )
 
-  return getCachedAccounts()
+  return getCachedAccounts(user.id, cookieStore)
 }
-

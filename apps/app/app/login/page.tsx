@@ -27,11 +27,11 @@ export default function LoginPage() {
             aria-label="Fascinante Digital"
           >
             <Image
-              className="w-[134px] h-auto dark:invert"
+              className="w-28 dark:invert"
               src="/assets/logo-fascinante.svg"
               alt="Fascinante Digital Logo"
-              width={134}
-              height={32}
+              width={112}
+              height={24}
               priority
             />
           </Link>
