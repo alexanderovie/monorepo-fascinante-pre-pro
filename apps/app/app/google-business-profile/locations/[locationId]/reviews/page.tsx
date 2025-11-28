@@ -157,5 +157,3 @@ export default async function LocationReviewsPage({
     </div>
   )
 }
-
-

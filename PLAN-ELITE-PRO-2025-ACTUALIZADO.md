@@ -356,6 +356,5 @@ const eveningSlots = timeSlots.filter(t => t >= '18:00');
 
 ---
 
-**Última actualización:** Noviembre 2025  
+**Última actualización:** Noviembre 2025
 **Basado en:** Estándares de la industria y mejores prácticas consultadas
-

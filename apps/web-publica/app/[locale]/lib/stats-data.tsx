@@ -81,25 +81,25 @@ export const defaultStatsData: StatItem[] = [
   {
     value: '4.9',
     rating: 5,
-    description: 'Average satisfaction score',
+    description: 'Satisfacción promedio',
     logo: <CapterraLogo />,
   },
   {
     value: '350+',
     rating: 5,
-    description: 'Free audits delivered',
+    description: 'Auditorías entregadas',
     logo: <TrustpilotLogo />,
   },
   {
     value: '120+',
     rating: 5,
-    description: 'Verified reviews',
+    description: 'Reseñas verificadas',
     logo: <G2Logo />,
   },
   {
     value: '500+',
     rating: 5,
-    description: 'Business profiles optimized',
+    description: 'Perfiles optimizados',
     logo: <CapterraLogo />,
   },
 ];

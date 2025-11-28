@@ -104,36 +104,36 @@ export const defaultCaseStudyData: CaseStudyItem[] = [
     id: 'more-calls',
     icon: <MailchimpIcon />,
     metric: '+43%',
-    title: 'More calls from Google Maps',
+    title: 'Más llamadas desde Google Maps',
     description:
-      'Optimization + weekly automation = more customers without paid ads.',
+      'Optimización + automatización semanal = más clientes sin anuncios pagados.',
     href: '/customer-details',
   },
   {
     id: 'more-reviews',
     icon: <ShopifyIcon />,
     metric: '+20%',
-    title: 'More verified reviews',
+    title: 'Más reseñas verificadas',
     description:
-      'Optimization + weekly automation = more customers without paid ads.',
+      'Más clientes felices compartiendo su experiencia y mejorando tu visibilidad.',
     href: '/customer-details',
   },
   {
     id: 'more-visibility',
     icon: <GitLabIcon />,
     metric: '+125%',
-    title: 'Local search visibility',
+    title: 'Visibilidad en búsquedas locales',
     description:
-      'Optimization + weekly automation = more customers without paid ads.',
+      'Aparecer en las primeras posiciones cuando tus clientes buscan.',
     href: '/customer-details',
   },
   {
     id: 'zero-ads',
     icon: <AsanaIcon />,
     metric: '$0',
-    title: 'Spent on ads after optimization',
+    title: 'Gastado en anuncios después de optimizar',
     description:
-      'Optimization + weekly automation = more customers without paid ads.',
+      'Visibilidad orgánica que genera clientes reales sin costo adicional.',
     href: '/customer-details',
   },
 ];

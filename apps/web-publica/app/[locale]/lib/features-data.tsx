@@ -104,26 +104,26 @@ const DesigningForPeopleIcon = () => (
 export const defaultFeaturesData: FeatureItem[] = [
   {
     id: 'human-first',
-    title: 'Human-first',
-    description: 'We speak your language, not tech jargon. Plain and simple.',
+    title: 'Análisis con datos reales',
+    description: 'Vemos tu visibilidad usando información directa de Google Business Profile. Sabrás exactamente qué te falta para aparecer cuando tus clientes buscan.',
     icon: <CreativeMindsIcon />,
   },
   {
     id: 'automated',
-    title: 'Automated',
-    description: 'Your online presence improves while you focus on your work.',
+    title: 'Optimización automatizada',
+    description: 'Tu perfil se mejora mientras trabajas. Recibe más llamadas y reseñas sin dedicar tiempo a marketing.',
     icon: <ConquerBestIcon />,
   },
   {
     id: 'transparent',
-    title: 'Transparent',
-    description: 'We show your real results in a simple dashboard.',
+    title: 'Resultados medibles',
+    description: 'Ve tu crecimiento en tiempo real. Más visibilidad, más clientes, más ingresos — todo en un dashboard simple.',
     icon: <EffortlessUpdatesIcon />,
   },
   {
     id: 'empathetic',
-    title: 'Empathetic',
-    description: "We understand how hard it is to grow — that's why we make it easier.",
+    title: 'Sin conocimientos técnicos',
+    description: 'Entiendes tu visibilidad sin necesidad de ser experto. Te explicamos todo en lenguaje claro.',
     icon: <DesigningForPeopleIcon />,
   },
 ];

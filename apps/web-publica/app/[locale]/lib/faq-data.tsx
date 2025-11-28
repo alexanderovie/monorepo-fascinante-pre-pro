@@ -8,33 +8,33 @@ export interface FAQItem {
 export const defaultFAQData: FAQItem[] = [
   {
     id: 'why-not-showing',
-    question: "Why isn't my business showing on Google?",
+    question: '¿Por qué mi negocio no aparece en Google?',
     answer:
-      'Your profile might not be verified or optimized. Our free audit shows exactly why.',
+      'Tu perfil podría no estar verificado u optimizado. Nuestra auditoría gratuita te muestra exactamente qué falta para aparecer cuando tus clientes buscan.',
     isOpen: true,
   },
   {
     id: 'what-included',
-    question: "What's included in the free audit?",
+    question: '¿Qué incluye la auditoría gratuita?',
     answer:
-      "You'll get a complete report with visibility, reviews, and optimization insights.",
+      'Recibirás un reporte completo con tu visibilidad actual, reseñas, y recomendaciones específicas para mejorar. Todo basado en datos reales de Google Business Profile.',
   },
   {
     id: 'need-website',
-    question: 'Do I need a website to appear on Google?',
+    question: '¿Necesito un sitio web para aparecer en Google?',
     answer:
-      'No, but a good website improves your ranking and conversions.',
+      'No es obligatorio, pero un buen sitio web mejora tu ranking y conversiones. Te ayudamos a entender qué necesitas para mejorar tu visibilidad.',
   },
   {
     id: 'how-long',
-    question: 'How long does it take to see results?',
+    question: '¿Cuánto tiempo toma ver resultados?',
     answer:
-      'Most businesses see improvements within 2–4 weeks after optimization.',
+      'La mayoría de negocios ven mejoras en 2-4 semanas después de la optimización. Los resultados se miden en tiempo real en tu dashboard.',
   },
   {
     id: 'cancel-anytime',
-    question: 'Can I cancel anytime?',
+    question: '¿Puedo cancelar en cualquier momento?',
     answer:
-      "Absolutely. You're always in control.",
+      'Absolutamente. Tú tienes el control total. Sin contratos, sin ataduras.',
   },
 ];

@@ -110,5 +110,3 @@ export default async function LocationAttributesPage({
     </div>
   )
 }
-
-

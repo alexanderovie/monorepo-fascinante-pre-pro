@@ -12,7 +12,7 @@ interface CaseStudyProps {
  * Server Component para mostrar casos de éxito con métricas
  */
 export default function CaseStudy({
-  title = 'Real results from small businesses like yours — proven and measurable',
+  title = 'Resultados reales de negocios como el tuyo — comprobados y medibles',
   description = '',
   items,
 }: CaseStudyProps) {

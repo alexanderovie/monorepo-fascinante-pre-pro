@@ -8,7 +8,7 @@ export default function Clients() {
       <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="mb-8 text-center">
           <p className="font-mono text-sm text-gray-500 dark:text-neutral-400">
-            Restaurants, salons, realtors, auto repair shops — all growing with Fascinante Digital
+            Restaurantes, salones, agentes inmobiliarios, talleres — todos creciendo con visibilidad en Google
           </p>
         </div>
 

@@ -260,4 +260,3 @@ export default function ReviewsCard({ reviews, metrics, accountId, locationId }:
     </div>
   )
 }
-

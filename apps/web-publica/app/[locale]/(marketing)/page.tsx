@@ -50,34 +50,34 @@ export default async function Home() {
         <Stats items={defaultStatsData} />
         <ProductsCarousel title="Products" items={defaultProductsData} />
         <Features
-          badge="What we do"
-          title="Helping small businesses grow their visibility online"
-          description="At Fascinante Digital, we believe every local business deserves to be seen. We combine technology, automation, and strategy to make you visible on Google — no marketing knowledge required."
+          badge="Lo que hacemos"
+          title="Hacemos que tu negocio aparezca en Google"
+          description="Usamos datos reales de Google Business Profile para mostrarte exactamente cómo te ven tus clientes. Sin jerga técnica, sin promesas vacías — solo resultados que puedes medir."
           items={defaultFeaturesData}
         />
         <FeaturesAccordion />
         <CaseStudy items={defaultCaseStudyData} />
         <Clients />
         <FAQ
-          title="Your questions, answered"
-          description="Answers to the most frequently asked questions."
+          title="Tus preguntas, respondidas"
+          description="Respuestas claras a las preguntas más frecuentes sobre visibilidad en Google."
           items={defaultFAQData}
         />
         <CTA
-          badge="Get started"
+          badge="Comienza ahora"
           title={
             <>
-              Automate your visibility and
+              Automatiza tu visibilidad y
               <br />
-              attract real customers
+              atrae clientes reales
             </>
           }
           primaryButton={{
-            label: 'Try it free',
+            label: 'Pruébalo gratis',
             href: URLS.tryItFree,
           }}
           secondaryButton={{
-            label: 'Get a demo',
+            label: 'Solicita una demo',
             href: URLS.getDemo,
           }}
         />

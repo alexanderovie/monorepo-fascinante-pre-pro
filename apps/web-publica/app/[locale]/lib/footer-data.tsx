@@ -192,32 +192,28 @@ export const defaultFooterData: FooterData = {
   ],
   columns: [
     {
-      title: 'Company',
+      title: 'Empresa',
       links: [
-        { label: 'Newsroom', href: '#' },
-        { label: 'New features', href: '#' },
-        { label: 'Careers', href: '#' },
-        { label: 'Investors', href: '#' },
-        { label: 'Purpose', href: '#' },
+        { label: 'Cómo funciona', href: '/features' },
+        { label: 'Casos de éxito', href: '/customers' },
+        { label: 'Sobre nosotros', href: '/about' },
+        { label: 'Precios', href: '/pricing' },
       ],
     },
     {
-      title: 'Resources',
+      title: 'Recursos',
       links: [
-        { label: 'Gift Cards', href: '#' },
-        { label: 'Find a Store', href: '#' },
-        { label: 'Membership', href: '#' },
+        { label: 'Auditoría gratuita', href: '/audit' },
+        { label: 'Blog', href: '#' },
+        { label: 'Guías', href: '#' },
       ],
     },
     {
-      title: 'Help',
+      title: 'Ayuda',
       links: [
-        { label: 'Help Center', href: '#' },
-        { label: 'FAQs', href: '#' },
-        { label: 'Subscription', href: '#' },
-        { label: 'Order Status', href: '#' },
-        { label: 'Returns & Exchanges', href: '#' },
-        { label: 'Contact Us', href: '#' },
+        { label: 'Centro de ayuda', href: '#' },
+        { label: 'Preguntas frecuentes', href: '#' },
+        { label: 'Contacto', href: '/contact' },
       ],
     },
     {

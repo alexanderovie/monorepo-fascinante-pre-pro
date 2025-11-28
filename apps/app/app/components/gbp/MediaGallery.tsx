@@ -180,5 +180,3 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
     </div>
   )
 }
-
-
