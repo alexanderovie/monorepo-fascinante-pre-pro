@@ -150,7 +150,12 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'ProfessionalService',
               name: 'Fascinante Digital',
-              image: `${baseUrl}/assets/logo-fascinante.svg`,
+              image: {
+                '@type': 'ImageObject',
+                url: `${baseUrl}/assets/img/pro/startup/dashboard-fascinante.webp`,
+                width: 1200,
+                height: 630,
+              },
               url: baseUrl,
               telephone: '+1-800-886-4981',
               priceRange: '$$',

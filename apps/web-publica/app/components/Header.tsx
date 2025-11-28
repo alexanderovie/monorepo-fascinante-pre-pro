@@ -36,7 +36,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 inset-x-0 z-50 bg-white dark:bg-neutral-900">
       <nav className="max-w-6xl lg:max-w-7xl xl:max-w-7xl basis-full w-full py-4 px-4 sm:px-6 lg:px-8 lg:mx-auto">
-        <div className="flex flex-wrap lg:flex-nowrap basis-full justify-between gap-x-2 lg:gap-x-8 w-full">
+        <div className="flex flex-wrap lg:flex-nowrap basis-full justify-between gap-x-2 lg:gap-x-20 w-full">
           {/* Logo */}
           <div className="flex items-center gap-x-1">
             <Link

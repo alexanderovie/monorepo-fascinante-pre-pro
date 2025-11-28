@@ -23,6 +23,7 @@ export type SortDirection = 'asc' | 'desc'
 
 export interface Location {
   id: number
+  locationId?: string // ÉLITE: ID real de Google Business Profile para navegación
   name: string
   category: string
   status: LocationStatus

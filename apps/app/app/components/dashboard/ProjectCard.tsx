@@ -11,6 +11,7 @@
 'use client'
 
 import { useEffect, useState, useRef, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import type { LocationTableRow } from '@/lib/gbp/types'
 import { useLocationsTable, type Location } from '@/app/hooks/use-locations-table'
 import { useDebounce } from '@/app/hooks/use-debounce'
@@ -203,6 +204,8 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ initialData, accountId }: ProjectCardProps = {}) {
+  const router = useRouter()
+
   // ÉLITE: Si hay initialData, usarlo inmediatamente (Server Component)
   // Si no, usar array vacío y hacer fetch (sin hardcodeo)
   const [rawLocations, setRawLocations] = useState<Location[]>(
@@ -211,6 +214,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
           // ÉLITE: Mapear datos reales sin usar mocks hardcodeados
           return {
             id: index + 1,
+            locationId: row.locationId, // ÉLITE: Guardar locationId real para navegación
             name: row.name || LOCATION_DEFAULTS.UNNAMED_LOCATION,
             category: row.category || LOCATION_DEFAULTS.NO_CATEGORY,
             status: mapStatus(row.status || LOCATION_DEFAULTS.DEFAULT_STATUS),
@@ -297,6 +301,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
           const realLocations = locationsData.data.map((row: LocationTableRow, index: number) => {
             return {
               id: index + 1,
+              locationId: row.locationId, // ÉLITE: Guardar locationId real para navegación
               name: row.name || LOCATION_DEFAULTS.UNNAMED_LOCATION,
               category: row.category || LOCATION_DEFAULTS.NO_CATEGORY,
               status: mapStatus(row.status || LOCATION_DEFAULTS.DEFAULT_STATUS),
@@ -347,6 +352,7 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
     () =>
       rawLocations.map((loc) => ({
         id: loc.id,
+        locationId: loc.locationId, // ÉLITE: Preservar locationId para navegación
         name: loc.name,
         category: loc.category,
         status: loc.status,
@@ -880,7 +886,38 @@ export default function ProjectCard({ initialData, accountId }: ProjectCardProps
 
                   <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                     {paginatedLocations.map((location) => (
-                <tr key={location.id} className="divide-x divide-gray-200 dark:divide-neutral-700">
+                <tr
+                  key={location.id}
+                  className="divide-x divide-gray-200 dark:divide-neutral-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors"
+                  onClick={(e) => {
+                    // ÉLITE PRO: Comportamiento estándar de la industria - navegar a detalle al hacer click
+                    // Excluir clicks en checkboxes y botones de acción
+                    const target = e.target as HTMLElement
+                    if (
+                      target.tagName === 'INPUT' ||
+                      target.tagName === 'BUTTON' ||
+                      target.closest('input') ||
+                      target.closest('button')
+                    ) {
+                      return
+                    }
+
+                    // Navegar a página de detalle si hay locationId
+                    if (location.locationId) {
+                      router.push(`/google-business-profile/locations/${location.locationId}`)
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    // ÉLITE: Soporte para keyboard navigation (Enter/Space)
+                    if ((e.key === 'Enter' || e.key === ' ') && location.locationId) {
+                      e.preventDefault()
+                      router.push(`/google-business-profile/locations/${location.locationId}`)
+                    }
+                  }}
+                  aria-label={`View details for ${location.name}`}
+                >
                   <td className="size-px whitespace-nowrap">
                     <div className="px-3 py-4">
                       <input
