@@ -178,6 +178,65 @@ export default function RootLayout({
             }),
           }}
         />
+
+        {/* Schema.org Structured Data - Service (Consolidated Services for Homepage) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Service',
+              serviceType: [
+                'Free Visibility Audit',
+                'Local SEO Optimization',
+                'Reputation Management',
+                'Digital Automation',
+              ],
+              provider: {
+                '@type': 'ProfessionalService',
+                name: 'Fascinante Digital',
+                url: baseUrl,
+                telephone: '+1-800-886-4981',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '2054 Vista Pkwy #400',
+                  addressLocality: 'West Palm Beach',
+                  addressRegion: 'FL',
+                  postalCode: '33411',
+                  addressCountry: 'US',
+                },
+              },
+              areaServed: {
+                '@type': 'Place',
+                name: 'United States',
+              },
+              offers: [
+                {
+                  '@type': 'Offer',
+                  url: `${baseUrl}/audit`,
+                  priceCurrency: 'USD',
+                  price: '0',
+                  description:
+                    'Free audit to analyze your Google Business visibility and readiness for ads.',
+                },
+                {
+                  '@type': 'Offer',
+                  url: baseUrl,
+                  priceCurrency: 'USD',
+                  price: '99',
+                  description:
+                    'Local SEO optimization and visibility growth for small businesses.',
+                },
+              ],
+              brand: {
+                '@type': 'Brand',
+                name: 'Fascinante Digital',
+              },
+              description:
+                'Fascinante Digital provides automated visibility audits, local SEO, reputation management, and digital automation services for small businesses across the US.',
+            }),
+          }}
+        />
       </head>
       <body>
         {children}
