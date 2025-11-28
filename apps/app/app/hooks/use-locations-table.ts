@@ -229,10 +229,13 @@ export function useLocationsTable({
   }, [filteredAndSortedLocations, validCurrentPage, paginationState.itemsPerPage])
 
   // ÉLITE PRO: Sincronizar página actual si excede totalPages (solo cuando cambian los filtros)
+  // ÉLITE: No incluir paginationState.currentPage en deps - solo queremos ajustar cuando totalPages cambia
+  // Si incluimos currentPage, se crearía un loop infinito
   useEffect(() => {
     if (paginationState.currentPage > totalPages && totalPages > 0) {
       setPaginationState((prev) => ({ ...prev, currentPage: totalPages }))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalPages]) // Solo cuando totalPages cambia (por filtros), no cuando currentPage cambia
 
   // Acciones para filtros
