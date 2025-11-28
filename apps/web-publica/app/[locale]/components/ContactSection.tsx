@@ -27,7 +27,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative pt-0 pb-16 md:py-24 lg:py-32">
+    <section className="relative pt-0 pb-16 md:pb-24 lg:pt-16 lg:pb-32">
       {/* Background gradients sutiles usando colores del sitio */}
       <div className="pointer-events-none absolute inset-x-0 -bottom-20 -top-20 bg-[radial-gradient(ellipse_35%_15%_at_40%_55%,rgba(37,99,235,0.1)_0%,transparent_100%)] lg:bg-[radial-gradient(ellipse_12%_20%_at_60%_45%,rgba(37,99,235,0.1)_0%,transparent_100%)]"></div>
       <div className="pointer-events-none absolute inset-x-0 -bottom-20 -top-20 bg-[radial-gradient(ellipse_35%_20%_at_70%_75%,rgba(37,99,235,0.08)_0%,transparent_80%)] lg:bg-[radial-gradient(ellipse_15%_30%_at_70%_65%,rgba(37,99,235,0.08)_0%,transparent_80%)]"></div>
@@ -35,12 +35,12 @@ export default function ContactSection() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 max-[480px]:px-0 max-[480px]:max-w-full max-[480px]:w-full">
         <div className="grid w-full grid-cols-1 gap-x-8 lg:grid-cols-2 lg:gap-x-16 max-[480px]:gap-0">
           {/* Columna izquierda - Información */}
-          <div className="w-full pb-10 md:space-y-10 md:pb-0 max-[480px]:hidden">
+          <div className="w-full pb-10 md:space-y-10 md:pb-0 max-[480px]:hidden order-1 md:order-2 lg:order-1 md:flex md:justify-center">
             {/* Sección de beneficios - Solo visible en desktop */}
             <div className="hidden md:block">
               <div className="space-y-16 pb-20 lg:pb-0">
-                <div className="space-y-6">
-                  <div className="mt-8 flex overflow-hidden">
+                <div className="space-y-6 md:text-center lg:text-left">
+                  <div className="mt-8 flex overflow-hidden md:justify-center lg:justify-start">
                     {/* Avatares simplificados */}
                     <div className="flex size-11 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                       <span className="text-sm font-semibold">FD</span>
@@ -57,19 +57,19 @@ export default function ContactSection() {
                     <p className="text-sm font-semibold text-gray-800 dark:text-white">
                       {t('benefits.title')}
                     </p>
-                    <div className="flex items-center space-x-2.5">
+                    <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
                         {t('benefits.presentation')}
                       </p>
                     </div>
-                    <div className="flex items-center space-x-2.5">
+                    <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
                         {t('benefits.consulting')}
                       </p>
                     </div>
-                    <div className="flex items-center space-x-2.5">
+                    <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
                       <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
                       <p className="text-sm text-gray-600 dark:text-neutral-400">
                         {t('benefits.answers')}
@@ -82,7 +82,7 @@ export default function ContactSection() {
           </div>
 
           {/* Columna derecha - Formulario */}
-          <div className="flex w-full justify-center lg:mt-2.5 max-[480px]:col-span-1 max-[480px]:w-full">
+          <div className="flex w-full justify-center lg:mt-2.5 max-[480px]:col-span-1 max-[480px]:w-full order-2 md:order-1 lg:order-2">
             <div className="relative flex w-full min-w-[20rem] max-w-[30rem] flex-col items-center overflow-visible md:min-w-[24rem] max-[480px]:max-w-none max-[480px]:min-w-0 max-[480px]:w-full">
               <form onSubmit={handleSubmit} className="z-10 w-full space-y-6 max-[480px]:w-full">
                 <div className="w-full space-y-6 rounded-xl border border-gray-200 bg-white px-6 py-10 shadow-sm dark:border-neutral-700 dark:bg-neutral-800 max-[480px]:border-0 max-[480px]:rounded-none max-[480px]:px-4 max-[480px]:w-full">

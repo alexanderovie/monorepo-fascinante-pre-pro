@@ -2,7 +2,7 @@
   "metadata": {
     "title": "Fascinante Digital – Auditoría de Visibilidad Google",
     "titleTemplate": "%s | Fascinante Digital",
-    "description": "Obtén una auditoría gratuita y descubre cómo aparece tu negocio en Google. Mejora tu visibilidad y atrae clientes reales automáticamente.",
+    "description": "Obtén una auditoría gratuita y descubre cómo aparece tu negocio en Google. Mejora tu visibilidad en 14 días y atrae clientes reales automáticamente.",
     "keywords": [
       "perfil de negocio de google",
       "seo local",
@@ -20,12 +20,12 @@
     "tryAgain": "Intentar de nuevo"
   },
   "hero": {
-    "badge": "Aplicación Web",
+    "badge": "Auditoría Gratuita",
     "title": "Haz Visible Tu Negocio",
     "titleOn": "en Google",
-    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita de visibilidad que muestra cómo apareces en Google y qué te falta.",
+    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Recibe una auditoría gratuita que muestra cómo apareces en Google y mejora tu visibilidad en 14 días.",
     "primaryButton": "Pruébalo gratis",
-    "secondaryButton": "Solicita una demo",
+    "secondaryButton": "Ver auditoría",
     "contact": {
       "badge": "Contacto",
       "title": "Solicita una demo gratuita",
@@ -54,12 +54,12 @@
   },
   "audit": {
     "title": "Obtén tu auditoría gratuita",
-    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita que muestra cómo apareces en Google y qué te falta.",
+    "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Recibe una auditoría gratuita basada en datos reales de Google Business Profile que muestra cómo apareces y qué necesitas para mejorar.",
     "benefits": {
       "title": "Lo que recibirás:",
-      "completeAnalysis": "Análisis completo de tu visibilidad en Google",
-      "missingInfo": "Identificación de información faltante en tu perfil",
-      "recommendations": "Recomendaciones personalizadas para mejorar"
+      "completeAnalysis": "Análisis completo de tu visibilidad usando datos directos de Google",
+      "missingInfo": "Identificación exacta de información faltante en tu perfil",
+      "recommendations": "Recomendaciones específicas para mejorar tu visibilidad en 14 días"
     },
     "form": {
       "fullName": "Nombre completo",
@@ -77,12 +77,12 @@
   },
   "contact": {
     "title": "Solicita una demo gratuita",
-    "description": "Descubre cómo Fascinante Digital puede mejorar la visibilidad de tu negocio en Google. Obtén una presentación personalizada y respuestas a todas tus preguntas.",
+    "description": "Descubre cómo hacer visible tu negocio en Google usando datos reales. Obtén una presentación personalizada que muestra tu visibilidad actual y cómo mejorarla en 14 días.",
     "benefits": {
       "title": "Lo que puedes esperar:",
-      "presentation": "Presentación detallada del producto adaptada a tu negocio",
-      "consulting": "Consultoría sobre tu estrategia de visibilidad digital",
-      "answers": "Respuestas a todas las preguntas que tengas"
+      "presentation": "Análisis de tu visibilidad actual usando información directa de Google",
+      "consulting": "Plan personalizado para mejorar tu visibilidad sin conocimientos técnicos",
+      "answers": "Respuestas claras a todas tus preguntas sobre visibilidad en Google"
     },
     "form": {
       "fullName": "Nombre completo",

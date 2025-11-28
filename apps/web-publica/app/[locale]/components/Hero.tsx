@@ -301,7 +301,7 @@ export default function Hero({
       {/* Background Image Light - LCP Optimized */}
       {showBackground && (
         <>
-          <div className="absolute inset-0 dark:hidden">
+          <div className="absolute top-16 left-0 right-0 bottom-0 dark:hidden md:top-0">
             <Image
               src={backgroundImage.light}
               alt="Hero background"
@@ -314,7 +314,7 @@ export default function Hero({
             />
           </div>
           {/* Background Image Dark */}
-          <div className="absolute inset-0 hidden dark:block">
+          <div className="absolute top-16 left-0 right-0 bottom-0 hidden dark:block md:top-0">
             <Image
               src={backgroundImage.dark}
               alt="Hero background dark"
@@ -328,7 +328,7 @@ export default function Hero({
           </div>
         </>
       )}
-      <div className="pt-10 md:pt-20 pb-0 md:pb-20 relative z-10">
+      <div className="pt-10 md:pt-20 pb-0 relative z-10">
         <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}
           <div className="mb-4 md:mb-8 grid md:grid-cols-12 items-center gap-y-12 gap-x-5 lg:gap-x-8">
