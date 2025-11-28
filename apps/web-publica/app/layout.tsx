@@ -7,7 +7,7 @@ const baseUrl = "https://fascinantedigital.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Fascinante Digital – Free Google Visibility Audit",
+    default: "Fascinante Digital – Free Google Visibility Audit & SEO",
     template: "%s | Fascinante Digital",
   },
   description:
@@ -93,6 +93,90 @@ export default function RootLayout({
         {/* Resource Hints: Optimiza carga de app.fascinantedigital.com */}
         <link rel="dns-prefetch" href="https://app.fascinantedigital.com" />
         <link rel="preconnect" href="https://app.fascinantedigital.com" crossOrigin="anonymous" />
+
+        {/* Schema.org Structured Data - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Fascinante Digital',
+              url: baseUrl,
+              logo: `${baseUrl}/assets/logo-fascinante.svg`,
+              email: 'info@fascinantedigital.com',
+              telephone: '+1-800-886-4981',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: '2054 Vista Pkwy #400',
+                addressLocality: 'West Palm Beach',
+                addressRegion: 'FL',
+                postalCode: '33411',
+                addressCountry: 'US',
+              },
+              sameAs: [
+                'https://www.instagram.com/fascinantedigital',
+                'https://www.facebook.com/fascinantedigital',
+                'https://www.linkedin.com/company/fascinantedigital',
+              ],
+              description:
+                'Fascinante Digital helps small businesses appear on Google through automated visibility audits, local SEO, and digital growth tools.',
+              foundingDate: '2024',
+            }),
+          }}
+        />
+
+        {/* Schema.org Structured Data - WebSite */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              url: baseUrl,
+              name: 'Fascinante Digital',
+              description:
+                'Get a free audit and discover how your business appears on Google. Improve your visibility and attract real customers automatically.',
+            }),
+          }}
+        />
+
+        {/* Schema.org Structured Data - ProfessionalService (LocalBusiness) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ProfessionalService',
+              name: 'Fascinante Digital',
+              image: `${baseUrl}/assets/logo-fascinante.svg`,
+              url: baseUrl,
+              telephone: '+1-800-886-4981',
+              priceRange: '$$',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: '2054 Vista Pkwy #400',
+                addressLocality: 'West Palm Beach',
+                addressRegion: 'FL',
+                postalCode: '33411',
+                addressCountry: 'US',
+              },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: 26.7153,
+                longitude: -80.1200,
+              },
+              openingHours: 'Mo-Fr 09:00-18:00',
+              sameAs: [
+                'https://www.instagram.com/fascinantedigital',
+                'https://www.facebook.com/fascinantedigital',
+                'https://www.linkedin.com/company/fascinantedigital',
+              ],
+              description:
+                'Fascinante Digital provides automated visibility audits, local SEO, and digital marketing services for small businesses.',
+            }),
+          }}
+        />
       </head>
       <body>
         {children}
