@@ -1,36 +1,32 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Link } from '../../../i18n/navigation';
 import { useMemo } from 'react';
 import { ASSETS, BRAND } from '../../../lib/constants';
 import { getUrl } from '../../../lib/url-builder';
 
 /**
- * Header Component - Plantilla Startup
- * Componente escalable y type-safe para el header de la web pública
+ * Header Component - Navegación con i18n
+ * Estructura: Home | How It Works | Solutions ▼ | Results | About | Contact
  */
 export default function Header() {
   const pathname = usePathname();
+  const t = useTranslations('navigation');
 
   // URLs dinámicas basadas en subdominio (cacheadas con useMemo)
   const urls = useMemo(() => ({
     login: getUrl('login'),
-    tryItFree: getUrl('signup'),
-    getDemo: getUrl('demo'),
-  }), []); // Solo se calcula una vez al montar el componente
+    freeAudit: '/audit', // Ruta interna con locale
+  }), []);
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/features', label: 'Features' },
-    { href: '/about', label: 'About' },
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/contact', label: 'Contact' },
-  ];
-
-  const customerLinks = [
-    { href: '/customers', label: 'Customers' },
-    { href: '/customer-details', label: 'Customer Details' },
+  // Dropdown de Solutions
+  const solutionsLinks = [
+    { href: '/audit', label: t('solutionsDropdown.freeAudit') },
+    { href: '/features', label: t('solutionsDropdown.localSeo') },
+    { href: '/features', label: t('solutionsDropdown.reputationManagement') },
+    { href: '/features', label: t('solutionsDropdown.digitalAutomation') },
   ];
 
   return (
@@ -55,24 +51,17 @@ export default function Header() {
           {/* Button Group */}
           <div className="lg:order-3 flex gap-x-1 lg:gap-x-0.5">
             <Link
-              href={urls.getDemo}
-              className="py-2 px-2.5 hidden lg:flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-            >
-              Get a demo
-            </Link>
-
-            <Link
               href={urls.login}
               className="py-2 px-2.5 flex items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
-              Log in
+              {t('cta.login')}
             </Link>
 
             <Link
-              href={urls.tryItFree}
+              href={urls.freeAudit}
               className="py-2 px-2.5 inline-flex items-center gap-x-1.5 whitespace-nowrap text-[13px] md:text-sm rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 hover:shadow-none focus:outline-hidden focus:bg-blue-700 focus:shadow-none disabled:opacity-50 disabled:pointer-events-none"
             >
-              Try it free
+              {t('cta.getFreeAudit')}
             </Link>
 
             {/* Collapse Button Trigger */}
@@ -113,28 +102,37 @@ export default function Header() {
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-thumb]:bg-white/30 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
               {/* Nav */}
               <div className="flex flex-col lg:flex-row lg:gap-y-0 lg:gap-x-0.5 py-2 lg:p-0">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${pathname === link.href ? 'bg-gray-100 dark:bg-neutral-800' : ''
-                      }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {/* Home */}
+                <Link
+                  href="/"
+                  className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
+                    pathname === '/' || pathname.endsWith('/') ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                  }`}
+                >
+                  {t('home')}
+                </Link>
 
-                {/* Dropdown Link */}
+                {/* How It Works */}
+                <Link
+                  href="/features"
+                  className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
+                    pathname.includes('/features') ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                  }`}
+                >
+                  {t('howItWorks')}
+                </Link>
+
+                {/* Solutions Dropdown */}
                 <div className="hs-dropdown [--strategy:static] lg:[--strategy:fixed] [--adaptive:none] lg:[--adaptive:adaptive] lg:[--trigger:hover] lg:inline-block">
                   <button
-                    id="hs-pro-cnncddm"
+                    id="hs-pro-solutions-dropdown"
                     type="button"
                     className="hs-dropdown-toggle py-2 px-2.5 lg:px-2 w-full lg:w-auto flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     aria-haspopup="menu"
                     aria-expanded="false"
-                    aria-label="Dropdown"
+                    aria-label={t('solutions')}
                   >
-                    Customers
+                    {t('solutions')}
                     <svg
                       className="shrink-0 size-4"
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,10 +154,10 @@ export default function Header() {
                     className="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] lg:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 relative w-full lg:w-52 hidden z-10 top-full bg-white lg:rounded-lg lg:shadow-xl shadow-stone-200 ps-6 lg:ps-0 before:absolute before:-top-4 before:start-0 before:w-full before:h-5 lg:after:hidden after:absolute after:top-1 after:start-4.5 after:w-0.5 after:h-[calc(100%-4px)] after:bg-stone-100 dark:bg-neutral-900 dark:shadow-neutral-900 dark:after:bg-neutral-700"
                     role="menu"
                     aria-orientation="vertical"
-                    aria-labelledby="hs-pro-cnncddm"
+                    aria-labelledby="hs-pro-solutions-dropdown"
                   >
                     <div className="p-1 space-y-0.5">
-                      {customerLinks.map((link) => (
+                      {solutionsLinks.map((link) => (
                         <Link
                           key={link.href}
                           href={link.href}
@@ -172,11 +170,34 @@ export default function Header() {
                   </div>
                 </div>
 
+                {/* Results */}
                 <Link
-                  href={urls.getDemo}
-                  className="py-2 px-2.5 lg:hidden flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  href="/customers"
+                  className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
+                    pathname.includes('/customers') ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                  }`}
                 >
-                  Get a demo
+                  {t('results')}
+                </Link>
+
+                {/* About */}
+                <Link
+                  href="/about"
+                  className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
+                    pathname.includes('/about') ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                  }`}
+                >
+                  {t('about')}
+                </Link>
+
+                {/* Contact */}
+                <Link
+                  href="/contact"
+                  className={`py-2 px-2.5 lg:px-2 flex items-center gap-x-1.5 text-sm whitespace-nowrap text-start text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${
+                    pathname.includes('/contact') ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                  }`}
+                >
+                  {t('contact')}
                 </Link>
               </div>
             </div>

@@ -26,5 +26,23 @@
     "description": "Before spending on ads, find out if your business is ready to attract real clients. Fascinante Digital gives you a free visibility audit that shows how you appear on Google and what's missing.",
     "primaryButton": "Try it free",
     "secondaryButton": "Get a demo"
+  },
+  "navigation": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "solutions": "Solutions",
+    "results": "Results",
+    "about": "About",
+    "contact": "Contact",
+    "solutionsDropdown": {
+      "freeAudit": "Free Audit",
+      "localSeo": "Local SEO",
+      "reputationManagement": "Reputation Management",
+      "digitalAutomation": "Digital Automation"
+    },
+    "cta": {
+      "getFreeAudit": "Get Free Audit",
+      "login": "Log in"
+    }
   }
 }

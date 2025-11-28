@@ -26,5 +26,23 @@
     "description": "Antes de gastar en anuncios, descubre si tu negocio está listo para atraer clientes reales. Fascinante Digital te ofrece una auditoría gratuita de visibilidad que muestra cómo apareces en Google y qué te falta.",
     "primaryButton": "Pruébalo gratis",
     "secondaryButton": "Solicita una demo"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "howItWorks": "Cómo Funciona",
+    "solutions": "Soluciones",
+    "results": "Resultados",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto",
+    "solutionsDropdown": {
+      "freeAudit": "Auditoría Gratis",
+      "localSeo": "SEO Local",
+      "reputationManagement": "Gestión de Reputación",
+      "digitalAutomation": "Automatización Digital"
+    },
+    "cta": {
+      "getFreeAudit": "Auditoría Gratis",
+      "login": "Iniciar Sesión"
+    }
   }
 }
