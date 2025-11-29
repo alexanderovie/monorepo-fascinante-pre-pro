@@ -182,9 +182,10 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
                 disabled={!isAvailable}
                 className={cn(
                   'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left',
+                  'border border-gray-200 dark:border-neutral-700',
                   'transition-colors',
                   isAvailable
-                    ? 'hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer'
+                    ? 'hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer hover:border-gray-300 dark:hover:border-neutral-600'
                     : 'opacity-50 cursor-not-allowed',
                   slot.booked &&
                     'line-through text-gray-400 dark:text-neutral-500'
