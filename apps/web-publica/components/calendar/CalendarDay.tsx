@@ -22,8 +22,8 @@ function getDayClasses(
 
   // Variante Cal.com: Cuadrados con bordes (estilo exacto)
   if (variant === 'cal-com') {
-    // En móvil: flex-1 para que quepan los 7 días, en escritorio: tamaño fijo
-    const squareBase = 'flex-1 lg:size-[42px] aspect-square border border-gray-300 dark:border-neutral-600';
+    // Cal.com usa cuadrados más grandes con más espaciado
+    const squareBase = 'size-[42px] border border-gray-300 dark:border-neutral-600';
 
     if (isDisabled) {
       return cn(
