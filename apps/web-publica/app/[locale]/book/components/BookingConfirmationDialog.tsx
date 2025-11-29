@@ -225,7 +225,7 @@ export default function BookingConfirmationDialog({
                   : 'Please share any information that helps us prepare for our meeting.'
               }
               className={cn(
-                'block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600',
+                'block w-full rounded-lg border border-gray-200 px-3 py-2 text-base sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600',
                 errors.notes && 'border-red-500 focus:border-red-500 focus:ring-red-500'
               )}
               aria-invalid={errors.notes ? 'true' : undefined}
