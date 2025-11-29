@@ -220,11 +220,11 @@ export const defaultFooterData: FooterData = {
       title: 'Contact',
       links: [
         {
-          label: '📍 2054 Vista Pkwy #400, West Palm Beach, FL 33411',
+          label: '2054 Vista Pkwy #400, West Palm Beach, FL 33411',
           href: 'https://maps.google.com/?q=2054+Vista+Pkwy+%23400,+West+Palm+Beach,+FL+33411',
         },
-        { label: '📞 +1 (800) 886-4981', href: 'tel:+18008864981' },
-        { label: '✉️ info@fascinantedigital.com', href: 'mailto:info@fascinantedigital.com' },
+        { label: '+1 (800) 886-4981', href: 'tel:+18008864981' },
+        { label: 'info@fascinantedigital.com', href: 'mailto:info@fascinantedigital.com' },
       ],
     },
   ],

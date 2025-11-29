@@ -30,7 +30,7 @@ const Banner2 = ({
 
   return (
     <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 w-full py-3">
-      <div className="max-w-6xl w-full px-4 sm:px-6 lg:px-8 lg:mx-auto">
+      <div className="max-w-[85rem] w-full px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <span className="text-sm text-white">

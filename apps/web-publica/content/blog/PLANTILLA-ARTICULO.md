@@ -45,7 +45,7 @@ Párrafo 3: Qué van a aprender (preview)
 ## Título de Sección 1
 Contenido...
 
-## Título de Sección 2  
+## Título de Sección 2
 Contenido...
 
 ## Título de Sección 3
@@ -269,4 +269,3 @@ Párrafo final resumiendo los puntos principales y llamada a acción.
 ---
 
 **Última actualización:** Noviembre 2025
-

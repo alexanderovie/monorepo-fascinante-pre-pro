@@ -87,18 +87,8 @@ export default function ContactSection() {
   return (
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="max-w-2xl lg:max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-            {t('title')}
-          </h1>
-          <p className="mt-1 text-gray-600 dark:text-neutral-400">
-            {t('description')}
-          </p>
-        </div>
-
         {/* Grid: Formulario + Información */}
-        <div className="mt-12 grid items-center lg:grid-cols-2 gap-6 lg:gap-16">
+        <div className="grid items-center lg:grid-cols-2 gap-6 lg:gap-16">
           {/* Card - Formulario */}
           <div className="flex flex-col border border-gray-200 rounded-xl p-4 sm:p-6 lg:p-8 dark:border-neutral-700">
             <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-neutral-200">

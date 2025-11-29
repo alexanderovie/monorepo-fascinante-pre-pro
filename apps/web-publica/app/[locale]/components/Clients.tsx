@@ -1,23 +1,18 @@
 /**
  * Clients Component - Trusted by fast-growing companies worldwide
- * Server Component para mostrar logos de empresas en marquee animado
+ * Actualizado: Noviembre 2025
+ * Idéntico a plantilla HTML proporcionada
  */
 export default function Clients() {
   return (
     <div className="pt-10 pb-20">
-      <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
-        <div className="mb-8 text-center">
-          <p className="font-mono text-sm text-gray-500 dark:text-neutral-400">
-            Restaurantes, salones, agentes inmobiliarios, talleres — todos creciendo con visibilidad en Google
-          </p>
-        </div>
-
+      <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
         {/* Grid */}
-        <div className="relative overflow-hidden before:absolute before:inset-y-0 before:start-0 before:z-1 before:w-20 before:h-full before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:inset-y-0 after:end-0 after:z-1 after:w-20 after:h-full after:bg-gradient-to-l after:from-white after:to-transparent dark:before:from-neutral-900 dark:after:from-neutral-900">
+        <div className="relative overflow-hidden before:absolute before:inset-y-0 before:start-0 before:z-1 before:w-20 before:h-full before:bg-linear-to-r before:from-white before:to-transparent after:absolute after:inset-y-0 after:end-0 after:z-1 after:w-20 after:h-full after:bg-linear-to-l after:from-white after:to-transparent dark:before:from-neutral-900 dark:after:from-neutral-900">
           <div className="flex items-center animate-marquee">
-            {/* Brands - Se repetirán para efecto infinito */}
+            {/* Brands */}
             <div className="flex items-center justify-around">
-              {/* Logos se agregarán aquí */}
+              {/* Brand logos will be added here */}
             </div>
             {/* End Brands */}
           </div>
