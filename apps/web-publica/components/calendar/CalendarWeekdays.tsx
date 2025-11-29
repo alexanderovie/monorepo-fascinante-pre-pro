@@ -27,7 +27,7 @@ export const CalendarWeekdays = memo(function CalendarWeekdays({
   return (
     <div
       className={cn(
-        'flex',
+        'flex gap-0.5',
         'pb-1.5',
         className
       )}
