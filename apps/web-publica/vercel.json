@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd ../.. && pnpm install && pnpm --filter @fascinante/web-publica build",
-  "installCommand": "cd ../.. && pnpm install",
-  "framework": "nextjs"
-}
-
