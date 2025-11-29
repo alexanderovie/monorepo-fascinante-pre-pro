@@ -23,7 +23,7 @@ function getDayClasses(
   // Variante Cal.com: Cuadrados con bordes (estilo exacto)
   if (variant === 'cal-com') {
     // Cal.com usa cuadrados más grandes con más espaciado
-    const squareBase = 'size-[42px] border border-gray-300 dark:border-neutral-600';
+    const squareBase = 'w-full aspect-square border border-gray-300 dark:border-neutral-600';
 
     if (isDisabled) {
       return cn(

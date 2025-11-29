@@ -33,7 +33,7 @@ export const CalendarGrid = memo(function CalendarGrid({
       {weeks.map((week, weekIndex) => (
         <div
           key={`week-${weekIndex}`}
-          className="flex gap-0.5 lg:gap-0.5"
+          className="grid grid-cols-7 gap-0.5"
           role="row"
           aria-label={`Semana ${weekIndex + 1}`}
         >
