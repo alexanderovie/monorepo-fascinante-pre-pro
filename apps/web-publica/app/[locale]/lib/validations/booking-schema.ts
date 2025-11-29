@@ -74,4 +74,3 @@ export type BookingConfirmationData = z.infer<typeof bookingConfirmationSchema>;
  * Helper para validar datos parciales (útil para validación progresiva)
  */
 export const bookingConfirmationPartialSchema = bookingConfirmationSchema.partial();
-

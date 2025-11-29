@@ -154,7 +154,7 @@ export default function BookingConfirmationDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md" preventMobileAutoFocus={true}>
         <DialogHeader>
           <DialogTitle>
             {isSpanish ? 'Confirme sus datos' : 'Confirm your data'}
@@ -312,4 +312,3 @@ export default function BookingConfirmationDialog({
     </Dialog>
   );
 }
-
