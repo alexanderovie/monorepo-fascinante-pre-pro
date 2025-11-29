@@ -489,13 +489,51 @@ export default function AuditResultsSection() {
           </div>
         </div>
 
-        {/* Metrics Grid */}
+        {/* Metrics Grid - Preline Style Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Rating Card */}
+          {/* Rating Card - Preline Style */}
           {rating !== undefined && rating !== null && isValidNumber(rating) && (
-            <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-3">
+            <div className="p-5 flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+              {/* Header */}
+              <div className="flex gap-3">
+                <div className="mt-0.5 flex shrink-0 justify-center items-center size-8 bg-yellow-100 text-yellow-800 rounded-md dark:bg-yellow-900/30 dark:text-yellow-400">
+                  <svg
+                    className="shrink-0 size-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+
+                <div className="grow">
+                  <h2 className="font-medium text-sm sm:text-base text-gray-800 dark:text-neutral-200">
+                    Calificación
+                  </h2>
+
+                  {/* List */}
+                  <ul className="flex flex-wrap items-center whitespace-nowrap gap-1.5 mt-1">
+                    {reviewsCount !== undefined && reviewsCount !== null && (
+                      <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                        <p className="text-xs text-gray-500 dark:text-neutral-500">
+                          {reviewsCount} {reviewsCount === 1 ? 'reseña' : 'reseñas'}
+                        </p>
+                      </li>
+                    )}
+                    <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">
+                        Google My Business
+                      </p>
+                    </li>
+                  </ul>
+                  {/* End List */}
+                </div>
+              </div>
+              {/* End Header */}
+
+              {/* Content */}
+              <div className="mt-5 text-center">
+                <div className="flex items-center justify-center gap-2">
                   <span className="text-4xl font-bold text-gray-900 dark:text-white">
                     {formatRating(rating) || 'N/A'}
                   </span>
@@ -507,55 +545,124 @@ export default function AuditResultsSection() {
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </div>
-                <p className="text-sm font-medium text-gray-500 dark:text-neutral-400 mb-1">
-                  Calificación
-                </p>
-                {reviewsCount !== undefined && (
-                  <p className="text-xs text-gray-600 dark:text-neutral-400">
-                    {reviewsCount} {reviewsCount === 1 ? 'reseña' : 'reseñas'}
-                  </p>
+              </div>
+              {/* End Content */}
+            </div>
+          )}
+
+          {/* Status Card - Preline Style */}
+          {workHours && (
+            <div className="p-5 flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+              {/* Header */}
+              <div className="flex gap-3">
+                <div className={`mt-0.5 flex shrink-0 justify-center items-center size-8 rounded-md ${
+                  workHours.current_status === 'open'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                    : 'bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-200'
+                }`}>
+                  <svg
+                    className="shrink-0 size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+
+                <div className="grow">
+                  <h2 className="font-medium text-sm sm:text-base text-gray-800 dark:text-neutral-200">
+                    Estado del Negocio
+                  </h2>
+
+                  {/* List */}
+                  <ul className="flex flex-wrap items-center whitespace-nowrap gap-1.5 mt-1">
+                    <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">
+                        Tiempo real
+                      </p>
+                    </li>
+                  </ul>
+                  {/* End List */}
+                </div>
+              </div>
+              {/* End Header */}
+
+              {/* Content */}
+              <div className="mt-5 text-center">
+                {workHours.current_status === 'open' ? (
+                  <span className="inline-flex items-center gap-x-1.5 py-2 px-4 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-500">
+                    <span className="size-2 bg-green-500 rounded-full"></span>
+                    Abierto ahora
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-x-1.5 py-2 px-4 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+                    <span className="size-2 bg-gray-500 rounded-full"></span>
+                    Cerrado
+                  </span>
                 )}
               </div>
+              {/* End Content */}
             </div>
           )}
 
-          {/* Status Card */}
-          {workHours && (
-            <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6">
-              <div className="text-center">
-                <div className="mb-3">
-                  {workHours.current_status === 'open' ? (
-                    <span className="inline-flex items-center gap-x-1.5 py-2 px-4 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-500">
-                      <span className="size-2 bg-green-500 rounded-full"></span>
-                      Abierto ahora
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-x-1.5 py-2 px-4 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
-                      <span className="size-2 bg-gray-500 rounded-full"></span>
-                      Cerrado
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm font-medium text-gray-500 dark:text-neutral-400">
-                  Estado
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Category Card */}
+          {/* Category Card - Preline Style */}
           {category && (
-            <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6">
-              <div className="text-center">
-                <div className="mb-3">
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                    {category}
-                  </span>
+            <div className="p-5 flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+              {/* Header */}
+              <div className="flex gap-3">
+                <div className="mt-0.5 flex shrink-0 justify-center items-center size-8 bg-blue-100 text-blue-800 rounded-md dark:bg-blue-900/30 dark:text-blue-400">
+                  <svg
+                    className="shrink-0 size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                  </svg>
                 </div>
-                <p className="text-sm font-medium text-gray-500 dark:text-neutral-400">
-                  Categoría
-                </p>
+
+                <div className="grow">
+                  <h2 className="font-medium text-sm sm:text-base text-gray-800 dark:text-neutral-200">
+                    Categoría Principal
+                  </h2>
+
+                  {/* List */}
+                  <ul className="flex flex-wrap items-center whitespace-nowrap gap-1.5 mt-1">
+                    <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">
+                        Google My Business
+                      </p>
+                    </li>
+                  </ul>
+                  {/* End List */}
+                </div>
               </div>
+              {/* End Header */}
+
+              {/* Content */}
+              <div className="mt-5 text-center">
+                <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                  {category}
+                </span>
+              </div>
+              {/* End Content */}
             </div>
           )}
         </div>
