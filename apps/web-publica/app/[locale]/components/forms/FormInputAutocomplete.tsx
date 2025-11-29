@@ -19,7 +19,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { useController, Control, FieldPath, FieldValues, Path } from 'react-hook-form';
+import { useController, Control, FieldPath, FieldValues } from 'react-hook-form';
 import FormInput, { type FormInputProps } from './FormInput';
 
 interface PlacePrediction {
@@ -46,7 +46,7 @@ interface AutocompleteResponse {
 
 export interface FormInputAutocompleteProps<TFieldValues extends FieldValues = FieldValues> extends Omit<FormInputProps, 'onChange' | 'value'> {
   control: Control<TFieldValues>;
-  name: Path<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   onPlaceSelect?: (place: { place_id: string; name: string; address?: string }) => void;
   countryRestriction?: string | string[];
 }
@@ -88,7 +88,7 @@ export default function FormInputAutocomplete<TFieldValues extends FieldValues =
     fieldState: { error },
   } = useController({
     control,
-    name: name as FieldPath<TFieldValues>,
+    name,
   });
 
   // Función para buscar sugerencias
