@@ -7,7 +7,7 @@
  * Maneja la selección de fecha y hora.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import BookingCalendar from './BookingCalendar';
 import { BookingInfo } from './BookingInfo';
 import { BookingTimeSlots } from './BookingTimeSlots';
@@ -17,6 +17,9 @@ interface BookingContainerProps {
 }
 
 export default function BookingContainer({ locale }: BookingContainerProps) {
+  // Ref para el contenedor de horarios (para hacer scroll automático)
+  const timeSlotsRef = useRef<HTMLDivElement>(null);
+
   // Seleccionar día actual por defecto
   const getToday = () => {
     const today = new Date();
@@ -34,6 +37,7 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
       setSelectedDate(getToday());
     }
   }, [selectedDate]);
+
   const [_selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined
   );
@@ -42,6 +46,17 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
     setSelectedDate(date);
     // Resetear horario cuando cambia la fecha
     setSelectedTime(undefined);
+
+    // Hacer scroll automático a los horarios cuando se selecciona un día
+    if (date && timeSlotsRef.current) {
+      // Pequeño delay para asegurar que el DOM se haya actualizado
+      setTimeout(() => {
+        timeSlotsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 100);
+    }
   };
 
   const handleTimeSelect = (time: string, date: Date) => {
@@ -76,7 +91,10 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
       </div>
 
       {/* COLUMNA 3: Horarios (derecha) */}
-      <div className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6 flex flex-col">
+      <div
+        ref={timeSlotsRef}
+        className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6 flex flex-col"
+      >
         <BookingTimeSlots
           locale={locale}
           selectedDate={selectedDate}
