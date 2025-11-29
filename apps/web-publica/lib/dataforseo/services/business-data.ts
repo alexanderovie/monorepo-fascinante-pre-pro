@@ -153,7 +153,7 @@ export async function getGoogleMyBusinessInfo(
 
     // Obtener el primer item de la lista (ItemsGoogleBusinessInfo)
     const item: ItemsGoogleBusinessInfo | undefined = result.items?.[0];
-    
+
     if (!item) {
       throw new DataForSEOError(
         'No se encontró información del negocio en DataForSEO',

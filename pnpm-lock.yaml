@@ -156,6 +156,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.86.0
         version: 2.86.0
+      apexcharts:
+        specifier: ^5.3.6
+        version: 5.3.6
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -192,6 +195,9 @@ importers:
       react:
         specifier: ^19.2.0
         version: 19.2.0
+      react-apexcharts:
+        specifier: ^1.8.0
+        version: 1.8.0(apexcharts@5.3.6)(react@19.2.0)
       react-day-picker:
         specifier: ^9.4.4
         version: 9.11.2(react@19.2.0)

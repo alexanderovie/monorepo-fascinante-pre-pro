@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import ExternalImage from '../../components/ExternalImage';
+
+// Importar ApexCharts dinámicamente para evitar problemas de SSR
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 /**
  * Helper functions para validación robusta y escalable
@@ -776,7 +780,61 @@ export default function AuditResultsSection() {
 
           <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 sm:items-center gap-3">
             {/* Apex Radial Bar Chart */}
-            <div id="hs-pro-asdwrb" className="min-h-[223px] mx-auto"></div>
+            <div id="hs-pro-asdwrb" className="min-h-[223px] mx-auto w-full">
+              <Chart
+                type="radialBar"
+                height={223}
+                series={[60, 30, 10]}
+                options={{
+                  chart: {
+                    type: 'radialBar',
+                    height: 223,
+                    sparkline: {
+                      enabled: false,
+                    },
+                    toolbar: {
+                      show: false,
+                    },
+                  },
+                  plotOptions: {
+                    radialBar: {
+                      track: {
+                        background: '#E5E7EB',
+                        strokeWidth: '100%',
+                        margin: 0,
+                      },
+                      dataLabels: {
+                        show: false,
+                      },
+                      hollow: {
+                        size: '35%',
+                      },
+                      startAngle: -90,
+                      endAngle: 90,
+                    },
+                  },
+                  colors: ['#4F46E5', '#22D3EE', '#E5E7EB'], // indigo-600, cyan-400, gray-200
+                  labels: ['Tailwind CSS', 'Bootstrap', 'Other'],
+                  stroke: {
+                    lineCap: 'round',
+                  },
+                  legend: {
+                    show: false,
+                  },
+                  tooltip: {
+                    enabled: false,
+                  },
+                  grid: {
+                    padding: {
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: 0,
+                    },
+                  },
+                }}
+              />
+            </div>
 
             <div className="flex flex-col gap-3 sm:gap-5">
               {/* Legend Indicator */}
