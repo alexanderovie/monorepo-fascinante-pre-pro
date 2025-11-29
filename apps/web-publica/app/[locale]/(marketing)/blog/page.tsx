@@ -15,6 +15,7 @@ import { getTranslations } from 'next-intl/server';
 export default async function BlogPage() {
   const posts = await getAllPosts({ limit: 12, sortBy: 'date', sortOrder: 'desc' });
   const t = await getTranslations('hero.blog');
+  const tBlog = await getTranslations('blog.list');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -61,7 +62,7 @@ export default async function BlogPage() {
                       </div>
                       <div className="pt-0 p-4 md:p-6">
                         <div className="inline-flex items-center gap-2 text-sm font-medium text-white group-hover:text-white/70 group-focus:text-white/70">
-                          Read more
+                          {tBlog('readMore')}
                           <svg
                             className="shrink-0 size-4"
                             xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +104,7 @@ export default async function BlogPage() {
                       )}
                       {isFirst && (
                         <span className="absolute top-0 end-0 rounded-se-xl rounded-es-xl text-xs font-medium bg-gray-800 text-white py-1.5 px-3 dark:bg-neutral-900">
-                          Sponsored
+                          {tBlog('sponsored')}
                         </span>
                       )}
                     </div>
@@ -116,7 +117,7 @@ export default async function BlogPage() {
                         <p className="mt-3 text-gray-800 dark:text-neutral-200">{post.excerpt}</p>
                       )}
                       <p className="mt-5 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-                        Read more
+                        {tBlog('readMore')}
                         <svg
                           className="shrink-0 size-4"
                           xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +139,7 @@ export default async function BlogPage() {
               })
             ) : (
               <div className="col-span-full text-center py-10">
-                <p className="text-gray-600 dark:text-neutral-400">No hay artículos disponibles.</p>
+                <p className="text-gray-600 dark:text-neutral-400">{tBlog('noArticles')}</p>
               </div>
             )}
           </div>

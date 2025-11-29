@@ -30,6 +30,11 @@
       "badge": "Contact",
       "title": "Request a Free Demo",
       "description": "Discover how Fascinante Digital can improve your business visibility on Google. Get a personalized presentation and answers to all your questions."
+    },
+    "blog": {
+      "badge": "Learn. Audit. Grow.",
+      "title": "Insights and strategies to make your business visible online.",
+      "description": "At Fascinante Digital we share real strategies, data, and tools to help your business shine on Google and attract real customers."
     }
   },
   "navigation": {
@@ -157,6 +162,25 @@
     "confirmation": {
       "success": "Booking confirmed",
       "error": "Error confirming"
+    }
+  },
+  "blog": {
+    "list": {
+      "readMore": "Read more",
+      "sponsored": "Sponsored",
+      "noArticles": "No articles available."
+    },
+    "article": {
+      "backToBlog": "Back to Blog",
+      "like": "Like",
+      "comment": "Comment",
+      "share": "Share",
+      "shareOptions": {
+        "copyLink": "Copy link",
+        "shareOnTwitter": "Share on Twitter",
+        "shareOnFacebook": "Share on Facebook",
+        "shareOnLinkedIn": "Share on LinkedIn"
+      }
     }
   }
 }

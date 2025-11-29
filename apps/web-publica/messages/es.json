@@ -30,6 +30,11 @@
       "badge": "Contacto",
       "title": "Solicita una demo gratuita",
       "description": "Descubre cómo Fascinante Digital puede mejorar la visibilidad de tu negocio en Google. Obtén una presentación personalizada y respuestas a todas tus preguntas."
+    },
+    "blog": {
+      "badge": "Aprende. Audita. Crece.",
+      "title": "Insights y estrategias para hacer visible tu negocio online.",
+      "description": "En Fascinante Digital compartimos estrategias reales, datos y herramientas para ayudar a tu negocio a brillar en Google y atraer clientes reales."
     }
   },
   "navigation": {
@@ -191,6 +196,25 @@
     "confirmation": {
       "success": "Reserva confirmada",
       "error": "Error al confirmar"
+    }
+  },
+  "blog": {
+    "list": {
+      "readMore": "Leer más",
+      "sponsored": "Patrocinado",
+      "noArticles": "No hay artículos disponibles."
+    },
+    "article": {
+      "backToBlog": "Volver al Blog",
+      "like": "Me gusta",
+      "comment": "Comentar",
+      "share": "Compartir",
+      "shareOptions": {
+        "copyLink": "Copiar enlace",
+        "shareOnTwitter": "Compartir en Twitter",
+        "shareOnFacebook": "Compartir en Facebook",
+        "shareOnLinkedIn": "Compartir en LinkedIn"
+      }
     }
   }
 }

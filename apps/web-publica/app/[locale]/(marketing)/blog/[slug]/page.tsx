@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * Blog Post Page Component
  */
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   try {
     const post = await getPost(slug);
@@ -110,7 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
             <div className="grid lg:grid-cols-3 gap-y-8 lg:gap-y-0 lg:gap-x-6">
               {/* Content */}
-              <BlogArticle post={post} />
+              <BlogArticle post={post} locale={locale} />
               {/* End Content */}
 
               {/* Sidebar */}
