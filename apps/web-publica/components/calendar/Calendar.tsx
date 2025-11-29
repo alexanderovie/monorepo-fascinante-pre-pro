@@ -96,12 +96,24 @@ export const Calendar = memo(function Calendar({
           onNextMonth={calendar.goToNextMonth}
         />
 
-        {/* Headers de días de semana */}
-        <CalendarWeekdays
-          locale={locale}
-          format={weekdayFormat}
-          weekStart={weekStart}
-        />
+        {/* Headers de días de semana (responsive) */}
+        {/* Móvil: formato corto (Sun, Mon, ... / DOM, LUN, ...) */}
+        <div className="flex lg:hidden">
+          <CalendarWeekdays
+            locale={locale}
+            format="short"
+            weekStart={weekStart}
+          />
+        </div>
+
+        {/* Desktop: formato configurado (por defecto, largo estilo Cal.com) */}
+        <div className="hidden lg:flex">
+          <CalendarWeekdays
+            locale={locale}
+            format={weekdayFormat}
+            weekStart={weekStart}
+          />
+        </div>
 
         {/* Grid de días */}
         <CalendarGrid
