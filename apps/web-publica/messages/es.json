@@ -121,5 +121,11 @@
       "privacyLink": "política de privacidad",
       "privacyNote": "."
     }
+  },
+  "book": {
+    "confirmation": {
+      "success": "Reserva confirmada",
+      "error": "Error al confirmar"
+    }
   }
 }

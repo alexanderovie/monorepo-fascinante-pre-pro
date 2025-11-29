@@ -121,5 +121,11 @@
       "privacyLink": "privacy policy",
       "privacyNote": "."
     }
+  },
+  "book": {
+    "confirmation": {
+      "success": "Booking confirmed",
+      "error": "Error confirming"
+    }
   }
 }

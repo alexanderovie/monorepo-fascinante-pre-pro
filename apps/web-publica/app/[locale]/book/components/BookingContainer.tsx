@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from 'react';
 import BookingCalendar from './BookingCalendar';
 import { BookingInfo } from './BookingInfo';
 import { BookingTimeSlots } from './BookingTimeSlots';
+import BookingConfirmationDialog from './BookingConfirmationDialog';
 
 interface BookingContainerProps {
   locale: string;
@@ -38,14 +39,16 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
     }
   }, [selectedDate]);
 
-  const [_selectedTime, setSelectedTime] = useState<string | undefined>(
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined
   );
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
     // Resetear horario cuando cambia la fecha
     setSelectedTime(undefined);
+    setIsDialogOpen(false);
 
     // Hacer scroll automático a los horarios cuando se selecciona un día
     if (date && timeSlotsRef.current) {
@@ -59,11 +62,26 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
     }
   };
 
-  const handleTimeSelect = (time: string, date: Date) => {
+  const handleTimeSelect = (time: string, _date: Date) => {
     setSelectedTime(time);
-    // Aquí se puede hacer algo con la selección completa (fecha + hora)
-    // Ejemplo: enviar a API, actualizar estado global, etc.
-    void { date, time }; // Placeholder para uso futuro
+    // Abrir dialog de confirmación
+    setIsDialogOpen(true);
+  };
+
+  const handleConfirmBooking = async (data: {
+    name: string;
+    email: string;
+    notes?: string;
+  }) => {
+    // TODO: Implementar llamada a API real
+    // Aquí iría la llamada a la API:
+    // const response = await fetch('/api/bookings', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ date: selectedDate, time: selectedTime, ...data }),
+    // });
+    // if (!response.ok) throw new Error('Failed to confirm booking');
+    void { date: selectedDate, time: selectedTime, ...data }; // Placeholder
   };
 
   return (
@@ -104,6 +122,19 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
           endTime="17:00"
         />
       </div>
+
+      {/* Dialog de confirmación */}
+      {selectedDate && selectedTime && (
+        <BookingConfirmationDialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          duration={30}
+          locale={locale}
+          onConfirm={handleConfirmBooking}
+        />
+      )}
     </div>
   );
 }
