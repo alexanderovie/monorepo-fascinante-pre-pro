@@ -22,7 +22,7 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 export interface FormInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className'> {
-  label: string;
+  label?: string;
   labelClassName?: string;
   containerClassName?: string;
   className?: string;

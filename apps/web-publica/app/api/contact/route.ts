@@ -14,23 +14,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { contactFormSchema, type ContactFormData } from '@/app/[locale]/lib/validations/contact-schema';
+import { contactFormSchemaV2, type ContactFormDataV2 } from '@/app/[locale]/lib/validations/contact-schema-v2';
 
 /**
  * POST /api/contact
  *
  * Procesa el envío del formulario de contacto
  *
- * Request Body:
- * - fullName: string (requerido, 2-100 caracteres)
- * - company?: string (opcional, max 100 caracteres)
- * - phone?: string (opcional, formato teléfono)
- * - email: string (requerido, email válido)
- * - country?: string (opcional, enum)
- * - companySize?: string (opcional, enum)
- * - referral?: string (opcional, enum)
+ * Soporta dos versiones del formulario:
+ * - V1: fullName, company, phone, email, country, companySize, referral
+ * - V2: firstName, lastName, email, phone, message
  *
  * Response:
- * - 200: { success: true, message: string, data: ContactFormData }
+ * - 200: { success: true, message: string, data: ContactFormData | ContactFormDataV2 }
  * - 400: { success: false, error: string, errors?: Record<string, string> }
  * - 429: { success: false, error: string } (rate limiting - futuro)
  * - 500: { success: false, error: string }
@@ -51,8 +47,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Detectar qué versión del schema usar basándose en los campos presentes
+    const bodyObj = body as Record<string, unknown>;
+    const isV2 = 'firstName' in bodyObj || 'lastName' in bodyObj || 'message' in bodyObj;
+    const isV1 = 'fullName' in bodyObj;
+
     // Validar con Zod (validación del servidor)
-    const validationResult = contactFormSchema.safeParse(body);
+    let validationResult;
+    if (isV2) {
+      validationResult = contactFormSchemaV2.safeParse(body);
+    } else if (isV1) {
+      validationResult = contactFormSchema.safeParse(body);
+    } else {
+      // Si no tiene campos reconocibles, intentar con V2 (más reciente)
+      validationResult = contactFormSchemaV2.safeParse(body);
+    }
 
     if (!validationResult.success) {
       // Mapear errores de Zod a formato amigable
@@ -68,7 +77,6 @@ export async function POST(request: NextRequest) {
       });
 
       // Log de errores de validación (no crítico, pero útil para debugging)
-      // eslint-disable-next-line no-console
       console.warn('[API] Contact form validation errors:', {
         errors,
         timestamp: new Date().toISOString(),
@@ -85,7 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Datos validados
-    const data: ContactFormData = validationResult.data;
+    const data = validationResult.data as ContactFormData | ContactFormDataV2;
 
     // TODO: Aquí iría la lógica de negocio:
     // - Guardar en base de datos (Supabase, PostgreSQL, etc.)
@@ -97,14 +105,28 @@ export async function POST(request: NextRequest) {
     // - etc.
 
     // Por ahora, solo logueamos (en producción, esto iría a un servicio)
-    // eslint-disable-next-line no-console
-    console.log('[API] Contact form submission:', {
-      fullName: data.fullName,
-      email: data.email,
-      company: data.company || 'N/A',
-      country: data.country || 'N/A',
-      timestamp: new Date().toISOString(),
-    });
+    if (isV2) {
+      const v2Data = data as ContactFormDataV2;
+      // eslint-disable-next-line no-console
+      console.log('[API] Contact form submission (V2):', {
+        firstName: v2Data.firstName,
+        lastName: v2Data.lastName,
+        email: v2Data.email,
+        phone: v2Data.phone || 'N/A',
+        messageLength: v2Data.message.length,
+        timestamp: new Date().toISOString(),
+      });
+    } else {
+      const v1Data = data as ContactFormData;
+      // eslint-disable-next-line no-console
+      console.log('[API] Contact form submission (V1):', {
+        fullName: v1Data.fullName,
+        email: v1Data.email,
+        company: v1Data.company || 'N/A',
+        country: v1Data.country || 'N/A',
+        timestamp: new Date().toISOString(),
+      });
+    }
 
     // Simular procesamiento (en producción, esto sería real)
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -114,11 +136,16 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: 'Formulario enviado correctamente. Te contactaremos pronto.',
-        data: {
-          fullName: data.fullName,
-          email: data.email,
-          // No devolvemos datos sensibles
-        },
+        data: isV2
+          ? {
+              firstName: (data as ContactFormDataV2).firstName,
+              lastName: (data as ContactFormDataV2).lastName,
+              email: (data as ContactFormDataV2).email,
+            }
+          : {
+              fullName: (data as ContactFormData).fullName,
+              email: (data as ContactFormData).email,
+            },
       },
       { status: 200 }
     );

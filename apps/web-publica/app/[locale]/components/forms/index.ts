@@ -19,3 +19,6 @@ export type { FormButtonProps } from './FormButton';
 
 export { default as FormContainer, FormWrapper, FormCard } from './FormContainer';
 export type { FormContainerProps, FormLayout } from './FormContainer';
+
+export { default as FormTextarea } from './FormTextarea';
+export type { FormTextareaProps } from './FormTextarea';

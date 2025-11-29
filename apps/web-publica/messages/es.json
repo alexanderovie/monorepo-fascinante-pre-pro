@@ -118,8 +118,8 @@
     }
   },
   "contact": {
-    "title": "Solicita una demo gratuita",
-    "description": "Descubre cómo hacer visible tu negocio en Google usando datos reales. Obtén una presentación personalizada que muestra tu visibilidad actual y cómo mejorarla en 14 días.",
+    "title": "Contáctanos",
+    "description": "Nos encantaría hablar sobre cómo podemos ayudarte.",
     "benefits": {
       "title": "Lo que puedes esperar:",
       "presentation": "Análisis de tu visibilidad actual usando información directa de Google",
@@ -127,10 +127,23 @@
       "answers": "Respuestas claras a todas tus preguntas sobre visibilidad en Google"
     },
     "form": {
+      "title": "Completa el formulario",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "phone": "Número de teléfono",
+      "message": "Detalles",
+      "submit": "Enviar consulta",
+      "submitting": "Enviando...",
+      "success": "Formulario enviado correctamente. Te contactaremos pronto.",
+      "error": "Error al enviar el formulario",
+      "errorConnection": "Error de conexión. Por favor, verifica tu internet e intenta de nuevo.",
+      "footer": "Te responderemos en 1-2 días hábiles.",
+      "privacy": "Para más información sobre cómo manejamos tu información personal, visita nuestra",
+      "privacyLink": "política de privacidad",
+      "privacyNote": ".",
       "fullName": "Nombre completo",
       "company": "Empresa",
-      "phone": "Número de teléfono",
-      "email": "Email (empresarial)",
       "country": "País",
       "selectCountry": "Selecciona un país",
       "companySize": "Tamaño de empresa",
@@ -148,12 +161,30 @@
         "social": "Redes sociales",
         "referral": "Recomendación",
         "other": "Otro"
+      }
+    },
+    "info": {
+      "knowledgebase": {
+        "title": "Base de conocimientos",
+        "description": "Estamos aquí para ayudar con cualquier pregunta o código.",
+        "link": "Contactar soporte"
       },
-      "submit": "Solicitar demo",
-      "submitting": "Enviando...",
-      "privacy": "Para más información sobre cómo manejamos tu información personal, visita nuestra",
-      "privacyLink": "política de privacidad",
-      "privacyNote": "."
+      "faq": {
+        "title": "Preguntas frecuentes",
+        "description": "Busca en nuestras preguntas frecuentes respuestas a cualquier pregunta que puedas tener.",
+        "link": "Visitar FAQ"
+      },
+      "apis": {
+        "title": "APIs para desarrolladores",
+        "description": "Consulta nuestra guía de inicio rápido para desarrolladores.",
+        "link": "Contactar ventas"
+      },
+      "email": {
+        "title": "Contáctanos por email",
+        "description": "Si prefieres escribirnos un email, por favor usa",
+        "link": "info@fascinantedigital.com",
+        "address": "info@fascinantedigital.com"
+      }
     }
   },
   "book": {

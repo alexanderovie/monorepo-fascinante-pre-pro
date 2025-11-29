@@ -84,8 +84,8 @@
     }
   },
   "contact": {
-    "title": "Request a Free Demo",
-    "description": "Discover how Fascinante Digital can improve your business visibility on Google. Get a personalized presentation and answers to all your questions.",
+    "title": "Contact us",
+    "description": "We'd love to talk about how we can help you.",
     "benefits": {
       "title": "What you can expect:",
       "presentation": "Detailed product presentation tailored to your business",
@@ -93,10 +93,23 @@
       "answers": "Answers to all the questions you have"
     },
     "form": {
+      "title": "Fill in the form",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "message": "Details",
+      "submit": "Send inquiry",
+      "submitting": "Sending...",
+      "success": "Form submitted successfully. We'll contact you soon.",
+      "error": "Error submitting form",
+      "errorConnection": "Connection error. Please check your internet and try again.",
+      "footer": "We'll get back to you in 1-2 business days.",
+      "privacy": "For more information about how we handle your personal information, please visit our",
+      "privacyLink": "privacy policy",
+      "privacyNote": ".",
       "fullName": "Full name",
       "company": "Company",
-      "phone": "Phone number",
-      "email": "Email (business)",
       "country": "Country",
       "selectCountry": "Select a country",
       "companySize": "Company size",
@@ -114,12 +127,30 @@
         "social": "Social Media",
         "referral": "Recommendation",
         "other": "Other"
+      }
+    },
+    "info": {
+      "knowledgebase": {
+        "title": "Knowledgebase",
+        "description": "We're here to help with any questions or code.",
+        "link": "Contact support"
       },
-      "submit": "Book demo",
-      "submitting": "Submitting...",
-      "privacy": "For more information about how we handle your personal information, please visit our",
-      "privacyLink": "privacy policy",
-      "privacyNote": "."
+      "faq": {
+        "title": "FAQ",
+        "description": "Search our FAQ for answers to anything you might ask.",
+        "link": "Visit FAQ"
+      },
+      "apis": {
+        "title": "Developer APIs",
+        "description": "Check out our development quickstart guide.",
+        "link": "Contact sales"
+      },
+      "email": {
+        "title": "Contact us by email",
+        "description": "If you wish to write us an email instead please use",
+        "link": "info@fascinantedigital.com",
+        "address": "info@fascinantedigital.com"
+      }
     }
   },
   "book": {

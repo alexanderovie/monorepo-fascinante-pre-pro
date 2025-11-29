@@ -1,35 +1,27 @@
 'use client';
 
-import { Check } from 'lucide-react';
 import { useState } from 'react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormInput, FormButton, FormContainer, FormCard, FormSelect, FormWrapper } from './forms';
-import { contactFormSchema, type ContactFormData } from '../lib/validations/contact-schema';
+import { FormInput, FormTextarea } from './forms';
+import { contactFormSchemaV2, type ContactFormDataV2 } from '../lib/validations/contact-schema-v2';
 import { useToast } from '../lib/hooks/use-toast';
-import {
-  countryOptions,
-  getTranslatedCompanySizeOptions,
-  getTranslatedReferralOptions,
-} from '../lib/form-options/contact-options';
+import ContactInfoBlocks from './ContactInfoBlocks';
 
 /**
  * Contact Section Component
- * Formulario de contacto con layout de dos columnas
+ * Formulario de contacto con layout de dos columnas (diseño simplificado)
  *
- * Actualizado: Enero 2025
+ * Actualizado: Noviembre 2025
+ * - Diseño basado en Preline UI
+ * - Formulario simplificado con firstName, lastName, email, phone, message
+ * - Sección de información de contacto a la derecha
  * - Integración con react-hook-form + zod para validación robusta
  * - API route para procesar envíos
  * - Manejo de errores robusto y escalable
  * - Feedback visual con toasts
  * - Type-safe con TypeScript
- *
- * Basado en estándares de la industria (Nov 2025):
- * - React Hook Form: https://react-hook-form.com
- * - Zod: https://zod.dev
- * - Next.js 15 Route Handlers: https://nextjs.org/docs/app/building-your-application/routing/route-handlers
  */
 export default function ContactSection() {
   const t = useTranslations('contact');
@@ -41,21 +33,19 @@ export default function ContactSection() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
+  } = useForm<ContactFormDataV2>({
+    resolver: zodResolver(contactFormSchemaV2),
     mode: 'onBlur', // Validar al perder el foco
     defaultValues: {
-      fullName: '',
-      company: '',
-      phone: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      country: undefined,
-      companySize: undefined,
-      referral: undefined,
+      phone: '',
+      message: '',
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormDataV2) => {
     setIsSubmitting(true);
 
     try {
@@ -74,7 +64,6 @@ export default function ContactSection() {
         const errorMessage = result.error || t('form.error') || 'Error al enviar el formulario. Por favor, intenta de nuevo.';
 
         // Mostrar toast de error
-        // Los errores de validación del cliente ya se muestran en los campos
         toast.error('error', {
           description: errorMessage,
         });
@@ -96,160 +85,134 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative pt-0 pb-16 md:pb-24 lg:pt-16 lg:pb-32">
-      <FormContainer layout="two-column" showGradients={true}>
-        {/* Columna izquierda - Información */}
-        <div className="w-full pb-10 md:space-y-10 md:pb-0 max-[480px]:hidden order-1 md:order-2 lg:order-1 md:flex md:justify-center">
-          {/* Sección de beneficios - Solo visible en desktop */}
-          <div className="hidden md:block">
-            <div className="space-y-16 pb-20 lg:pb-0">
-              <div className="space-y-6 md:text-center lg:text-left">
-                <div className="mt-8 flex overflow-hidden md:justify-center lg:justify-start">
-                  {/* Avatares simplificados */}
-                  <div className="flex size-11 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                    <span className="text-sm font-semibold">FD</span>
-                  </div>
-                  <div className="-ml-4 flex size-11 items-center justify-center rounded-full bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-neutral-400">
-                    <span className="text-sm font-semibold">CS</span>
-                  </div>
-                  <div className="-ml-4 flex size-11 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                    <span className="text-sm font-semibold">ES</span>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                    {t('benefits.title')}
-                  </p>
-                  <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
-                    <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
-                    <p className="text-sm text-gray-600 dark:text-neutral-400">
-                      {t('benefits.presentation')}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
-                    <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
-                    <p className="text-sm text-gray-600 dark:text-neutral-400">
-                      {t('benefits.consulting')}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2.5 md:justify-center lg:justify-start">
-                    <Check className="size-5 shrink-0 text-blue-600 dark:text-blue-400" />
-                    <p className="text-sm text-gray-600 dark:text-neutral-400">
-                      {t('benefits.answers')}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="max-w-2xl lg:max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
+            {t('title')}
+          </h1>
+          <p className="mt-1 text-gray-600 dark:text-neutral-400">
+            {t('description')}
+          </p>
         </div>
 
-        {/* Columna derecha - Formulario */}
-        <FormWrapper>
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
-            <FormCard variant="default">
-              {/* Nombre completo */}
-              <FormInput
-                id="fullName"
-                type="text"
-                label={t('form.fullName')}
-                placeholder="Juan Pérez"
-                autoComplete="name"
-                error={errors.fullName?.message}
-                {...register('fullName')}
-              />
+        {/* Grid: Formulario + Información */}
+        <div className="mt-12 grid items-center lg:grid-cols-2 gap-6 lg:gap-16">
+          {/* Card - Formulario */}
+          <div className="flex flex-col border border-gray-200 rounded-xl p-4 sm:p-6 lg:p-8 dark:border-neutral-700">
+            <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-neutral-200">
+              {t('form.title')}
+            </h2>
 
-              {/* Empresa */}
-              <FormInput
-                id="company"
-                type="text"
-                label={t('form.company')}
-                placeholder="Mi Empresa S.L."
-                autoComplete="organization"
-                error={errors.company?.message}
-                {...register('company')}
-              />
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
+              <div className="grid gap-4">
+                {/* Grid: First Name + Last Name */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="firstName" className="sr-only">
+                      {t('form.firstName')}
+                    </label>
+                    <FormInput
+                      id="firstName"
+                      type="text"
+                      placeholder={t('form.firstName')}
+                      autoComplete="given-name"
+                      error={errors.firstName?.message}
+                      className="py-2.5 sm:py-3 px-4 dark:text-neutral-400"
+                      {...register('firstName')}
+                    />
+                  </div>
 
-              {/* Teléfono */}
-              <FormInput
-                id="phone"
-                type="tel"
-                label={t('form.phone')}
-                placeholder="+1 234 567 8900"
-                autoComplete="tel"
-                error={errors.phone?.message}
-                {...register('phone')}
-              />
+                  <div>
+                    <label htmlFor="lastName" className="sr-only">
+                      {t('form.lastName')}
+                    </label>
+                    <FormInput
+                      id="lastName"
+                      type="text"
+                      placeholder={t('form.lastName')}
+                      autoComplete="family-name"
+                      error={errors.lastName?.message}
+                      className="py-2.5 sm:py-3 px-4 dark:text-neutral-400"
+                      {...register('lastName')}
+                    />
+                  </div>
+                </div>
 
-              {/* Email */}
-              <FormInput
-                id="email"
-                type="email"
-                label={t('form.email')}
-                placeholder="nombre@empresa.com"
-                autoComplete="email"
-                error={errors.email?.message}
-                {...register('email')}
-              />
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="sr-only">
+                    {t('form.email')}
+                  </label>
+                  <FormInput
+                    id="email"
+                    type="email"
+                    placeholder={t('form.email')}
+                    autoComplete="email"
+                    error={errors.email?.message}
+                    className="py-2.5 sm:py-3 px-4 dark:text-neutral-400"
+                    {...register('email')}
+                  />
+                </div>
 
-              {/* País */}
-              <FormSelect
-                id="country"
-                label={t('form.country')}
-                options={countryOptions}
-                error={errors.country?.message}
-                {...register('country')}
-              />
+                {/* Phone */}
+                <div>
+                  <label htmlFor="phone" className="sr-only">
+                    {t('form.phone')}
+                  </label>
+                  <FormInput
+                    id="phone"
+                    type="text"
+                    placeholder={t('form.phone')}
+                    autoComplete="tel"
+                    error={errors.phone?.message}
+                    className="py-2.5 sm:py-3 px-4 dark:text-neutral-400"
+                    {...register('phone')}
+                  />
+                </div>
 
-              {/* Tamaño de empresa */}
-              <FormSelect
-                id="companySize"
-                label={t('form.companySize')}
-                options={getTranslatedCompanySizeOptions(t)}
-                error={errors.companySize?.message}
-                {...register('companySize')}
-              />
-
-              {/* ¿Cómo nos conociste? */}
-              <FormSelect
-                id="referral"
-                label={
-                  <>
-                    {t('form.referral')}{' '}
-                    <span className="text-gray-500 dark:text-neutral-500 font-normal">
-                      {t('form.referralOptional')}
-                    </span>
-                  </>
-                }
-                options={getTranslatedReferralOptions(t)}
-                error={errors.referral?.message}
-                {...register('referral')}
-              />
-
-              {/* Botón de envío */}
-              <div className="flex w-full flex-col justify-end space-y-3 pt-2">
-                <FormButton
-                  type="submit"
-                  variant="primary"
-                  isLoading={isSubmitting}
-                  loadingText={t('form.submitting')}
-                  className="w-full"
-                >
-                  {t('form.submit')}
-                </FormButton>
-                <div className="text-xs text-gray-500 dark:text-neutral-500">
-                  {t('form.privacy')}{' '}
-                  <Link href="/privacy" className="underline hover:text-gray-700 dark:hover:text-neutral-300">
-                    {t('form.privacyLink')}
-                  </Link>
-                  {t('form.privacyNote')}
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="sr-only">
+                    {t('form.message')}
+                  </label>
+                  <FormTextarea
+                    id="message"
+                    rows={4}
+                    placeholder={t('form.message')}
+                    error={errors.message?.message}
+                    className="py-2.5 sm:py-3 px-4 dark:text-neutral-400"
+                    {...register('message')}
+                  />
                 </div>
               </div>
-            </FormCard>
-          </form>
-        </FormWrapper>
-      </FormContainer>
-    </section>
+
+              {/* Submit Button */}
+              <div className="mt-4 grid">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  {isSubmitting ? t('form.submitting') : t('form.submit')}
+                </button>
+              </div>
+
+              {/* Footer Text */}
+              <div className="mt-3 text-center">
+                <p className="text-sm text-gray-500 dark:text-neutral-500">
+                  {t('form.footer')}
+                </p>
+              </div>
+            </form>
+          </div>
+          {/* End Card */}
+
+          {/* Información de Contacto */}
+          <ContactInfoBlocks />
+        </div>
+      </div>
+    </div>
   );
 }
