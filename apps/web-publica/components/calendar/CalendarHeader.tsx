@@ -102,7 +102,7 @@ export const CalendarHeader = memo(function CalendarHeader({
       {/* Selectores Mes / Año */}
       <div className="col-span-3 flex justify-center items-center gap-x-1">
         {/* Selector de Mes */}
-        <div className="relative">
+        <div className="relative" key={`month-select-${currentMonth}-${currentYear}`}>
           <select
             data-hs-select={JSON.stringify({
               placeholder: isSpanish ? 'Seleccionar mes' : 'Select month',
@@ -133,7 +133,7 @@ export const CalendarHeader = memo(function CalendarHeader({
         <span className="text-gray-800 dark:text-neutral-200">/</span>
 
         {/* Selector de Año */}
-        <div className="relative">
+        <div className="relative" key={`year-select-${currentMonth}-${currentYear}`}>
           <select
             data-hs-select={JSON.stringify({
               placeholder: isSpanish ? 'Seleccionar año' : 'Select year',
