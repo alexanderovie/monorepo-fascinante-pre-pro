@@ -50,22 +50,22 @@ export const BookingInfo = memo(function BookingInfo({
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Título del servicio */}
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      <div className="mb-6 flex flex-col justify-start items-center lg:items-start">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 text-center lg:text-left">
           {meetingType ||
             (isSpanish
               ? 'Reunión de consultoría'
               : 'Consultation Meeting')}
         </h3>
         {description && (
-          <p className="text-sm text-gray-600 dark:text-neutral-400">
+          <p className="text-sm text-gray-600 dark:text-neutral-400 text-center lg:text-left">
             {description}
           </p>
         )}
       </div>
 
       {/* Duración */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
         <Clock className="size-4 text-gray-500 dark:text-neutral-400" />
         <span className="text-sm text-gray-700 dark:text-neutral-300">
           {isSpanish ? `${duration} minutos` : `${duration} minutes`}
@@ -74,7 +74,7 @@ export const BookingInfo = memo(function BookingInfo({
 
       {/* Link de reunión */}
       {meetingLink && (
-        <div className="mb-4">
+        <div className="mb-4 flex justify-center lg:justify-start">
           <a
             href={meetingLink}
             target="_blank"
@@ -90,9 +90,9 @@ export const BookingInfo = memo(function BookingInfo({
       )}
 
       {/* Timezone */}
-      <div className="flex items-start gap-2 mt-auto">
+      <div className="flex items-start justify-center lg:justify-start gap-2 mt-auto">
         <Globe className="size-4 text-gray-500 dark:text-neutral-400 mt-0.5" />
-        <div>
+        <div className="text-center lg:text-left">
           <p className="text-xs font-medium text-gray-700 dark:text-neutral-300">
             {isSpanish ? 'Zona horaria' : 'Timezone'}
           </p>

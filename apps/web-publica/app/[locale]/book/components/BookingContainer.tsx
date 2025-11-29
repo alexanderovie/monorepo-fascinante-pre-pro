@@ -85,9 +85,9 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white dark:bg-neutral-800 rounded-xl shadow-lg border border-gray-200 dark:border-neutral-700 overflow-hidden w-full lg:min-h-[500px]">
-      {/* COLUMNA 1: Información del servicio (izquierda) */}
-      <div className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-700">
+    <div className="flex flex-col lg:flex-col xl:flex-col 2xl:flex-row bg-white dark:bg-neutral-800 rounded-xl shadow-lg border border-gray-200 dark:border-neutral-700 overflow-hidden w-full max-w-[590.63px] mx-auto lg:max-w-[958.67px] xl:max-w-[960px] xl:mx-auto 2xl:max-w-none 2xl:mx-0 lg:items-stretch 2xl:items-stretch">
+      {/* COLUMNA 1: Información del servicio (izquierda) - Se adapta a la altura del calendario */}
+      <div className="w-full lg:w-full xl:w-full 2xl:w-80 xl:w-96 flex-shrink-0 p-3 lg:pt-6 lg:px-6 lg:pb-6 border-b lg:border-b xl:border-b 2xl:border-b-0 lg:border-r-0 xl:border-r-0 2xl:border-r border-gray-200 dark:border-neutral-700 flex flex-col 2xl:max-h-[590.63px]">
         <BookingInfo
           locale={locale}
           duration={30}
@@ -99,28 +99,31 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
         />
       </div>
 
-      {/* COLUMNA 2: Calendario (centro) */}
-      <div className="flex-1 min-w-0 p-3 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-700 flex items-center justify-center">
-        <BookingCalendar
-          locale={locale}
-          selectedDate={selectedDate}
-          onDateSelect={handleDateSelect}
-        />
-      </div>
+      {/* Contenedor para columnas 2 y 3 en lg y xl */}
+      <div className="flex flex-col lg:flex-row xl:flex-row 2xl:contents">
+        {/* COLUMNA 2: Calendario (centro) - Esta columna determina la altura */}
+        <div className="flex-1 min-w-0 lg:h-[590.63px] xl:h-[590.63px] 2xl:h-auto p-3 lg:pt-6 lg:px-6 lg:pb-6 border-b lg:border-b-0 xl:border-b-0 lg:border-r xl:border-r 2xl:border-b-0 2xl:border-r border-gray-200 dark:border-neutral-700 flex items-start justify-center">
+          <BookingCalendar
+            locale={locale}
+            selectedDate={selectedDate}
+            onDateSelect={handleDateSelect}
+          />
+        </div>
 
-      {/* COLUMNA 3: Horarios (derecha) */}
-      <div
-        ref={timeSlotsRef}
-        className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6 flex flex-col"
-      >
-        <BookingTimeSlots
-          locale={locale}
-          selectedDate={selectedDate}
-          onSlotSelect={handleTimeSelect}
-          slotDuration={30}
-          startTime="09:00"
-          endTime="17:00"
-        />
+        {/* COLUMNA 3: Horarios (derecha) - Se adapta a la altura del calendario */}
+        <div
+          ref={timeSlotsRef}
+          className="w-full lg:w-96 xl:w-96 lg:h-[590.63px] xl:h-[590.63px] 2xl:h-auto flex-shrink-0 p-3 lg:pt-6 lg:px-6 lg:pb-6 border-b lg:border-b-0 xl:border-b-0 2xl:border-b-0 border-gray-200 dark:border-neutral-700 flex flex-col 2xl:max-h-[590.63px]"
+        >
+          <BookingTimeSlots
+            locale={locale}
+            selectedDate={selectedDate}
+            onSlotSelect={handleTimeSelect}
+            slotDuration={30}
+            startTime="09:00"
+            endTime="17:00"
+          />
+        </div>
       </div>
 
       {/* Dialog de confirmación */}

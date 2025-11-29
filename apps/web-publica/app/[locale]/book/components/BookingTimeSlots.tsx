@@ -121,7 +121,7 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
     return (
       <div
         className={cn(
-          'flex flex-col h-full min-h-[300px]',
+          'flex flex-col h-full',
           className
         )}
       >
@@ -138,18 +138,16 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
     <div
       className={cn(
         'flex flex-col h-full',
-        // En móvil: sin altura máxima, sin scroll (se expande completamente)
-        // En escritorio: altura fija con scroll
-        'lg:min-h-[300px] lg:max-h-[400px]',
+        // Se adapta a la altura que impone el calendario
         className
       )}
     >
       {/* Fecha seleccionada */}
-      <div className="mb-4 flex-shrink-0">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+      <div className="mb-4 flex-shrink-0 flex flex-col justify-start items-center lg:items-start">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 text-center lg:text-left">
           {isSpanish ? 'Horarios disponibles' : 'Available times'}
         </h3>
-        <p className="text-xs text-gray-600 dark:text-neutral-400">
+        <p className="text-xs text-gray-600 dark:text-neutral-400 text-center lg:text-left">
           {formatSelectedDate(selectedDate, locale)}
         </p>
       </div>
@@ -158,6 +156,7 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
       {/* En móvil: sin scroll (overflow-visible), en escritorio: con scroll */}
       <div
         className={cn(
+          // Usar flex-1 para expandirse y llenar el espacio disponible
           'flex-1 min-h-0',
           // Scroll solo en escritorio
           'lg:overflow-y-auto',
@@ -170,7 +169,7 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
           'lg:dark:hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500'
         )}
       >
-        <div className="space-y-1 pr-2">
+        <div className="space-y-1 lg:pr-2">
           {availableSlots.map((slot, index) => {
             const isAvailable = slot.available && !slot.booked;
 
@@ -181,7 +180,7 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
                 onClick={() => handleSlotClick(slot)}
                 disabled={!isAvailable}
                 className={cn(
-                  'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left',
+                  'w-full flex items-center gap-3 px-3 py-2 rounded-lg lg:text-left justify-center lg:justify-start',
                   'border border-gray-200 dark:border-neutral-700',
                   'transition-colors',
                   isAvailable

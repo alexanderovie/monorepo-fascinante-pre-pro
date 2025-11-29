@@ -7,14 +7,13 @@
 
 'use client';
 
-import React, { memo, useEffect } from 'react';
+import type { CalendarProps } from '@/lib/calendar';
+import { DEFAULT_CALENDAR_CONFIG, useCalendar } from '@/lib/calendar';
 import { cn } from '@/lib/utils';
-import { useCalendar } from '@/lib/calendar';
+import { memo, useEffect } from 'react';
+import { CalendarGrid } from './CalendarGrid';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarWeekdays } from './CalendarWeekdays';
-import { CalendarGrid } from './CalendarGrid';
-import type { CalendarProps } from '@/lib/calendar';
-import { DEFAULT_CALENDAR_CONFIG } from '@/lib/calendar';
 
 /**
  * Componente principal del calendario
@@ -80,7 +79,7 @@ export const Calendar = memo(function Calendar({
       role="application"
       aria-label="Calendario"
     >
-      <div className="p-2 lg:p-4 space-y-2">
+      <div className="p-2 lg:pt-0 lg:px-0 lg:pb-4 space-y-2">
         {/* Header con navegación */}
         <CalendarHeader
           currentMonth={calendar.currentMonth}
@@ -92,18 +91,8 @@ export const Calendar = memo(function Calendar({
           onNextMonth={calendar.goToNextMonth}
         />
 
-        {/* Headers de días de semana (responsive) */}
-        {/* Móvil: formato corto (Sun, Mon, ... / DOM, LUN, ...) */}
-        <div className="flex lg:hidden">
-          <CalendarWeekdays
-            locale={locale}
-            format="short"
-            weekStart={weekStart}
-          />
-        </div>
-
-        {/* Desktop: formato configurado (por defecto, largo estilo Cal.com) */}
-        <div className="hidden lg:flex">
+        {/* Headers de días de semana - Mismo formato en todas las vistas (3 letras) */}
+        <div className="w-full">
           <CalendarWeekdays
             locale={locale}
             format={weekdayFormat}
