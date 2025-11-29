@@ -1,7 +1,68 @@
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import AuditFormSection from '../components/AuditFormSection';
 import Hero from '../components/Hero';
 import { resolveHeroPreset, resolveToHeroProps, HeroPresetError } from '../lib/hero-presets';
 import { notFound } from 'next/navigation';
+
+const baseUrl = 'https://fascinantedigital.com';
+
+/**
+ * Generate metadata dinámica para la página de auditoría
+ * Basado en Next.js 15 generateMetadata (Nov 2025)
+ * https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'audit' });
+
+  const localeMap: Record<string, string> = {
+    en: 'en_US',
+    es: 'es_ES',
+  };
+
+  const title = t('title');
+  const description = t('description');
+  const auditUrl = `${baseUrl}/${locale}/audit`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: auditUrl,
+      languages: {
+        en: `${baseUrl}/en/audit`,
+        es: `${baseUrl}/es/audit`,
+      },
+    },
+    openGraph: {
+      type: 'website',
+      locale: localeMap[locale] || 'en_US',
+      url: auditUrl,
+      siteName: 'Fascinante Digital',
+      title,
+      description,
+      images: [
+        {
+          url: `${baseUrl}/assets/img/pro/startup/dashboard-fascinante.webp`,
+          width: 1200,
+          height: 630,
+          alt: 'Fascinante Digital - Free Google Visibility Audit',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${baseUrl}/assets/img/pro/startup/dashboard-fascinante.webp`],
+    },
+  };
+}
 
 /**
  * Audit Page - Página de auditoría gratuita

@@ -1,11 +1,14 @@
-'use client';
-
 /**
  * BookingCalendar Component
  *
- * Componente de calendario para la columna del medio del booking.
- * Calendario removido - esperando instrucciones para implementación.
+ * Wrapper del componente Calendar reutilizable, configurado específicamente
+ * para el contexto de booking con validaciones y configuraciones específicas.
  */
+
+'use client';
+
+import { Calendar } from '@/components/calendar';
+import type { CalendarLocale } from '@/lib/calendar';
 
 interface BookingCalendarProps {
   locale: string;
@@ -13,33 +16,33 @@ interface BookingCalendarProps {
   onDateSelect?: (date: Date | undefined) => void;
 }
 
+/**
+ * Componente de calendario para booking
+ *
+ * Configurado con:
+ * - Variante Cal.com (estilo exacto)
+ * - Semana empieza en domingo
+ * - Formato largo de días de semana
+ * - Validaciones de booking (si se implementan)
+ */
 export default function BookingCalendar({
   locale,
-  selectedDate: _selectedDate,
-  onDateSelect: _onDateSelect,
+  selectedDate,
+  onDateSelect,
 }: BookingCalendarProps) {
-  return (
-    <div className="h-full flex flex-col">
-      {/* Header del calendario */}
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          {locale === 'es' ? 'Selecciona una fecha' : 'Select a date'}
-        </h2>
-        <p className="text-sm text-gray-600 dark:text-neutral-400 mt-1">
-          {locale === 'es'
-            ? 'Elige el día que mejor se adapte a tu horario'
-            : 'Choose the day that best fits your schedule'}
-        </p>
-      </div>
+  const calendarLocale: CalendarLocale = locale === 'es' ? 'es' : 'en';
 
-      {/* Calendario - Removido, esperando instrucciones */}
-      <div className="flex items-center justify-center flex-1 min-h-[400px]">
-        <div className="text-center">
-          <p className="text-sm text-gray-500 dark:text-neutral-400">
-            Calendario removido - Esperando instrucciones
-          </p>
-        </div>
-      </div>
-    </div>
+  return (
+    <Calendar
+      locale={calendarLocale}
+      variant="cal-com"
+      weekdayFormat="long"
+      weekStart="sunday"
+      selectedDate={selectedDate}
+      onDateSelect={(date: Date) => onDateSelect?.(date)}
+      // Validaciones adicionales pueden agregarse aquí:
+      // dateRange={{ min: new Date(), max: ... }}
+      // isDateDisabled={(date) => ... }
+    />
   );
 }

@@ -35,31 +35,31 @@ Object.assign(process.env, envVars);
 
 // Verificar variables
 console.log('🔍 Verificando variables de entorno...\n');
-console.log('NEXT_PUBLIC_CRISP_WEBSITE_ID:', 
+console.log('NEXT_PUBLIC_CRISP_WEBSITE_ID:',
   process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID ? '✅ Configurado' : '❌ No configurado');
-console.log('CRISP_API_IDENTIFIER:', 
+console.log('CRISP_API_IDENTIFIER:',
   process.env.CRISP_API_IDENTIFIER ? '✅ Configurado' : '❌ No configurado');
-console.log('CRISP_API_KEY:', 
+console.log('CRISP_API_KEY:',
   process.env.CRISP_API_KEY ? '✅ Configurado' : '❌ No configurado');
 console.log('');
 
 // Importar funciones (usando import dinámico para Next.js)
 try {
   console.log('🧪 Probando conexión con Crisp API...\n');
-  
+
   // Usar fetch directamente para probar
   const websiteId = process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID;
   const identifier = process.env.CRISP_API_IDENTIFIER;
   const key = process.env.CRISP_API_KEY;
-  
+
   if (!websiteId || !identifier || !key) {
     console.error('❌ Faltan variables de entorno');
     process.exit(1);
   }
-  
+
   const authString = `${identifier}:${key}`;
   const encodedAuth = Buffer.from(authString).toString('base64');
-  
+
   console.log('📡 Haciendo petición a Crisp API...');
   const response = await fetch(
     `https://api.crisp.chat/v1/website/${websiteId}`,
@@ -72,9 +72,9 @@ try {
       },
     }
   );
-  
+
   const data = await response.json();
-  
+
   if (response.ok && !data.error) {
     console.log('✅ ¡Conexión exitosa!\n');
     console.log('📊 Información del website:');
@@ -96,4 +96,3 @@ try {
   }
   process.exit(1);
 }
-

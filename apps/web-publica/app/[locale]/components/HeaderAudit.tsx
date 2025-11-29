@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { ASSETS, BRAND } from '../../../lib/constants';
 import { getUrl } from '../../../lib/url-builder';
 import RequestCallModal from './RequestCallModal';
@@ -11,8 +12,12 @@ import RequestCallModal from './RequestCallModal';
  * Header Component - Página de Auditoría
  * Header minimalista sin menú principal para mantener enfoque en la auditoría
  * Solo incluye: Logo, Get Demo, Login, y Solicitar Llamada (modal)
+ *
+ * Internacionalizado con next-intl para soporte multiidioma
  */
 export default function HeaderAudit() {
+  const t = useTranslations('navigation.cta');
+
   // URLs dinámicas basadas en subdominio (cacheadas con useMemo)
   const urls = useMemo(() => ({
     login: getUrl('login'),
@@ -50,14 +55,14 @@ export default function HeaderAudit() {
                 href={urls.getDemo}
                 className="py-2 px-3 hidden sm:flex items-center gap-x-1.5 text-sm whitespace-nowrap text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
               >
-                Get a demo
+                {t('getDemo')}
               </Link>
 
               <Link
                 href={urls.login}
                 className="py-2 px-3 flex items-center gap-x-1.5 whitespace-nowrap text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
               >
-                Log in
+                {t('login')}
               </Link>
 
               <button
@@ -79,7 +84,7 @@ export default function HeaderAudit() {
                 >
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                Solicitar llamada
+                {t('requestCall')}
               </button>
             </div>
           </div>

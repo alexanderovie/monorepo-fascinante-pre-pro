@@ -22,7 +22,7 @@ export interface FormSelectOption {
 
 export interface FormSelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'className'> {
-  label: string;
+  label: string | React.ReactNode;
   options: FormSelectOption[];
   labelClassName?: string;
   containerClassName?: string;
@@ -71,7 +71,7 @@ export default function FormSelect({
     <div className={cn('w-full', containerClassName)}>
       {label && (
         <label htmlFor={selectId} className={cn(baseLabelClasses, labelClassName)}>
-          {label}
+          {typeof label === 'string' ? label : label}
         </label>
       )}
       <select
@@ -81,9 +81,9 @@ export default function FormSelect({
         aria-describedby={error || helperText ? `${selectId}-help` : undefined}
         {...selectProps}
       >
-        {options.map((option) => (
+        {options.map((option, index) => (
           <option
-            key={option.value}
+            key={option.value || `option-${index}`}
             value={option.value}
             disabled={option.disabled}
           >

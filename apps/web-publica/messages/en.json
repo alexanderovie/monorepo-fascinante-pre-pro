@@ -49,7 +49,9 @@
       "getFreeAudit": "Get Free Audit",
       "getFreeAuditShort": "Audit",
       "login": "Log in",
-      "loginShort": "Login"
+      "loginShort": "Login",
+      "getDemo": "Get a demo",
+      "requestCall": "Request call"
     }
   },
   "audit": {
@@ -70,6 +72,12 @@
       "selectCountry": "Select a country",
       "submit": "Get free audit",
       "submitting": "Submitting...",
+      "success": "Audit requested successfully! We'll contact you soon.",
+      "error": "Error submitting form",
+      "errorConnection": "Connection error. Please check your internet and try again.",
+      "success": "Form submitted successfully. We'll contact you soon.",
+      "error": "Error submitting form",
+      "errorConnection": "Connection error. Please check your internet and try again.",
       "privacy": "By submitting this form, you agree to our",
       "privacyLink": "privacy policy",
       "privacyNote": ". Your information is safe and will not be shared."

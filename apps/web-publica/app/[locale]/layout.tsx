@@ -6,6 +6,7 @@ import { routing } from '../../i18n/routing';
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
 import CrispChat from "@/components/crisp/CrispChat";
+import Toaster from "./components/Toaster";
 
 const baseUrl = "https://fascinantedigital.com";
 
@@ -302,6 +303,7 @@ export default async function RootLayout({
           {children}
         </NextIntlClientProvider>
         <PrelineScriptWrapper />
+        <Toaster />
         <CrispChat
           locale={locale}
           hideOnMobile={false}

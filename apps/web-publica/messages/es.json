@@ -49,7 +49,9 @@
       "getFreeAudit": "Auditoría Gratis",
       "getFreeAuditShort": "Auditoría",
       "login": "Iniciar Sesión",
-      "loginShort": "Entrar"
+      "loginShort": "Entrar",
+      "getDemo": "Solicitar demo",
+      "requestCall": "Solicitar llamada"
     }
   },
   "audit": {
@@ -70,6 +72,12 @@
       "selectCountry": "Selecciona un país",
       "submit": "Obtener auditoría gratuita",
       "submitting": "Enviando...",
+      "success": "¡Auditoría solicitada correctamente! Te contactaremos pronto.",
+      "error": "Error al enviar el formulario",
+      "errorConnection": "Error de conexión. Por favor, verifica tu internet e intenta de nuevo.",
+      "success": "Formulario enviado correctamente. Te contactaremos pronto.",
+      "error": "Error al enviar el formulario",
+      "errorConnection": "Error de conexión. Por favor, verifica tu internet e intenta de nuevo.",
       "privacy": "Al enviar este formulario, aceptas nuestra",
       "privacyLink": "política de privacidad",
       "privacyNote": ". Tu información está segura y no será compartida."
