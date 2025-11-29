@@ -12,7 +12,7 @@ export default function Footer({ data, className = '' }: FooterProps) {
 
   return (
     <footer className={`mt-auto bg-white dark:bg-neutral-900 ${className}`}>
-      <div className="w-full max-w-6xl mx-auto pt-10 lg:pt-20 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[85rem] mx-auto pt-10 lg:pt-20 px-4 sm:px-6 lg:px-8">
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-5 mb-6 md:mb-14">
           <div className="col-span-2 md:col-span-1 h-full flex flex-row md:flex-col justify-between gap-5">
@@ -102,7 +102,7 @@ export default function Footer({ data, className = '' }: FooterProps) {
       </div>
 
       {data.bottomLinks && data.bottomLinks.length > 0 && (
-        <div className="w-full max-w-6xl pb-10 lg:pb-20 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[85rem] pb-10 lg:pb-20 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-between items-center gap-3">
             {/* List */}
             <ul className="flex flex-wrap items-center whitespace-nowrap gap-3">

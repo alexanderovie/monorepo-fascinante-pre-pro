@@ -18,13 +18,18 @@ const StarIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+/**
+ * Stats Component
+ * Actualizado: Noviembre 2025
+ * Idéntico a plantilla HTML proporcionada
+ */
 export default function Stats({ items, className = '' }: StatsProps) {
   if (!items || items.length === 0) {
     return null;
   }
 
   return (
-    <div className={`max-w-6xl pt-6 pb-12 px-4 sm:px-6 lg:px-8 mx-auto ${className}`}>
+    <div className={`max-w-[85rem] pt-12 pb-12 px-4 sm:px-6 lg:px-8 mx-auto ${className}`}>
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-y-20 gap-x-12">
         {items.map((item, index) => (
@@ -40,11 +45,7 @@ export default function Stats({ items, className = '' }: StatsProps) {
               {Array.from({ length: 5 }).map((_, starIndex) => (
                 <StarIcon
                   key={starIndex}
-                  className={`shrink-0 size-5 ${
-                    starIndex < item.rating
-                      ? 'text-blue-600 dark:text-blue-500'
-                      : 'text-gray-300 dark:text-neutral-600'
-                  }`}
+                  className="shrink-0 size-5 text-blue-600 dark:text-blue-500"
                 />
               ))}
             </div>
@@ -55,10 +56,16 @@ export default function Stats({ items, className = '' }: StatsProps) {
               </p>
             </div>
 
-            {item.logo && (
-              <div className="mt-5 shrink-0 w-auto h-6 mx-auto text-gray-800 dark:text-neutral-200">
-                {item.logo}
-              </div>
+            {item.logoSvg && (
+              <svg
+                className="mt-5 shrink-0 w-auto h-6 mx-auto text-gray-800 dark:text-neutral-200"
+                width={item.logoWidth || '390'}
+                height={item.logoHeight || '87'}
+                viewBox={item.logoViewBox || '0 0 390 87'}
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                dangerouslySetInnerHTML={{ __html: item.logoSvg }}
+              />
             )}
           </div>
         ))}

@@ -329,7 +329,7 @@ export default function Hero({
         </>
       )}
       <div className="pt-10 md:pt-20 pb-0 relative z-10">
-        <div className="max-w-6xl px-4 sm:px-6 lg:px-8 mx-auto">
+        <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Grid */}
           <div className="mb-4 md:mb-8 grid md:grid-cols-12 items-center gap-y-12 gap-x-5 lg:gap-x-8">
             <div className="md:col-span-8 md:col-start-3 lg:col-span-8 lg:col-start-3 text-left md:text-center">
