@@ -74,15 +74,17 @@ export const Calendar = memo(function Calendar({
   return (
     <div
       className={cn(
-        'w-[320px] flex flex-col',
-        'bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden',
-        'dark:bg-neutral-900 dark:border-neutral-700',
+        'w-full lg:w-[320px] flex flex-col',
+        // En móvil: sin marco (sin fondo, sin borde, sin sombra)
+        // En escritorio: con marco
+        'lg:bg-white lg:border lg:border-gray-200 lg:shadow-sm lg:rounded-lg lg:overflow-hidden',
+        'lg:dark:bg-neutral-900 lg:dark:border-neutral-700',
         className
       )}
       role="application"
       aria-label="Calendario"
     >
-      <div className="p-4 space-y-2">
+      <div className="p-2 lg:p-4 space-y-2">
         {/* Header con navegación */}
         <CalendarHeader
           currentMonth={calendar.currentMonth}

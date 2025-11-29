@@ -7,7 +7,7 @@
  * Maneja la selección de fecha y hora.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BookingCalendar from './BookingCalendar';
 import { BookingInfo } from './BookingInfo';
 import { BookingTimeSlots } from './BookingTimeSlots';
@@ -17,7 +17,23 @@ interface BookingContainerProps {
 }
 
 export default function BookingContainer({ locale }: BookingContainerProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  // Seleccionar día actual por defecto
+  const getToday = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today;
+  };
+
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    getToday()
+  );
+
+  // Asegurar que el día actual esté seleccionado al montar
+  useEffect(() => {
+    if (!selectedDate) {
+      setSelectedDate(getToday());
+    }
+  }, [selectedDate]);
   const [_selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined
   );
@@ -51,7 +67,7 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
       </div>
 
       {/* COLUMNA 2: Calendario (centro) */}
-      <div className="flex-1 min-w-0 p-6 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-700 flex items-center justify-center">
+      <div className="flex-1 min-w-0 p-3 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-700 flex items-center justify-center">
         <BookingCalendar
           locale={locale}
           selectedDate={selectedDate}

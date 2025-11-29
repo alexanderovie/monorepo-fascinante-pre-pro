@@ -137,7 +137,10 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
   return (
     <div
       className={cn(
-        'flex flex-col h-full min-h-[300px] max-h-[400px]',
+        'flex flex-col h-full',
+        // En móvil: sin altura máxima, sin scroll (se expande completamente)
+        // En escritorio: altura fija con scroll
+        'lg:min-h-[300px] lg:max-h-[400px]',
         className
       )}
     >
@@ -151,17 +154,20 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
         </p>
       </div>
 
-      {/* Lista de horarios con altura fija y scroll interno (estilo Cal.com) */}
+      {/* Lista de horarios */}
+      {/* En móvil: sin scroll (overflow-visible), en escritorio: con scroll */}
       <div
         className={cn(
-          'flex-1 overflow-y-auto min-h-0',
-          // Scrollbar personalizado estilo Cal.com (delgado y discreto)
-          '[&::-webkit-scrollbar]:w-1.5',
-          '[&::-webkit-scrollbar-track]:bg-transparent',
-          '[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full',
-          'dark:[&::-webkit-scrollbar-thumb]:bg-neutral-600',
-          'hover:[&::-webkit-scrollbar-thumb]:bg-gray-400',
-          'dark:hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500'
+          'flex-1 min-h-0',
+          // Scroll solo en escritorio
+          'lg:overflow-y-auto',
+          // Scrollbar personalizado estilo Cal.com (solo en escritorio)
+          'lg:[&::-webkit-scrollbar]:w-1.5',
+          'lg:[&::-webkit-scrollbar-track]:bg-transparent',
+          'lg:[&::-webkit-scrollbar-thumb]:bg-gray-300 lg:[&::-webkit-scrollbar-thumb]:rounded-full',
+          'lg:dark:[&::-webkit-scrollbar-thumb]:bg-neutral-600',
+          'lg:hover:[&::-webkit-scrollbar-thumb]:bg-gray-400',
+          'lg:dark:hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500'
         )}
       >
         <div className="space-y-1 pr-2">

@@ -38,7 +38,7 @@ export const CalendarWeekdays = memo(function CalendarWeekdays({
         <span
           key={`${day}-${index}`}
           className={cn(
-            'm-px w-[42px] block text-center text-xs',
+            'm-px flex-1 lg:w-[42px] block text-center text-xs',
             'text-gray-600 dark:text-neutral-400',
             'font-semibold uppercase tracking-wide'
           )}
