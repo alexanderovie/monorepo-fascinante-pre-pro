@@ -60,7 +60,7 @@ export default function BookingContainer({ locale }: BookingContainerProps) {
       </div>
 
       {/* COLUMNA 3: Horarios (derecha) */}
-      <div className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6">
+      <div className="w-full lg:w-80 xl:w-96 flex-shrink-0 p-6 flex flex-col">
         <BookingTimeSlots
           locale={locale}
           selectedDate={selectedDate}

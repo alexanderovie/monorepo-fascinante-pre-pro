@@ -119,7 +119,12 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
 
   if (!selectedDate) {
     return (
-      <div className={cn('flex flex-col h-full', className)}>
+      <div
+        className={cn(
+          'flex flex-col h-full min-h-[300px]',
+          className
+        )}
+      >
         <p className="text-sm text-gray-500 dark:text-neutral-400 text-center py-8">
           {isSpanish
             ? 'Selecciona una fecha para ver horarios disponibles'
@@ -130,9 +135,14 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
   }
 
   return (
-    <div className={cn('flex flex-col h-full', className)}>
+    <div
+      className={cn(
+        'flex flex-col h-full min-h-[300px] max-h-[400px]',
+        className
+      )}
+    >
       {/* Fecha seleccionada */}
-      <div className="mb-4">
+      <div className="mb-4 flex-shrink-0">
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
           {isSpanish ? 'Horarios disponibles' : 'Available times'}
         </h3>
@@ -141,9 +151,20 @@ export const BookingTimeSlots = memo(function BookingTimeSlots({
         </p>
       </div>
 
-      {/* Lista de horarios */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="space-y-1">
+      {/* Lista de horarios con altura fija y scroll interno (estilo Cal.com) */}
+      <div
+        className={cn(
+          'flex-1 overflow-y-auto min-h-0',
+          // Scrollbar personalizado estilo Cal.com (delgado y discreto)
+          '[&::-webkit-scrollbar]:w-1.5',
+          '[&::-webkit-scrollbar-track]:bg-transparent',
+          '[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full',
+          'dark:[&::-webkit-scrollbar-thumb]:bg-neutral-600',
+          'hover:[&::-webkit-scrollbar-thumb]:bg-gray-400',
+          'dark:hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500'
+        )}
+      >
+        <div className="space-y-1 pr-2">
           {availableSlots.map((slot, index) => {
             const isAvailable = slot.available && !slot.booked;
 

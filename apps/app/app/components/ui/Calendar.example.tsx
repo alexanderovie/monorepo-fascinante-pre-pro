@@ -2,7 +2,7 @@
 
 /**
  * Ejemplo de uso del componente Calendar
- * 
+ *
  * Este componente es una implementación del calendario de Preline UI
  * convertido a React/TSX funcional para Next.js.
  */
@@ -23,7 +23,7 @@ export default function CalendarExample() {
   return (
     <div className="p-8">
       <h2 className="text-2xl font-bold mb-4">Ejemplo de Calendario</h2>
-      
+
       <div className="mb-4">
         <p className="text-gray-600 dark:text-neutral-400">
           Fecha seleccionada:{' '}
@@ -57,4 +57,3 @@ export default function CalendarExample() {
     </div>
   );
 }
-

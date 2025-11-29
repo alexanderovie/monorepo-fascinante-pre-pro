@@ -76,7 +76,7 @@ export default function Calendar({
 
   const handleDateClick = (day: number) => {
     const newDate = new Date(viewYear, viewMonth, day);
-    
+
     // Validar minDate y maxDate
     if (minDate && newDate < minDate) return;
     if (maxDate && newDate > maxDate) return;

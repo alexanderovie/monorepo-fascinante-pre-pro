@@ -32,6 +32,17 @@ export default function BookingCalendar({
 }: BookingCalendarProps) {
   const calendarLocale: CalendarLocale = locale === 'es' ? 'es' : 'en';
 
+  // Obtener fecha de hoy sin hora (medianoche)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Deshabilitar fechas pasadas (comportamiento estándar de la industria)
+  const isDateDisabled = (date: Date): boolean => {
+    const dateOnly = new Date(date);
+    dateOnly.setHours(0, 0, 0, 0);
+    return dateOnly < today;
+  };
+
   return (
     <Calendar
       locale={calendarLocale}
@@ -40,9 +51,8 @@ export default function BookingCalendar({
       weekStart="sunday"
       selectedDate={selectedDate}
       onDateSelect={(date: Date) => onDateSelect?.(date)}
-      // Validaciones adicionales pueden agregarse aquí:
-      // dateRange={{ min: new Date(), max: ... }}
-      // isDateDisabled={(date) => ... }
+      dateRange={{ min: today }}
+      isDateDisabled={isDateDisabled}
     />
   );
 }
