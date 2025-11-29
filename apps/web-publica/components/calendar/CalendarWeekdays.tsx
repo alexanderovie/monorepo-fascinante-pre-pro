@@ -34,20 +34,30 @@ export const CalendarWeekdays = memo(function CalendarWeekdays({
       role="row"
       aria-label="Días de la semana"
     >
-      {weekdays.map((day, index) => (
-        <span
-          key={`${day}-${index}`}
-          className={cn(
-            'flex-1 lg:w-[42px] block text-center text-xs',
-            'text-gray-600 dark:text-neutral-400',
-            'font-semibold uppercase tracking-wide'
-          )}
-          role="columnheader"
-          aria-label={day}
-        >
-          {day}
-        </span>
-      ))}
+      {weekdays.map((day, index) => {
+        const isWednesday =
+          day.startsWith('MI') || // Español: MI, MIÉ
+          day.startsWith('Mi') ||
+          day.startsWith('WED') || // Inglés: WED
+          day.startsWith('Wed') ||
+          day.startsWith('Wednesday');
+
+        return (
+          <span
+            key={`${day}-${index}`}
+            className={cn(
+              'flex-1 lg:w-[42px] block text-center text-xs',
+              'text-gray-600 dark:text-neutral-400',
+              'font-semibold uppercase tracking-wide',
+              isWednesday && 'text-blue-600'
+            )}
+            role="columnheader"
+            aria-label={day}
+          >
+            {day}
+          </span>
+        );
+      })}
     </div>
   );
 });
