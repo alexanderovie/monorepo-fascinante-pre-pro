@@ -6,11 +6,91 @@ import { useTranslations } from 'next-intl';
 import ExternalImage from '../../components/ExternalImage';
 
 /**
+ * Helper functions para validación robusta y escalable
+ * Estas funciones previenen errores en runtime y hacen el código más mantenible
+ */
+
+/**
+ * Valida y formatea un número de rating de forma segura
+ * @param value - Valor numérico que puede ser null, undefined o number
+ * @param decimals - Número de decimales (default: 1)
+ * @returns String formateado o null si el valor no es válido
+ */
+function formatRating(value: number | null | undefined, decimals: number = 1): string | null {
+  if (value === null || value === undefined || typeof value !== 'number' || isNaN(value) || !isFinite(value)) {
+    return null;
+  }
+  return value.toFixed(decimals);
+}
+
+/**
+ * Valida que un valor sea un número válido
+ * @param value - Valor a validar
+ * @returns true si es un número válido, false en caso contrario
+ */
+function isValidNumber(value: unknown): value is number {
+  return typeof value === 'number' && !isNaN(value) && isFinite(value);
+}
+
+/**
+ * Extrae un string de forma segura de un valor desconocido
+ * @param value - Valor a extraer
+ * @param fallback - Valor por defecto si no es válido
+ * @returns String válido
+ */
+function safeString(value: unknown, fallback: string = ''): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (value === null || value === undefined) {
+    return fallback;
+  }
+  return String(value);
+}
+
+/**
+ * Extrae un número de forma segura de un objeto con rating
+ * @param rating - Objeto que puede contener rating
+ * @returns Número válido o null
+ */
+function safeRatingValue(rating: unknown): number | null {
+  if (!rating || typeof rating !== 'object') {
+    return null;
+  }
+  const ratingObj = rating as { value?: unknown };
+  if (isValidNumber(ratingObj.value)) {
+    return ratingObj.value;
+  }
+  return null;
+}
+
+/**
+ * Extrae votes_count de forma segura
+ * @param rating - Objeto que puede contener rating
+ * @returns Número válido o null
+ */
+function safeVotesCount(rating: unknown): number | null {
+  if (!rating || typeof rating !== 'object') {
+    return null;
+  }
+  const ratingObj = rating as { votes_count?: unknown };
+  if (isValidNumber(ratingObj.votes_count)) {
+    return ratingObj.votes_count;
+  }
+  return null;
+}
+
+/**
  * Audit Results Section
  *
  * Muestra resultados combinados de:
  * - Google Places API (New) - NAP
  * - DataForSEO - Rating, reviews, categorías, etc.
+ *
+ * Características:
+ * - Validación robusta de todos los datos
+ * - Manejo de errores completo
+ * - Código escalable y mantenible
  */
 export default function AuditResultsSection() {
   const t = useTranslations('audit.results');
@@ -184,19 +264,19 @@ export default function AuditResultsSection() {
   }
 
   // Extraer datos para facilitar el acceso
-  const businessName = 
+  const businessName =
     (typeof googlePlacesData?.displayName === 'string' ? googlePlacesData.displayName : undefined) ||
     (typeof googlePlacesData?.name === 'string' ? googlePlacesData.name : undefined) ||
     (typeof dataForSEOData?.item?.title === 'string' ? dataForSEOData.item.title : undefined) ||
     (typeof dataForSEOData?.rawData?.items?.[0]?.title === 'string' ? dataForSEOData.rawData.items[0].title : undefined) ||
     'Negocio Desconocido';
-  const businessAddress = 
+  const businessAddress =
     (typeof googlePlacesData?.formattedAddress === 'string' ? googlePlacesData.formattedAddress : undefined) ||
     (typeof googlePlacesData?.formatted_address === 'string' ? googlePlacesData.formatted_address : undefined);
-  const businessPhone = 
+  const businessPhone =
     (typeof googlePlacesData?.nationalPhoneNumber === 'string' ? googlePlacesData.nationalPhoneNumber : undefined) ||
     (typeof googlePlacesData?.national_phone_number === 'string' ? googlePlacesData.national_phone_number : undefined);
-  const businessWebsite: string | undefined = 
+  const businessWebsite: string | undefined =
     (typeof googlePlacesData?.websiteUri === 'string' ? googlePlacesData.websiteUri : undefined) ||
     (typeof googlePlacesData?.website_uri === 'string' ? googlePlacesData.website_uri : undefined);
 
@@ -412,12 +492,12 @@ export default function AuditResultsSection() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Rating Card */}
-          {rating !== undefined && (
+          {rating !== undefined && rating !== null && isValidNumber(rating) && (
             <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                    {rating.toFixed(1)}
+                    {formatRating(rating) || 'N/A'}
                   </span>
                   <svg
                     className="size-8 text-yellow-400"
@@ -498,9 +578,11 @@ export default function AuditResultsSection() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {competitors.slice(0, 4).map((competitor: Record<string, unknown>, index: number) => {
-                const title = typeof competitor.title === 'string' ? competitor.title : '';
-                const rating = competitor.rating as { value?: number; votes_count?: number } | undefined;
-                
+                const title = safeString(competitor.title);
+                const ratingValue = safeRatingValue(competitor.rating);
+                const votesCount = safeVotesCount(competitor.rating);
+                const formattedRating = formatRating(ratingValue);
+
                 return (
                   <div
                     key={index}
@@ -508,12 +590,12 @@ export default function AuditResultsSection() {
                   >
                     <div>
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {title}
+                        {title || 'Sin nombre'}
                       </p>
-                      {rating?.value !== undefined && (
+                      {formattedRating !== null && (
                         <div className="flex items-center gap-1 mt-1">
                           <span className="text-xs text-gray-600 dark:text-neutral-400">
-                            {rating.value.toFixed(1)}
+                            {formattedRating}
                           </span>
                           <svg
                             className="size-3 text-yellow-400"
@@ -522,9 +604,9 @@ export default function AuditResultsSection() {
                           >
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
-                          {rating.votes_count !== undefined && (
+                          {votesCount !== null && (
                             <span className="text-xs text-gray-500 dark:text-neutral-500">
-                              ({rating.votes_count})
+                              ({votesCount})
                             </span>
                           )}
                         </div>
