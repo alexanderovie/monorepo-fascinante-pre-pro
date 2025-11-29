@@ -337,10 +337,10 @@ export default function AuditResultsSection() {
             </svg>
             Auditoría completada
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="font-semibold text-2xl lg:text-3xl text-gray-800 dark:text-neutral-200 mb-4">
             {t('title') || 'Resultados de Auditoría'}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p className="text-gray-600 dark:text-neutral-400 max-w-3xl mx-auto">
             {t('subtitle') || 'Análisis completo de tu visibilidad online'}
           </p>
         </div>
@@ -366,9 +366,9 @@ export default function AuditResultsSection() {
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {businessName}
-                  </h2>
+                        <h2 className="font-semibold text-2xl lg:text-3xl text-gray-800 dark:text-neutral-200 mb-2">
+                          {businessName}
+                        </h2>
                   {category && (
                     <p className="text-sm font-medium text-gray-500 dark:text-neutral-400 mb-4">
                       {category}
@@ -538,9 +538,9 @@ export default function AuditResultsSection() {
               {/* Content */}
               <div className="mt-5 text-center">
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                    {formatRating(rating) || 'N/A'}
-                  </span>
+                    <span className="text-4xl font-semibold text-gray-800 dark:text-neutral-200">
+                      {formatRating(rating) || 'N/A'}
+                    </span>
                   <svg
                     className="size-8 text-yellow-400"
                     fill="currentColor"
@@ -674,7 +674,7 @@ export default function AuditResultsSection() {
         {/* Description */}
         {description && (
           <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6 md:p-8 mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Descripción</h3>
+            <h3 className="font-medium text-lg text-gray-800 dark:text-neutral-200 mb-4">Descripción</h3>
             <p className="text-gray-600 dark:text-neutral-400 whitespace-pre-line leading-relaxed">
               {description}
             </p>
@@ -684,7 +684,7 @@ export default function AuditResultsSection() {
         {/* Competitors Section */}
         {competitors.length > 0 && (
           <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-sm p-6 md:p-8 mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="font-medium text-lg text-gray-800 dark:text-neutral-200 mb-4">
               También buscan
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
