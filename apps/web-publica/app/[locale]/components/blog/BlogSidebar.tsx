@@ -24,7 +24,7 @@ export default async function BlogSidebar({ post }: BlogSidebarProps) {
 
   return (
     <div className="lg:col-span-1 lg:w-full lg:h-full lg:bg-linear-to-r lg:from-gray-50 lg:via-transparent lg:to-transparent dark:from-neutral-800">
-      <div className="sticky top-0 start-0 py-8 lg:ps-8">
+      <div className="sticky top-0 start-0 pt-10 md:pt-20 pb-8 ps-4 lg:ps-8">
         {/* Avatar Media */}
         <div className="group flex items-center gap-x-3 border-b border-gray-200 pb-8 mb-8 dark:border-neutral-700">
           <Link href="#" className="block shrink-0 focus:outline-hidden">

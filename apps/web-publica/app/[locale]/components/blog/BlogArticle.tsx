@@ -1,15 +1,44 @@
 import type { BlogPost } from '../../lib/blog/types';
 import { Link } from '../../../../i18n/navigation';
 import { format } from 'date-fns';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { mdxComponents } from './mdx-components';
 
 /**
  * BlogArticle Component
  * Actualizado: Noviembre 2025
  * Componente principal del artículo - Idéntico a plantilla HTML
+ * Soporta renderizado de MDX (Markdown) y HTML (backward compatibility)
  */
 
 interface BlogArticleProps {
   post: BlogPost;
+}
+
+/**
+ * Detecta si el contenido es Markdown o HTML
+ *
+ * Estrategia:
+ * - Si el contenido parece ser HTML puro (empieza con tag HTML con clases específicas del mock),
+ *   se trata como HTML
+ * - En caso contrario, se trata como Markdown/MDX (que puede contener HTML embebido)
+ */
+function isMarkdownContent(content: string): boolean {
+  const trimmed = content.trim();
+
+  // Si empieza con patrones específicos del mock (HTML con clases Tailwind específicas)
+  // entonces es HTML puro del sistema antiguo
+  if (
+    trimmed.startsWith('<p class=') ||
+    trimmed.startsWith('<div class=') ||
+    (trimmed.startsWith('<') && trimmed.includes('class="text-lg text-gray-800'))
+  ) {
+    return false;
+  }
+
+  // En caso contrario, asumimos que es Markdown/MDX
+  // MDX puede procesar HTML embebido sin problemas
+  return true;
 }
 
 export default function BlogArticle({ post }: BlogArticleProps) {
@@ -17,7 +46,7 @@ export default function BlogArticle({ post }: BlogArticleProps) {
 
   return (
     <div className="lg:col-span-2">
-      <div className="py-8 lg:pe-8">
+      <div className="pt-10 md:pt-20 pb-8 lg:pe-8">
         <div className="space-y-5 lg:space-y-8">
           {/* Back to Blog Link */}
           <Link
@@ -55,11 +84,17 @@ export default function BlogArticle({ post }: BlogArticleProps) {
             <p className="text-xs sm:text-sm text-gray-800 dark:text-neutral-200">{formattedDate}</p>
           </div>
 
-          {/* Content - Renderizado como HTML */}
-          <div
-            className="prose prose-lg max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          {/* Content - Renderizado como MDX o HTML (backward compatibility) */}
+          <div className="prose prose-lg max-w-none dark:prose-invert">
+            {isMarkdownContent(post.content) ? (
+              <MDXRemote
+                source={post.content}
+                components={mdxComponents}
+              />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            )}
+          </div>
 
           {/* Tags and Share */}
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-y-5 lg:gap-y-0">

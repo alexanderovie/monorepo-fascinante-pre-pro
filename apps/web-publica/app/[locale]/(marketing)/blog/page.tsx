@@ -1,9 +1,11 @@
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Hero from '../../components/Hero';
 import { defaultFooterData } from '../../lib/footer-data';
 import Image from 'next/image';
 import { Link } from '../../../../i18n/navigation';
 import { getAllPosts } from '../../lib/blog/get-all-posts';
+import { getTranslations } from 'next-intl/server';
 
 /**
  * Blog Page - Página de blog
@@ -12,18 +14,25 @@ import { getAllPosts } from '../../lib/blog/get-all-posts';
  */
 export default async function BlogPage() {
   const posts = await getAllPosts({ limit: 12, sortBy: 'date', sortOrder: 'desc' });
+  const t = await getTranslations('hero.blog');
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
+        {/* Hero Section - Mismo layout que homepage pero sin botones */}
+        <Hero
+          badge={t('badge')}
+          title={t('title')}
+          description={t('description')}
+          primaryButton={null}
+          secondaryButton={null}
+          tabs={[]}
+          showBackground={false}
+        />
+
         {/* Card Blog */}
         <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          {/* Title */}
-          <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-            <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Insights</h2>
-            <p className="mt-1 text-gray-600 dark:text-neutral-400">Stay in the know with insights from industry experts.</p>
-          </div>
-          {/* End Title */}
 
           {/* Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
