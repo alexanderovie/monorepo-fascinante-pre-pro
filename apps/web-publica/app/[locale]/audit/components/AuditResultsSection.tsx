@@ -726,8 +726,122 @@ export default function AuditResultsSection() {
           </div>
         )}
 
+        {/* Preline Chart Card - Mockup Data */}
+        <div className="p-5 flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+          {/* Header */}
+          <div className="flex gap-3">
+            <div className="mt-0.5 flex shrink-0 justify-center items-center size-8 bg-gray-100 text-gray-800 rounded-md dark:bg-neutral-700 dark:text-neutral-200">
+              <svg
+                className="shrink-0 size-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="5" width="6" height="6" rx="1" />
+                <path d="m3 17 2 2 4-4" />
+                <path d="M13 6h8" />
+                <path d="M13 12h8" />
+                <path d="M13 18h8" />
+              </svg>
+            </div>
+
+            <div className="grow">
+              <h2 className="font-medium text-sm sm:text-base text-gray-800 dark:text-neutral-200">
+                Which CSS framework do you use the most?
+              </h2>
+
+              {/* List */}
+              <ul className="flex flex-wrap items-center whitespace-nowrap gap-1.5">
+                <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                  <p className="text-xs text-gray-500 dark:text-neutral-500">
+                    Multiple choice
+                  </p>
+                </li>
+                <li className="inline-flex items-center relative text-xs text-gray-500 pe-2 last:pe-0 last:after:hidden after:absolute after:top-1/2 after:end-0 after:inline-block after:size-[3px] after:bg-gray-400 after:rounded-full after:-translate-y-1/2 dark:text-neutral-500 dark:after:bg-neutral-600">
+                  <p className="text-xs text-gray-500 dark:text-neutral-500">
+                    75 responses
+                  </p>
+                </li>
+              </ul>
+              {/* End List */}
+            </div>
+          </div>
+          {/* End Header */}
+
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 sm:items-center gap-3">
+            {/* Apex Radial Bar Chart */}
+            <div id="hs-pro-asdwrb" className="min-h-[223px] mx-auto"></div>
+
+            <div className="flex flex-col gap-3 sm:gap-5">
+              {/* Legend Indicator */}
+              <div className="flex gap-2">
+                <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-full mt-2"></span>
+                <div className="grow">
+                  <div>
+                    <span className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
+                      60%
+                    </span>
+                    <span className="text-sm text-gray-800 dark:text-neutral-200">
+                      {' '}- Tailwind CSS
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-neutral-500">
+                    39 response
+                  </p>
+                </div>
+              </div>
+              {/* End Legend Indicator */}
+
+              {/* Legend Indicator */}
+              <div className="flex gap-2">
+                <span className="shrink-0 size-2.5 inline-block bg-cyan-400 rounded-full mt-2"></span>
+                <div className="grow">
+                  <div>
+                    <span className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
+                      30%
+                    </span>
+                    <span className="text-sm text-gray-800 dark:text-neutral-200">
+                      {' '}- Bootstrap
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-neutral-500">
+                    27 response
+                  </p>
+                </div>
+              </div>
+              {/* End Legend Indicator */}
+
+              {/* Legend Indicator */}
+              <div className="flex gap-2">
+                <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-full mt-2 dark:bg-neutral-600"></span>
+                <div className="grow">
+                  <div>
+                    <span className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
+                      10%
+                    </span>
+                    <span className="text-sm text-gray-800 dark:text-neutral-200">
+                      {' '}- Other
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-neutral-500">
+                    9 response
+                  </p>
+                </div>
+              </div>
+              {/* End Legend Indicator */}
+            </div>
+          </div>
+        </div>
+        {/* End Card */}
+
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <button
             onClick={() => router.push('/audit')}
             className="py-3 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700"
