@@ -9,11 +9,16 @@ import { getTranslations } from 'next-intl/server';
 
 /**
  * Blog Page - Página de blog
- * Actualizado: Noviembre 2025
- * Lista de artículos dinámica
+ * Actualizado: Diciembre 2025
+ * Lista de artículos dinámica con soporte i18n
  */
-export default async function BlogPage() {
-  const posts = await getAllPosts({ limit: 12, sortBy: 'date', sortOrder: 'desc' });
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function BlogPage({ params }: Props) {
+  const { locale } = await params;
+  const posts = await getAllPosts({ locale, limit: 12, sortBy: 'date', sortOrder: 'desc' });
   const t = await getTranslations('hero.blog');
   const tBlog = await getTranslations('blog.list');
 

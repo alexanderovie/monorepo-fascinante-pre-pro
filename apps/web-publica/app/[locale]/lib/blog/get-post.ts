@@ -8,15 +8,17 @@ import { join } from 'path';
 
 /**
  * Get Blog Post by Slug
- * Actualizado: Noviembre 2025
+ * Actualizado: Diciembre 2025
  * Función robusta con validación, manejo de errores y timeouts
- * Soporta MDX/Markdown files y backward compatibility con mock data
+ * Soporta MDX/Markdown files organizados por locale (es/en)
+ * y backward compatibility con mock data
  */
 
-// Función para obtener desde archivo MDX/Markdown
-async function getPostFromMDX(slug: string): Promise<BlogPost | null> {
+// Función para obtener desde archivo MDX/Markdown (con soporte de locale)
+async function getPostFromMDX(slug: string, locale: string): Promise<BlogPost | null> {
   try {
-    const contentDir = join(process.cwd(), 'content', 'blog');
+    // Estructura: content/blog/{locale}/{slug}.md
+    const contentDir = join(process.cwd(), 'content', 'blog', locale);
     const filePath = join(contentDir, `${slug}.md`);
 
     // Verificar si el archivo existe
@@ -99,12 +101,13 @@ async function _getPostFromDB(_slug: string): Promise<BlogPost | null> {
 }
 
 /**
- * Obtiene un artículo de blog por su slug
- * @param slug - Slug del artículo
+ * Obtiene un artículo de blog por su slug y locale
+ * @param slug - Slug del artículo (localizado para el idioma)
+ * @param locale - Locale del artículo ('es' | 'en')
  * @returns Promise<BlogPost | null> - El artículo o null si no existe
  * @throws Error si hay un problema de validación o timeout
  */
-export async function getPost(slug: string): Promise<BlogPost | null> {
+export async function getPost(slug: string, locale: string = 'es'): Promise<BlogPost | null> {
   try {
     // Validación de entrada
     if (!slug || typeof slug !== 'string' || slug.length === 0) {
@@ -153,8 +156,9 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
       rawPost = await _getPostFromDB(slug);
     } else {
       // Prioridad: MDX files > Mock data (backward compatibility)
+      // Usar el locale pasado como parámetro
       try {
-        rawPost = await getPostFromMDX(slug);
+        rawPost = await getPostFromMDX(slug, locale);
       } catch (mdxError) {
         // Si es error de validación de MDX, propagarlo para diagnóstico
         if (mdxError instanceof Error && mdxError.message.includes('Invalid MDX post data')) {

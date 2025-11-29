@@ -6,11 +6,12 @@ import BlogArticle from '../../../components/blog/BlogArticle';
 import BlogSidebar from '../../../components/blog/BlogSidebar';
 import { defaultFooterData } from '../../../lib/footer-data';
 import { getPost } from '../../../lib/blog/get-post';
+import { getAllAlternateSlugs } from '../../../lib/blog/article-mapping';
 
 /**
  * Blog Post Page - Dynamic Route
- * Actualizado: Noviembre 2025
- * Ruta dinámica para artículos individuales
+ * Actualizado: Diciembre 2025
+ * Ruta dinámica para artículos individuales con soporte i18n completo
  */
 
 type Props = {
@@ -23,20 +24,23 @@ export const revalidate = 3600;
 // Permitir generar rutas no pre-renderizadas en runtime
 export const dynamicParams = true;
 
-// Cambiar a false si solo quieres servir los pre-renderizados
-
 /**
  * Generate Static Params
- * Pre-renderiza los artículos más recientes en build time
+ * Pre-renderiza los artículos más recientes en build time para ambos locales
  */
 export async function generateStaticParams() {
   try {
     const { getAllPostSlugs } = await import('../../../lib/blog/get-all-posts');
-    const slugs = await getAllPostSlugs();
+    const locales = ['es', 'en'];
+    const allParams: { locale: string; slug: string }[] = [];
 
-    return slugs.map((slug) => ({
-      slug,
-    }));
+    // Generar params para cada locale
+    for (const locale of locales) {
+      const slugs = await getAllPostSlugs(locale);
+      allParams.push(...slugs.map((slug) => ({ locale, slug })));
+    }
+
+    return allParams;
   } catch (error) {
     console.error('Error generating static params:', error);
     // Retornar array vacío para evitar fallar el build
@@ -46,12 +50,12 @@ export async function generateStaticParams() {
 
 /**
  * Generate Metadata
- * Metadata dinámica para SEO
+ * Metadata dinámica para SEO con hreflang tags para i18n
  */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const { slug } = await params;
-    const post = await getPost(slug);
+    const { slug, locale } = await params;
+    const post = await getPost(slug, locale);
 
     if (!post) {
       return {
@@ -60,9 +64,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
 
+    // Obtener slugs alternativos para hreflang
+    const alternateSlugs = getAllAlternateSlugs(slug, locale);
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fascinantedigital.com';
+
+    // Construir URLs alternativas
+    const alternates: Record<string, string> = {};
+    for (const [loc, altSlug] of Object.entries(alternateSlugs)) {
+      if (altSlug) {
+        alternates[loc] = `${baseUrl}/${loc}/blog/${altSlug}`;
+      }
+    }
+
+    // Idioma por defecto (español)
+    alternates['x-default'] = alternates['es'] || `${baseUrl}/es/blog/${slug}`;
+
     return {
       title: `${post.title} | Blog`,
       description: post.excerpt || post.title,
+      alternates: {
+        languages: alternates,
+      },
       openGraph: {
         title: post.title,
         description: post.excerpt || post.title,
@@ -96,7 +118,8 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug, locale } = await params;
 
   try {
-    const post = await getPost(slug);
+    // Obtener post con locale para cargar desde la carpeta correcta
+    const post = await getPost(slug, locale);
 
     if (!post) {
       notFound();

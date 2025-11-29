@@ -13,20 +13,22 @@ import { readFileSync } from 'fs';
  */
 
 /**
- * Obtiene todos los posts desde archivos MDX
+ * Obtiene todos los posts desde archivos MDX filtrados por locale
+ * @param locale - Locale para filtrar ('es' | 'en')
  */
-async function getAllPostsFromMDX(): Promise<BlogPost[]> {
+async function getAllPostsFromMDX(locale: string): Promise<BlogPost[]> {
   const posts: BlogPost[] = [];
 
   try {
-    const contentDir = join(process.cwd(), 'content', 'blog');
+    // Estructura: content/blog/{locale}/
+    const contentDir = join(process.cwd(), 'content', 'blog', locale);
 
     // Verificar si la carpeta existe
     if (!existsSync(contentDir)) {
       return posts;
     }
 
-    // Leer todos los archivos .md de la carpeta
+    // Leer todos los archivos .md de la carpeta del locale
     const files = readdirSync(contentDir).filter((file) => file.endsWith('.md'));
 
     // Procesar cada archivo
@@ -64,13 +66,14 @@ async function getAllPostsFromMDX(): Promise<BlogPost[]> {
       }
     }
   } catch (error) {
-    console.error('Error reading MDX directory:', error);
+    console.error(`Error reading MDX directory for locale ${locale}:`, error);
   }
 
   return posts;
 }
 
 interface GetAllPostsOptions {
+  locale?: string; // Locale para filtrar posts
   limit?: number;
   offset?: number;
   sortBy?: 'date' | 'title';
@@ -81,11 +84,12 @@ interface GetAllPostsOptions {
 
 /**
  * Obtiene todos los artículos de blog con opciones de paginación
- * @param options - Opciones de paginación y filtrado
+ * @param options - Opciones de paginación y filtrado (incluye locale)
  * @returns Promise<BlogPost[]> - Array de artículos
  */
 export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<BlogPost[]> {
   const {
+    locale = 'es', // Por defecto español
     limit = BLOG_STATIC_PARAMS_LIMIT,
     offset = 0,
     sortBy = 'date',
@@ -99,8 +103,9 @@ export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<Blo
 
     // Seleccionar fuente de datos
     if (BLOG_SOURCE === 'cms') {
-      // TODO: Implementar fetch desde CMS
+      // TODO: Implementar fetch desde CMS con locale
       const params = new URLSearchParams({
+        locale,
         limit: limit.toString(),
         offset: offset.toString(),
         sortBy,
@@ -119,12 +124,13 @@ export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<Blo
 
       posts = await res.json();
     } else if (BLOG_SOURCE === 'database') {
-      // TODO: Implementar query desde DB
+      // TODO: Implementar query desde DB con locale
       posts = [];
     } else {
       // Combinar MDX files + Mock data (backward compatibility)
       // Priorizar MDX sobre Mock - eliminar duplicados por slug
-      const mdxPosts = await getAllPostsFromMDX();
+      // Filtrar por locale
+      const mdxPosts = await getAllPostsFromMDX(locale);
       const mockPosts = mockBlogPosts;
 
       // Crear un Map para eliminar duplicados (MDX tiene prioridad)
@@ -179,15 +185,16 @@ export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<Blo
 }
 
 /**
- * Obtiene todos los slugs de artículos (para generateStaticParams)
+ * Obtiene todos los slugs de artículos para un locale específico (para generateStaticParams)
+ * @param locale - Locale para filtrar ('es' | 'en')
  * @returns Promise<string[]> - Array de slugs
  */
-export async function getAllPostSlugs(): Promise<string[]> {
+export async function getAllPostSlugs(locale: string = 'es'): Promise<string[]> {
   try {
-    const posts = await getAllPosts({ limit: BLOG_STATIC_PARAMS_LIMIT });
+    const posts = await getAllPosts({ locale, limit: BLOG_STATIC_PARAMS_LIMIT });
     return posts.map((post) => post.slug);
   } catch (error) {
-    console.error('Error fetching post slugs:', error);
+    console.error(`Error fetching post slugs for locale ${locale}:`, error);
     return [];
   }
 }

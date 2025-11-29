@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Mapeo de artículos relacionados entre diferentes idiomas. Permite encontrar la versión de un artículo en otros locales.",
+  "articles": [
+    {
+      "id": "digital-audit-complete-guide",
+      "slugs": {
+        "es": "como-hacer-auditoria-digital",
+        "en": "how-to-do-digital-audit"
+      },
+      "title": {
+        "es": "Cómo Hacer una Auditoría Digital Completa en 7 Pasos",
+        "en": "How to Do a Complete Digital Audit in 7 Steps"
+      },
+      "created": "2025-12-01T00:00:00Z",
+      "updated": "2025-12-01T00:00:00Z"
+    }
+  ]
+}

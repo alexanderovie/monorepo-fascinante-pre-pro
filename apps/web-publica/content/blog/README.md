@@ -1,75 +1,127 @@
-# Blog Content Directory
+# Blog Content Structure
 
-Este directorio contiene los artículos del blog en formato **Markdown/MDX**.
+**Actualizado:** Diciembre 2025
 
-## Formato de Archivos
+## 📁 Estructura de Carpetas
 
-Cada artículo debe ser un archivo `.md` con la siguiente estructura:
-
-```markdown
----
-title: "Título del artículo"
-excerpt: "Resumen corto del artículo"
-date: "2023-01-18T00:00:00Z"
-category: "Categoría"
-tags:
-  - Tag1
-  - Tag2
-author:
-  name: "Nombre del autor"
-  role: "Rol del autor"
-  avatar: "URL del avatar"
-images:
-  main: "URL de imagen principal"
-  gallery:
-    - "URL imagen 1"
-    - "URL imagen 2"
-relatedPosts:
-  - "slug-articulo-relacionado-1"
-  - "slug-articulo-relacionado-2"
----
-
-# Contenido del artículo
-
-Aquí va el contenido en Markdown...
-
-## Subtítulos
-
-Párrafos, listas, imágenes, etc.
-
-- Lista item 1
-- Lista item 2
-
-![Descripción](https://url-imagen.jpg)
+```
+content/blog/
+├── es/                          # Artículos en español
+│   └── como-hacer-auditoria-digital.md
+├── en/                          # Artículos en inglés
+│   └── how-to-do-digital-audit.md
+└── .meta/
+    └── article-mapping.json     # Mapeo de artículos relacionados entre idiomas
 ```
 
-## Frontmatter Obligatorio
+## 🌍 Sistema de i18n
 
-- `title`: Título del artículo
-- `date`: Fecha en formato ISO 8601
-- `category`: Categoría del artículo
-- `author.name`: Nombre del autor
+### Slugs Localizados
 
-## Frontmatter Opcional
+Cada idioma tiene su propio slug SEO-optimizado:
+- **Español**: `como-hacer-auditoria-digital`
+- **Inglés**: `how-to-do-digital-audit`
 
-- `excerpt`: Resumen corto
-- `tags`: Array de tags
-- `images`: Objeto con `main` y `gallery`
-- `relatedPosts`: Array de slugs de artículos relacionados
-- `author.role`: Rol del autor
-- `author.avatar`: URL del avatar
+Esto permite:
+- ✅ URLs SEO-friendly en cada idioma
+- ✅ Keywords localizadas en la URL
+- ✅ Mejor experiencia de usuario
 
-## Slug del Artículo
+### Mapeo de Artículos
 
-El slug del artículo se deriva del nombre del archivo:
-- Archivo: `mi-articulo.md` → Slug: `mi-articulo`
+El archivo `.meta/article-mapping.json` relaciona artículos entre idiomas:
 
-## Compatibilidad
+```json
+{
+  "articles": [
+    {
+      "id": "digital-audit-complete-guide",
+      "slugs": {
+        "es": "como-hacer-auditoria-digital",
+        "en": "how-to-do-digital-audit"
+      },
+      "title": {
+        "es": "Cómo Hacer una Auditoría Digital Completa en 7 Pasos",
+        "en": "How to Do a Complete Digital Audit in 7 Steps"
+      }
+    }
+  ]
+}
+```
 
-- Los artículos pueden usar **Markdown puro** o **HTML embebido** dentro del Markdown
-- El sistema detecta automáticamente si el contenido es Markdown o HTML del sistema antiguo
-- Si un artículo no existe en formato MDX, el sistema hace fallback a los datos mock (backward compatibility)
+## 📝 Agregar un Nuevo Artículo
 
-## Ejemplos
+### 1. Crear el archivo MDX
 
-Ver `announcing-free-plan-small-teams.md` para un ejemplo completo.
+**Español:**
+```
+content/blog/es/mi-nuevo-articulo.md
+```
+
+**Inglés:**
+```
+content/blog/en/my-new-article.md
+```
+
+### 2. Frontmatter Requerido
+
+```yaml
+---
+title: "Título del Artículo"
+excerpt: "Descripción breve para SEO y previews"
+date: "2025-12-01T00:00:00Z"
+category: "Categoría"
+tags:
+  - tag1
+  - tag2
+author:
+  name: "Fascinante Digital"
+  role: "Equipo Editorial"
+images:
+  main: "https://..."
+---
+```
+
+### 3. Actualizar el Mapeo
+
+Agregar entrada en `.meta/article-mapping.json`:
+
+```json
+{
+  "articles": [
+    {
+      "id": "unique-article-id",
+      "slugs": {
+        "es": "mi-nuevo-articulo",
+        "en": "my-new-article"
+      },
+      "title": {
+        "es": "Título en Español",
+        "en": "Title in English"
+      },
+      "created": "2025-12-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+## 🔗 URLs Generadas
+
+- Español: `/es/blog/mi-nuevo-articulo`
+- Inglés: `/en/blog/my-new-article`
+
+## 📋 Checklist para Nuevos Artículos
+
+- [ ] Crear archivo MDX en `/es/`
+- [ ] Crear archivo MDX en `/en/` (si aplica)
+- [ ] Agregar entrada en `article-mapping.json`
+- [ ] Verificar frontmatter completo
+- [ ] Probar URLs en ambos idiomas
+- [ ] Verificar hreflang tags en metadata
+
+## ⚠️ Notas Importantes
+
+1. **Slugs únicos**: Cada slug debe ser único dentro de su locale
+2. **Mapeo requerido**: Si un artículo existe en múltiples idiomas, DEBE estar en el mapeo
+3. **Formato de fecha**: Usar ISO 8601: `2025-12-01T00:00:00Z`
+4. **Imágenes**: Pueden ser URLs absolutas (https://) o rutas relativas (/images/...)
