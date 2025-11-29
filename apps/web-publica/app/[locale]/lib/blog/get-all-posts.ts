@@ -1,12 +1,74 @@
 import type { BlogPost } from './types';
 import { BLOG_STATIC_PARAMS_LIMIT, BLOG_SOURCE } from './constants';
 import { mockBlogPosts } from './posts-data';
+import { readdirSync, existsSync } from 'fs';
+import { join } from 'path';
+import matter from 'gray-matter';
+import { readFileSync } from 'fs';
 
 /**
  * Get All Blog Posts
  * Actualizado: Noviembre 2025
  * Función con paginación y ordenamiento para escalabilidad
  */
+
+/**
+ * Obtiene todos los posts desde archivos MDX
+ */
+async function getAllPostsFromMDX(): Promise<BlogPost[]> {
+  const posts: BlogPost[] = [];
+
+  try {
+    const contentDir = join(process.cwd(), 'content', 'blog');
+
+    // Verificar si la carpeta existe
+    if (!existsSync(contentDir)) {
+      return posts;
+    }
+
+    // Leer todos los archivos .md de la carpeta
+    const files = readdirSync(contentDir).filter((file) => file.endsWith('.md'));
+
+    // Procesar cada archivo
+    for (const file of files) {
+      try {
+        const slug = file.replace(/\.md$/, '');
+        const filePath = join(contentDir, file);
+        const fileContent = readFileSync(filePath, 'utf-8');
+        const { data, content } = matter(fileContent);
+
+        const postData: BlogPost = {
+          slug,
+          title: data.title,
+          excerpt: data.excerpt || '',
+          content,
+          author: {
+            name: data.author?.name || data.author || 'Unknown',
+            role: data.author?.role || '',
+            avatar: data.author?.avatar || '',
+          },
+          date: data.date || new Date().toISOString(),
+          category: data.category || 'Uncategorized',
+          images: data.images ? {
+            main: data.images.main || '',
+            gallery: data.images.gallery || [],
+          } : undefined,
+          tags: data.tags || [],
+          relatedPosts: data.relatedPosts || [],
+        };
+
+        posts.push(postData);
+      } catch (error) {
+        console.error(`Error reading MDX file ${file}:`, error);
+        // Continuar con el siguiente archivo
+      }
+    }
+  } catch (error) {
+    console.error('Error reading MDX directory:', error);
+  }
+
+  return posts;
+}
 
 interface GetAllPostsOptions {
   limit?: number;
@@ -60,8 +122,26 @@ export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<Blo
       // TODO: Implementar query desde DB
       posts = [];
     } else {
-      // Mock (default)
-      posts = [...mockBlogPosts];
+      // Combinar MDX files + Mock data (backward compatibility)
+      // Priorizar MDX sobre Mock - eliminar duplicados por slug
+      const mdxPosts = await getAllPostsFromMDX();
+      const mockPosts = mockBlogPosts;
+
+      // Crear un Map para eliminar duplicados (MDX tiene prioridad)
+      const postsMap = new Map<string, BlogPost>();
+
+      // Primero agregar posts mock (si existen)
+      mockPosts.forEach((post) => {
+        postsMap.set(post.slug, post);
+      });
+
+      // Luego agregar/sobrescribir con posts MDX (prioridad)
+      mdxPosts.forEach((post) => {
+        postsMap.set(post.slug, post);
+      });
+
+      // Convertir Map a Array
+      posts = Array.from(postsMap.values());
     }
 
     // Filtrar por categoría si se especifica

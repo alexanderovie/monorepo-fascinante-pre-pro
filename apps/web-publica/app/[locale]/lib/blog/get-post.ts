@@ -2,14 +2,85 @@ import { BlogPostSchema, type BlogPost, isValidSlug } from './types';
 import { BLOG_REQUEST_TIMEOUT, BLOG_SOURCE } from './constants';
 import { mockBlogPosts } from './posts-data';
 import { z } from 'zod';
+import matter from 'gray-matter';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 /**
  * Get Blog Post by Slug
  * Actualizado: Noviembre 2025
  * Función robusta con validación, manejo de errores y timeouts
+ * Soporta MDX/Markdown files y backward compatibility con mock data
  */
 
-// Función para obtener desde mock (actual)
+// Función para obtener desde archivo MDX/Markdown
+async function getPostFromMDX(slug: string): Promise<BlogPost | null> {
+  try {
+    const contentDir = join(process.cwd(), 'content', 'blog');
+    const filePath = join(contentDir, `${slug}.md`);
+
+    // Verificar si el archivo existe
+    if (!existsSync(filePath)) {
+      return null; // Archivo no existe, retornar null para fallback
+    }
+
+    // Leer archivo
+    const fileContent = readFileSync(filePath, 'utf-8');
+
+    // Parsear frontmatter y contenido
+    const { data, content } = matter(fileContent);
+
+    // Construir objeto post con valores por defecto robustos
+    const postData = {
+      slug,
+      title: data.title || 'Untitled',
+      excerpt: data.excerpt || '',
+      content: content || '', // Contenido Markdown sin frontmatter
+      author: {
+        name: data.author?.name || data.author || 'Unknown Author',
+        role: data.author?.role || '',
+        avatar: data.author?.avatar || undefined, // undefined si está vacío
+      },
+      date: data.date || new Date().toISOString(),
+      category: data.category || 'Uncategorized',
+      images: data.images && (data.images.main || data.images.gallery?.length) ? {
+        main: data.images.main || undefined,
+        gallery: Array.isArray(data.images.gallery) ? data.images.gallery.filter(Boolean) : undefined,
+      } : undefined,
+      tags: Array.isArray(data.tags) ? data.tags.filter(Boolean) : [],
+      relatedPosts: Array.isArray(data.relatedPosts) ? data.relatedPosts.filter(Boolean) : undefined,
+    };
+
+    // Validar inmediatamente antes de retornar para detectar errores temprano
+    try {
+      return BlogPostSchema.parse(postData);
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        console.error(`[MDX Validation Error] Post: ${slug}`);
+        console.error('Validation errors:', validationError.errors.map(e => ({
+          path: e.path.join('.'),
+          message: e.message,
+          received: e.code === 'invalid_type' ? e.received : undefined,
+        })));
+        throw new Error(`Invalid MDX post data for "${slug}": ${validationError.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`);
+      }
+      throw validationError;
+    }
+  } catch (error) {
+    // Error al leer archivo, retornar null para fallback
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+      return null; // Archivo no existe, es válido (fallback a mock)
+    }
+    // Errores de validación se propagan para diagnóstico
+    if (error instanceof Error && error.message.includes('Invalid MDX post data')) {
+      throw error;
+    }
+    console.error(`[MDX Read Error] Slug: ${slug}`, error);
+    return null;
+  }
+}
+
+// Función para obtener desde mock (backward compatibility)
 async function getPostFromMock(slug: string): Promise<BlogPost | null> {
   const post = mockBlogPosts.find((p) => p.slug === slug);
   return post || null;
@@ -81,8 +152,23 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
     } else if (BLOG_SOURCE === 'database') {
       rawPost = await _getPostFromDB(slug);
     } else {
-      // Mock (default)
-      rawPost = await getPostFromMock(slug);
+      // Prioridad: MDX files > Mock data (backward compatibility)
+      try {
+        rawPost = await getPostFromMDX(slug);
+      } catch (mdxError) {
+        // Si es error de validación de MDX, propagarlo para diagnóstico
+        if (mdxError instanceof Error && mdxError.message.includes('Invalid MDX post data')) {
+          throw mdxError;
+        }
+        // Otros errores de MDX: log y fallback a mock
+        console.warn(`[MDX Error] Falling back to mock for slug: ${slug}`, mdxError);
+        rawPost = null;
+      }
+
+      if (!rawPost) {
+        // Fallback a mock data si no existe archivo MDX o hubo error no crítico
+        rawPost = await getPostFromMock(slug);
+      }
     }
 
     if (!rawPost) {

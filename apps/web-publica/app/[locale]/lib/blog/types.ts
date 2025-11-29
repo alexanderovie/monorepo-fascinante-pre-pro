@@ -4,21 +4,43 @@ import { z } from 'zod';
  * Blog Post Types and Zod Schemas
  * Actualizado: Noviembre 2025
  * Validación completa con Zod para robustez
+ * Soporta URLs absolutas (https://) y rutas relativas (/images/...)
  */
+
+/**
+ * Valida que sea URL absoluta (https://) o ruta relativa (/images/...)
+ * Basado en mejores prácticas Next.js 15 (Noviembre 2025)
+ * Soporta tanto imágenes externas como locales desde /public
+ */
+const urlOrPathSchema = z
+  .string()
+  .refine(
+    (val) => {
+      if (!val || val.trim() === '') return true; // Opcional/vacío es válido
+      // Acepta URLs absolutas (http/https) o rutas relativas que empiecen con /
+      const isUrl = val.startsWith('http://') || val.startsWith('https://');
+      const isRelativePath = val.startsWith('/');
+      return isUrl || isRelativePath;
+    },
+    {
+      message: 'Debe ser una URL absoluta (https://) o una ruta relativa (/images/...)',
+    }
+  )
+  .optional();
 
 // Schema de autor
 export const BlogAuthorSchema = z.object({
   name: z.string().min(1, 'El nombre del autor es requerido').max(100),
   role: z.string().max(100).optional(),
-  avatar: z.string().url('URL de avatar inválida').optional(),
+  avatar: urlOrPathSchema,
 });
 
 export type BlogAuthor = z.infer<typeof BlogAuthorSchema>;
 
 // Schema de imágenes
 export const BlogImagesSchema = z.object({
-  main: z.string().url('URL de imagen principal inválida').optional(),
-  gallery: z.array(z.string().url('URL de imagen inválida')).optional(),
+  main: urlOrPathSchema,
+  gallery: z.array(urlOrPathSchema).optional(),
 }).optional();
 
 export type BlogImages = z.infer<typeof BlogImagesSchema>;
