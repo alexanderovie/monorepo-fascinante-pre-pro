@@ -19,7 +19,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
@@ -31,7 +31,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from '@/components/ui/Dialog';
 import { FormInput, FormButton } from '../../components/forms';
@@ -77,12 +76,14 @@ export default function BookingConfirmationDialog({
   const isSpanish = locale === 'es';
   const toast = useToast('book');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasNotesValue, setHasNotesValue] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<BookingConfirmationData>({
     resolver: zodResolver(bookingConfirmationSchema),
     mode: 'onBlur',
@@ -92,6 +93,12 @@ export default function BookingConfirmationDialog({
       notes: '',
     },
   });
+
+  // Observar cambios en el campo notes para ajustar el tamaño de fuente
+  const notesValue = watch('notes');
+  useEffect(() => {
+    setHasNotesValue(Boolean(notesValue && notesValue.length > 0));
+  }, [notesValue]);
 
   // Formatear fecha para mostrar
   const formattedDate = format(selectedDate, "EEEE, d 'de' MMMM, yyyy", {
@@ -159,11 +166,6 @@ export default function BookingConfirmationDialog({
           <DialogTitle>
             {isSpanish ? 'Confirme sus datos' : 'Confirm your data'}
           </DialogTitle>
-          <DialogDescription>
-            {isSpanish
-              ? 'Por favor, confirma tus datos para completar la reserva.'
-              : 'Please confirm your details to complete the booking.'}
-          </DialogDescription>
         </DialogHeader>
 
         {/* Detalles de la reunión */}
@@ -225,7 +227,12 @@ export default function BookingConfirmationDialog({
                   : 'Please share any information that helps us prepare for our meeting.'
               }
               className={cn(
-                'block w-full rounded-lg border border-gray-200 px-3 py-2 text-base sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600',
+                'block w-full rounded-lg border border-gray-200 px-3 py-2 sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600',
+                // En móvil: placeholder 14px, texto al escribir 16px
+                'text-sm placeholder:text-sm',
+                // Cuando tiene contenido o está enfocado: 16px para evitar auto-zoom
+                hasNotesValue && 'text-base',
+                'focus:text-base',
                 errors.notes && 'border-red-500 focus:border-red-500 focus:ring-red-500'
               )}
               aria-invalid={errors.notes ? 'true' : undefined}

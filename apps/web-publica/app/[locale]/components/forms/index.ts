@@ -8,6 +8,9 @@
 export { default as FormInput } from './FormInput';
 export type { FormInputProps } from './FormInput';
 
+export { default as FormInputAutocomplete } from './FormInputAutocomplete';
+export type { FormInputAutocompleteProps } from './FormInputAutocomplete';
+
 export { default as FormSelect } from './FormSelect';
 export type { FormSelectProps, FormSelectOption } from './FormSelect';
 

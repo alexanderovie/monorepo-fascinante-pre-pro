@@ -7,7 +7,7 @@
  *
  * Validaciones robustas y escalables:
  * - Validación de email estricta
- * - Validación de nombre completo
+ * - Validación de nombre (flexible, permite nombres de una palabra)
  * - Notas opcionales con límite de caracteres
  * - Type-safe con TypeScript
  */
@@ -18,7 +18,7 @@ import { z } from 'zod';
  * Schema de validación para el formulario de confirmación de booking
  *
  * Validaciones:
- * - name: Requerido, mínimo 2 caracteres, máximo 100, debe incluir nombre y apellido
+ * - name: Requerido, mínimo 2 caracteres, máximo 100, solo letras, espacios, guiones y apóstrofes
  * - email: Requerido, formato email válido, máximo 255 caracteres
  * - notes: Opcional, máximo 1000 caracteres
  */
@@ -34,12 +34,9 @@ export const bookingConfirmationSchema = z.object({
       message: 'El nombre no puede exceder 100 caracteres',
     })
     .trim()
-    .refine(
-      (val) => val.split(' ').filter(Boolean).length >= 2,
-      {
-        message: 'Por favor, ingresa tu nombre completo (nombre y apellido)',
-      }
-    ),
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/, {
+      message: 'El nombre solo puede contener letras, espacios, guiones y apóstrofes',
+    }),
 
   email: z
     .string({

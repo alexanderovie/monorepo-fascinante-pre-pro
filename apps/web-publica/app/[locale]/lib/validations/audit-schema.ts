@@ -13,6 +13,7 @@ import { z } from 'zod';
  *
  * Validaciones:
  * - businessName: Requerido, mínimo 2 caracteres, máximo 100
+ * - placeId: Opcional, identificador de Google Places (obtenido del autocompletado)
  */
 export const auditFormSchema = z.object({
   businessName: z
@@ -26,6 +27,12 @@ export const auditFormSchema = z.object({
       message: 'El nombre del negocio no puede exceder 100 caracteres',
     })
     .trim(),
+  placeId: z
+    .string()
+    .min(1, {
+      message: 'Debes seleccionar un negocio de las sugerencias',
+    })
+    .optional(),
 });
 
 /**

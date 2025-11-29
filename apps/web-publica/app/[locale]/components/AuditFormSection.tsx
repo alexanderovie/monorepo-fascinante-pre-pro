@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormInput, FormButton, FormContainer, FormCard } from './forms';
+import { FormInputAutocomplete, FormButton, FormContainer, FormCard } from './forms';
 import { auditFormSchema, type AuditFormData } from '../lib/validations/audit-schema';
 import { useToast } from '../lib/hooks/use-toast';
+import BusinessConfirmationModal, { type BusinessNAP } from './BusinessConfirmationModal';
 
 /**
  * Audit Form Section Component
@@ -28,17 +29,21 @@ export default function AuditFormSection() {
   const t = useTranslations('audit');
   const toast = useToast('audit.form');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessNAP | null>(null);
 
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: _errors },
     reset,
+    setValue,
   } = useForm<AuditFormData>({
     resolver: zodResolver(auditFormSchema),
     mode: 'onBlur', // Validar al perder el foco
     defaultValues: {
       businessName: '',
+      placeId: undefined,
     },
   });
 
@@ -84,15 +89,59 @@ export default function AuditFormSection() {
       <FormContainer layout="centered" formClassName="space-y-5">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
           <FormCard variant="compact">
-            {/* Nombre del negocio - Campo único simplificado */}
-            <FormInput
-              id="businessName"
-              type="text"
+            {/* Nombre del negocio - Campo único simplificado con autocompletado */}
+            <FormInputAutocomplete
+              control={control}
+              name="businessName"
               label={t('form.businessName')}
-              placeholder="Mi Negocio S.L."
+              placeholder="Escribe el nombre de tu negocio..."
               autoComplete="organization"
-              error={errors.businessName?.message}
-              {...register('businessName')}
+              onPlaceSelect={async (place) => {
+                // Guardar place_id en el formulario
+                if (place.place_id) {
+                  setValue('placeId', place.place_id, { shouldValidate: true });
+
+                  // Obtener detalles completos usando Place Details (New) para mostrar en modal
+                  try {
+                    const response = await fetch(`/api/places/details?placeId=${place.place_id}&languageCode=es`);
+                    if (response.ok) {
+                      const details = await response.json();
+
+                      // Preparar datos NAP para el modal (el API devuelve displayName, formattedAddress, etc.)
+                      const businessNAP: BusinessNAP = {
+                        place_id: details.place_id || details.id,
+                        name: details.displayName || details.name || place.name,
+                        formatted_address: details.formattedAddress || details.formatted_address,
+                        national_phone_number: details.nationalPhoneNumber || details.national_phone_number,
+                        website_uri: details.websiteUri || details.website_uri,
+                      };
+
+                      // Guardar y mostrar modal
+                      setSelectedBusiness(businessNAP);
+                      setIsModalOpen(true);
+                    } else {
+                      // Si falla obtener detalles, usar datos básicos del autocompletado
+                      const businessNAP: BusinessNAP = {
+                        place_id: place.place_id,
+                        name: place.name,
+                        formatted_address: place.address,
+                      };
+                      setSelectedBusiness(businessNAP);
+                      setIsModalOpen(true);
+                    }
+                  } catch (error) {
+                    console.error('[AuditForm] Error obteniendo detalles:', error);
+                    // Usar datos básicos si falla
+                    const businessNAP: BusinessNAP = {
+                      place_id: place.place_id,
+                      name: place.name,
+                      formatted_address: place.address,
+                    };
+                    setSelectedBusiness(businessNAP);
+                    setIsModalOpen(true);
+                  }
+                }
+              }}
             />
 
             {/* Botón de envío */}
@@ -117,6 +166,16 @@ export default function AuditFormSection() {
           </FormCard>
         </form>
       </FormContainer>
+
+      {/* Modal de confirmación de negocio */}
+      <BusinessConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedBusiness(null);
+        }}
+        business={selectedBusiness}
+      />
     </section>
   );
 }

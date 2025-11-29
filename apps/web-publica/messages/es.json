@@ -51,7 +51,8 @@
       "login": "Iniciar Sesión",
       "loginShort": "Entrar",
       "getDemo": "Solicitar demo",
-      "requestCall": "Solicitar llamada"
+      "requestCall": "Solicitar llamada",
+      "requestCallShort": "Llamame"
     }
   },
   "audit": {
@@ -81,6 +82,39 @@
       "privacy": "Al enviar este formulario, aceptas nuestra",
       "privacyLink": "política de privacidad",
       "privacyNote": ". Tu información está segura y no será compartida."
+    },
+    "confirmation": {
+      "title": "Confirma tu negocio",
+      "description": "Por favor, confirma que estos son los datos correctos de tu negocio:",
+      "nameLabel": "Nombre",
+      "addressLabel": "Dirección",
+      "phoneLabel": "Teléfono",
+      "websiteLabel": "Sitio Web",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar y continuar"
+    },
+    "results": {
+      "title": "Resultados de Auditoría",
+      "description": "Resultados completos de tu auditoría de visibilidad online",
+      "subtitle": "Análisis completo de tu visibilidad online",
+      "loading": "Cargando resultados de auditoría...",
+      "errorTitle": "Error",
+      "backToAudit": "Volver a solicitar auditoría",
+      "businessInfo": "Información del Negocio",
+      "name": "Nombre",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "website": "Sitio Web",
+      "performanceMetrics": "Métricas de Rendimiento",
+      "rating": "Calificación",
+      "reviews": "reseñas",
+      "categories": "Categorías",
+      "status": "Estado",
+      "openNow": "Abierto ahora",
+      "closed": "Cerrado",
+      "dataForSEONotAvailable": "Los datos de DataForSEO no están disponibles en este momento.",
+      "newAudit": "Nueva Auditoría",
+      "contactUs": "Contactar"
     }
   },
   "contact": {

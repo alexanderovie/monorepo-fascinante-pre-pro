@@ -12,7 +12,7 @@
  * - Accesible (labels asociados)
  */
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -72,45 +72,55 @@ const baseLabelClasses =
  * }
  * ```
  */
-export default function FormInput({
-  label,
-  labelClassName,
-  containerClassName,
-  className,
-  error,
-  helperText,
-  id,
-  ...inputProps
-}: FormInputProps) {
-  const inputId = id || inputProps.name;
+const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  (
+    {
+      label,
+      labelClassName,
+      containerClassName,
+      className,
+      error,
+      helperText,
+      id,
+      ...inputProps
+    },
+    ref
+  ) => {
+    const inputId = id || inputProps.name;
 
-  return (
-    <div className={cn('w-full', containerClassName)}>
-      {label && (
-        <label htmlFor={inputId} className={cn(baseLabelClasses, labelClassName)}>
-          {label}
-        </label>
-      )}
-      <input
-        id={inputId}
-        className={cn(baseInputClasses, error && 'border-red-500 focus:border-red-500 focus:ring-red-500', className)}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={error || helperText ? `${inputId}-help` : undefined}
-        {...inputProps}
-      />
-      {(error || helperText) && (
-        <p
-          id={`${inputId}-help`}
-          className={cn(
-            'mt-1 text-xs',
-            error
-              ? 'text-red-600 dark:text-red-400'
-              : 'text-gray-500 dark:text-neutral-500'
-          )}
-        >
-          {error || helperText}
-        </p>
-      )}
-    </div>
-  );
-}
+    return (
+      <div className={cn('w-full', containerClassName)}>
+        {label && (
+          <label htmlFor={inputId} className={cn(baseLabelClasses, labelClassName)}>
+            {label}
+          </label>
+        )}
+        <input
+          ref={ref}
+          id={inputId}
+          className={cn(baseInputClasses, error && 'border-red-500 focus:border-red-500 focus:ring-red-500', className)}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error || helperText ? `${inputId}-help` : undefined}
+          {...inputProps}
+        />
+        {(error || helperText) && (
+          <p
+            id={`${inputId}-help`}
+            className={cn(
+              'mt-1 text-xs',
+              error
+                ? 'text-red-600 dark:text-red-400'
+                : 'text-gray-500 dark:text-neutral-500'
+            )}
+          >
+            {error || helperText}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+
+FormInput.displayName = 'FormInput';
+
+export default FormInput;
