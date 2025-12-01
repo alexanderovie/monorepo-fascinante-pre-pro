@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { routing } from '../../i18n/routing';
+import { getAlternatesUrls } from '../../lib/seo/metadata-helpers';
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
 import CrispChat from "@/components/crisp/CrispChat";
@@ -57,17 +58,11 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
-    alternates: {
-      canonical: baseUrl,
-      languages: {
-        'en': `${baseUrl}/en`,
-        'es': `${baseUrl}/es`,
-      },
-    },
+    alternates: getAlternatesUrls('/', locale),
     openGraph: {
       type: "website",
       locale: localeMap[locale] || 'en_US',
-      url: baseUrl,
+      url: getAlternatesUrls('/', locale).canonical,
       siteName: "Fascinante Digital",
       title: messages.metadata?.title as string || "Fascinante Digital – Free Google Visibility Audit",
       description: messages.metadata?.description as string || "Discover how your business appears on Google.",

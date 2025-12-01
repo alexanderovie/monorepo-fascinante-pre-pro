@@ -1,4 +1,5 @@
 import { Banner2 } from '../../../components/banner2';
+import { getTranslations } from 'next-intl/server';
 
 /**
  * Layout compartido para páginas de marketing
@@ -12,17 +13,19 @@ import { Banner2 } from '../../../components/banner2';
  * - Banner2 (topbar con gradiente)
  * - Children (contenido de cada página que incluye Header y Footer)
  */
-export default function MarketingLayout({
+export default async function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = await getTranslations('banner');
+
   return (
     <>
       <Banner2
-        title="Version 2.0 is now available!"
-        description="Check out all the new features"
-        linkText="here"
+        title={t('version2Title')}
+        description={t('version2Description')}
+        linkText={t('viewFeatures')}
         linkUrl="/features"
       />
       {children}

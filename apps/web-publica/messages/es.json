@@ -216,5 +216,10 @@
         "shareOnLinkedIn": "Compartir en LinkedIn"
       }
     }
+  },
+  "banner": {
+    "version2Title": "¡La Versión 2.0 ya está disponible!",
+    "version2Description": "Descubre todas las nuevas características",
+    "viewFeatures": "ver características"
   }
 }

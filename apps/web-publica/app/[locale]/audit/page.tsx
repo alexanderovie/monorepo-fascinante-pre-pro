@@ -4,6 +4,7 @@ import AuditFormSection from '../components/AuditFormSection';
 import Hero from '../components/Hero';
 import { resolveHeroPreset, resolveToHeroProps, HeroPresetError } from '../lib/hero-presets';
 import { notFound } from 'next/navigation';
+import { getAlternatesUrls } from '../../../lib/seo/metadata-helpers';
 
 const baseUrl = 'https://fascinantedigital.com';
 
@@ -27,22 +28,16 @@ export async function generateMetadata({
 
   const title = t('title');
   const description = t('description');
-  const auditUrl = `${baseUrl}/${locale}/audit`;
+  const alternates = getAlternatesUrls('/audit', locale);
 
   return {
     title,
     description,
-    alternates: {
-      canonical: auditUrl,
-      languages: {
-        en: `${baseUrl}/en/audit`,
-        es: `${baseUrl}/es/audit`,
-      },
-    },
+    alternates,
     openGraph: {
       type: 'website',
       locale: localeMap[locale] || 'en_US',
-      url: auditUrl,
+      url: alternates.canonical,
       siteName: 'Fascinante Digital',
       title,
       description,
