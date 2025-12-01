@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import type { FeatureGridItem } from '../lib/features-grid-data';
 
 interface FeaturesGridProps {
@@ -42,15 +43,23 @@ export default function FeaturesGrid({
             >
               <div className="bg-gray-100 dark:bg-neutral-700 rounded-xl">
                 <div className="pt-6 ps-6 sm:pt-10 sm:ps-10 relative z-10 overflow-hidden ms-auto">
-                  <img
+                  <Image
                     className="dark:hidden rounded-tl-lg shadow-xl"
                     src={item.lightImage}
                     alt={item.alt}
+                    width={588}
+                    height={530}
+                    sizes="(max-width: 768px) 588px, 296px"
+                    quality={75}
                   />
-                  <img
+                  <Image
                     className="hidden dark:block rounded-tl-lg shadow-xl"
                     src={item.darkImage}
                     alt={item.alt}
+                    width={588}
+                    height={530}
+                    sizes="(max-width: 768px) 588px, 296px"
+                    quality={75}
                   />
                 </div>
               </div>

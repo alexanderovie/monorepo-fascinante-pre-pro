@@ -512,15 +512,25 @@ export default function Hero({
                     aria-labelledby={`hs-pro-tabs-dth-item-${tab.id}`}
                     className={index === 0 ? '' : 'hidden'}
                   >
-                    <img
+                    <Image
                       className="dark:hidden rounded-lg w-full h-auto"
                       src={tab.lightImage}
                       alt={tab.alt}
+                      width={1245}
+                      height={896}
+                      sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
+                      quality={80}
+                      priority={index === 0}
                     />
-                    <img
+                    <Image
                       className="dark:block hidden rounded-lg w-full h-auto"
                       src={tab.darkImage}
                       alt={tab.alt}
+                      width={1245}
+                      height={896}
+                      sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
+                      quality={80}
+                      priority={index === 0}
                     />
                   </div>
                 ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import type { ProductItem } from '../lib/products-data';
 
 interface ProductsCarouselProps {
@@ -171,23 +172,34 @@ export default function ProductsCarousel({
                   >
                     <div className="relative">
                       <div className="pt-6 ps-6 sm:pt-10 sm:ps-10 relative z-10 overflow-hidden ms-auto">
-                        <img
+                        <Image
                           className="dark:hidden translate-x-2 group-hover:translate-x-0.5 group-focus:translate-x-0.5 transition-transform duration-300 border-t-10 border-s-10 border-white/50 rounded-tl-2xl shadow-xl dark:border-black/50"
                           src={item.lightImage}
                           alt={item.alt}
+                          width={588}
+                          height={530}
+                          sizes="(max-width: 768px) 588px, 296px"
+                          quality={75}
                         />
-                        <img
+                        <Image
                           className="hidden dark:block translate-x-2 group-hover:translate-x-0.5 group-focus:translate-x-0.5 transition-transform duration-300 border-t-10 border-s-10 border-white/50 rounded-tl-2xl shadow-xl dark:border-black/50"
                           src={item.darkImage}
                           alt={item.alt}
+                          width={588}
+                          height={530}
+                          sizes="(max-width: 768px) 588px, 296px"
+                          quality={75}
                         />
                       </div>
 
                       <div className="size-full absolute inset-0 size-full rounded-xl">
-                        <img
+                        <Image
                           className="size-full object-cover object-center rounded-xl opacity-40"
                           src={item.backgroundImage}
                           alt="Background Image"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 480px"
+                          quality={75}
                         />
                       </div>
                     </div>
