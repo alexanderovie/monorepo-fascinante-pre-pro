@@ -1,144 +1,92 @@
-# Migraciones de Base de Datos - Mejoras Élite
+# Migraciones de Base de Datos - Solución Élite Pro
 
-Este directorio contiene migraciones para mejorar la seguridad, performance y escalabilidad de la base de datos.
+Este directorio contiene migraciones para una solución escalable y pragmática.
 
 ## Migraciones Incluidas
 
-### 1. `20251220000001_fix_critical_security_issues.sql`
-**Fase 1: Seguridad Crítica**
+### Migraciones de Seguridad y Optimización (Fases 1-4)
+- `20251220000001_fix_critical_security_issues.sql` - Seguridad crítica
+- `20251220000002_optimize_rls_policies.sql` - Optimización RLS
+- `20251220000003_add_missing_indexes.sql` - Índices en foreign keys
+- `20251220000004_cleanup_and_maintenance.sql` - Limpieza y documentación
 
-- ✅ Habilita RLS en `oauth_tokens` (tenía políticas pero RLS deshabilitado)
-- ✅ Corrige `search_path` en 9 funciones (previene SQL injection)
-- ✅ Corrige view `oauth_tokens_info` (security_invoker)
+### Migraciones Pragmáticas (Fases 5-7)
+- `20251220000005_install_pg_cron_and_jobs.sql` - **pg_cron + jobs automáticos**
+- `20251220000006_cleanup_unused_indexes.sql` - **Limpieza de 100+ índices no usados**
+- `20251220000007_consolidate_duplicate_policies.sql` - **Consolidación de políticas duplicadas**
 
-**Impacto:** Elimina vulnerabilidades críticas de seguridad
+## Edge Functions
 
----
-
-### 2. `20251220000002_optimize_rls_policies.sql`
-**Fase 2: Optimización de Políticas RLS**
-
-- ✅ Optimiza 40+ políticas RLS usando `(SELECT auth.uid())`
-- ✅ Consolida políticas duplicadas (una por rol/acción)
-- ✅ Crea índices en columnas usadas en políticas
-
-**Mejora esperada:** 94-99% según benchmarks oficiales de Supabase
-
----
-
-### 3. `20251220000003_add_missing_indexes.sql`
-**Fase 3: Índices en Foreign Keys**
-
-- ✅ Crea índices en 14 foreign keys sin índice
-- ✅ Elimina índices duplicados
-
-**Mejora esperada:** JOINs más rápidos, mejor performance en cascadas
-
----
-
-### 4. `20251220000004_cleanup_and_maintenance.sql`
-**Fase 4: Limpieza y Mantenimiento**
-
-- ✅ Mejora documentación de tablas
-- ✅ Documenta tablas legacy para futura decisión
-- ✅ Verifica integridad de RLS
-
-**Nota:** Esta migración es opcional y no crítica
-
----
-
-## Cómo Aplicar las Migraciones
-
-### Opción 1: Usando Supabase CLI (Recomendado)
-
-```bash
-# Aplicar todas las migraciones
-supabase db push
-
-# O aplicar una por una
-supabase migration up
-```
-
-### Opción 2: Desde el Dashboard
-
-1. Ve a SQL Editor en el Dashboard
-2. Copia y pega el contenido de cada migración
-3. Ejecuta en orden (1, 2, 3, 4)
-
-### Opción 3: Usando MCP Server
-
-Las migraciones se pueden aplicar usando el MCP server de Supabase.
-
----
+- `supabase/functions/process-notification/` - **Procesa notificaciones con Redis rate limiting**
 
 ## Orden de Aplicación
 
-**IMPORTANTE:** Aplica las migraciones en este orden:
+1. ✅ Fases 1-4 (ya aplicadas)
+2. **Fase 5**: Instalar pg_cron y jobs
+3. **Fase 6**: Limpiar índices no usados
+4. **Fase 7**: Consolidar políticas duplicadas
+5. **Edge Function**: Desplegar `process-notification`
 
-1. `20251220000001_fix_critical_security_issues.sql` (URGENTE)
-2. `20251220000002_optimize_rls_policies.sql` (ALTA PRIORIDAD)
-3. `20251220000003_add_missing_indexes.sql` (MEDIA PRIORIDAD)
-4. `20251220000004_cleanup_and_maintenance.sql` (OPCIONAL)
+## Configuración Requerida
 
----
+### 1. Variables de DB para pg_cron
 
-## Verificación Post-Migración
+```sql
+ALTER DATABASE postgres SET app.settings.edge_function_url = 'https://your-project.supabase.co/functions/v1';
+ALTER DATABASE postgres SET app.settings.service_role_key = 'your-service-role-key';
+```
 
-Después de aplicar las migraciones, verifica:
+### 2. Secrets de Edge Function
 
-1. **RLS habilitado:**
-   ```sql
-   SELECT tablename, rowsecurity
-   FROM pg_tables
-   WHERE schemaname = 'public'
-     AND tablename = 'oauth_tokens';
-   -- Debe retornar rowsecurity = true
-   ```
+En Supabase Dashboard > Edge Functions > Secrets:
 
-2. **Políticas optimizadas:**
-   ```sql
-   SELECT policyname, qual
-   FROM pg_policies
-   WHERE tablename = 'documents'
-     AND policyname LIKE '%view%';
-   -- Debe usar (SELECT auth.uid()) no auth.uid()
-   ```
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+- `RESEND_API_KEY`
+- `TWILIO_ACCOUNT_SID`
+- `TWILIO_AUTH_TOKEN`
+- `TWILIO_PHONE_NUMBER`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
 
-3. **Índices creados:**
-   ```sql
-   SELECT indexname
-   FROM pg_indexes
-   WHERE tablename = 'notifications'
-     AND indexname LIKE '%activity_event%';
-   -- Debe existir el índice
-   ```
+### 3. Desplegar Edge Function
 
----
+```bash
+supabase functions deploy process-notification
+```
 
-## Rollback
+## Verificación
 
-Cada migración está en una transacción (`BEGIN`/`COMMIT`). Si algo falla, la migración se revierte automáticamente.
+### Verificar pg_cron jobs
 
-Para rollback manual, consulta la documentación de Supabase sobre [rollback de migraciones](https://supabase.com/docs/guides/deployment/branching/troubleshooting#rolling-back-migrations).
+```sql
+SELECT * FROM cron.job;
+SELECT * FROM cron.job_run_details ORDER BY start_time DESC LIMIT 10;
+```
 
----
+### Verificar índices eliminados
 
-## Notas Importantes
+```sql
+SELECT * FROM public.identify_unused_indexes();
+```
 
-- ⚠️ **Backup antes de aplicar:** Aunque las migraciones son seguras, siempre haz backup antes de cambios en producción
-- ✅ **Testing:** Prueba en local/staging antes de producción
-- 📊 **Monitoreo:** Monitorea performance después de aplicar para verificar mejoras
-- 🔒 **Seguridad:** Las migraciones de Fase 1 son críticas y deben aplicarse primero
+### Verificar políticas consolidadas
 
----
+```sql
+SELECT tablename, policyname, cmd
+FROM pg_policies
+WHERE tablename IN ('appointments', 'availability_settings', 'services')
+ORDER BY tablename, policyname;
+```
 
-## Referencias
+## Resultados Esperados
 
-- [Supabase RLS Performance Guide](https://supabase.com/docs/guides/database/postgres/row-level-security#rls-performance-recommendations)
-- [Supabase Database Advisors](https://supabase.com/docs/guides/database/database-advisors)
-- [PostgreSQL Security Best Practices](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
+- ✅ **pg_cron**: Procesa notificaciones cada 5 minutos automáticamente
+- ✅ **Índices**: ~100 índices eliminados, mejor performance
+- ✅ **Políticas**: 3 políticas duplicadas consolidadas, mejor performance
+- ✅ **Edge Function**: Notificaciones procesadas con rate limiting
 
 ---
 
 **Última actualización:** Diciembre 2025
-**Basado en:** Documentación oficial de Supabase (Diciembre 2025)
+**Enfoque:** Pragmático y escalable
