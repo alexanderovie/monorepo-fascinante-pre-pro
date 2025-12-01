@@ -178,7 +178,7 @@ export default function ProductsCarousel({
                           alt={item.alt}
                           width={588}
                           height={530}
-                          sizes="(max-width: 768px) 588px, 296px"
+                          sizes="(max-width: 640px) 336px, (max-width: 768px) 588px, 296px"
                           quality={75}
                         />
                         <Image
@@ -187,7 +187,7 @@ export default function ProductsCarousel({
                           alt={item.alt}
                           width={588}
                           height={530}
-                          sizes="(max-width: 768px) 588px, 296px"
+                          sizes="(max-width: 640px) 336px, (max-width: 768px) 588px, 296px"
                           quality={75}
                         />
                       </div>

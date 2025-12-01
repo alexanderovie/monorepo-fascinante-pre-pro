@@ -518,10 +518,10 @@ export default function Hero({
                       alt={tab.alt}
                       width={1245}
                       height={896}
-                      sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
+                      sizes="(max-width: 640px) 366px, (max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
                       quality={80}
                       priority={index === 0}
-                      unoptimized={tab.lightImage.startsWith('/assets/img/pro/startup/')}
+                      unoptimized={tab.lightImage.startsWith('/assets/img/pro/startup/') && !tab.lightImage.includes('dashboard-fascinante')}
                     />
                     <Image
                       className="hidden dark:block rounded-lg w-full h-auto"
@@ -529,10 +529,10 @@ export default function Hero({
                       alt={tab.alt}
                       width={1245}
                       height={896}
-                      sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
+                      sizes="(max-width: 640px) 366px, (max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
                       quality={80}
                       priority={index === 0}
-                      unoptimized={tab.darkImage.startsWith('/assets/img/pro/startup-dark/')}
+                      unoptimized={tab.darkImage.startsWith('/assets/img/pro/startup-dark/') && !tab.darkImage.includes('dashboard-fascinante')}
                     />
                   </div>
                 ))}

@@ -537,7 +537,8 @@ export default function FeaturesAccordion() {
                 alt="Powerful features"
                 fill
                 className="object-cover rounded-xl"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 380px, (max-width: 768px) 100vw, 50vw"
+                quality={75}
               />
 
               <div className="absolute bottom-0 inset-x-0 after:absolute after:inset-0 after:size-full after:z-1 after:rounded-xl after:bg-gradient-to-t after:from-orange-600 after:to-transparent">
