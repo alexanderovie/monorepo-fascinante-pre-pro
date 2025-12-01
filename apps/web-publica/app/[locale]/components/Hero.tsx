@@ -521,9 +521,10 @@ export default function Hero({
                       sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
                       quality={80}
                       priority={index === 0}
+                      unoptimized={tab.lightImage.includes('dashboard-fascinante')}
                     />
                     <Image
-                      className="dark:block hidden rounded-lg w-full h-auto"
+                      className="hidden dark:block rounded-lg w-full h-auto"
                       src={tab.darkImage}
                       alt={tab.alt}
                       width={1245}
@@ -531,6 +532,7 @@ export default function Hero({
                       sizes="(max-width: 768px) 641px, (max-width: 1200px) 100vw, 1245px"
                       quality={80}
                       priority={index === 0}
+                      unoptimized={tab.darkImage.includes('dashboard-fascinante')}
                     />
                   </div>
                 ))}

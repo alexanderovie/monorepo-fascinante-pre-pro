@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from 'next-intl';
 
 import { Button } from "@/components/ui/button";
 
@@ -21,6 +22,7 @@ const Banner2 = ({
   defaultVisible = true,
 }: Banner2Props) => {
   const [isVisible, setIsVisible] = useState(defaultVisible);
+  const t = useTranslations('banner');
 
   const handleClose = () => {
     setIsVisible(false);
@@ -54,8 +56,10 @@ const Banner2 = ({
             size="icon"
             className="-mr-2 h-8 w-8 flex-none text-white hover:bg-white/20 hover:text-white"
             onClick={handleClose}
+            aria-label={t('closeButton')}
           >
             <X className="h-4 w-4" />
+            <span className="sr-only">{t('closeButton')}</span>
           </Button>
         </div>
       </div>
