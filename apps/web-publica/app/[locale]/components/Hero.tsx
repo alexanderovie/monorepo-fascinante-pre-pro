@@ -297,11 +297,11 @@ export default function Hero({
   }, []);
 
   return (
-    <div className="relative bg-no-repeat bg-cover bg-top">
+    <div className="relative">
       {/* Background Image Light - LCP Optimized */}
       {showBackground && (
         <>
-          <div className="absolute top-16 left-0 right-0 bottom-0 dark:hidden md:top-0">
+          <div className="absolute top-0 left-0 right-0 bottom-0 dark:hidden">
             <Image
               src={backgroundImage.light}
               alt="Hero background"
@@ -309,12 +309,12 @@ export default function Hero({
               priority
               fetchPriority="high"
               className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              sizes="(max-width: 640px) 640px, (max-width: 768px) 768px, (max-width: 1200px) 1200px, 1920px"
               quality={85}
             />
           </div>
           {/* Background Image Dark */}
-          <div className="absolute top-16 left-0 right-0 bottom-0 hidden dark:block md:top-0">
+          <div className="absolute top-0 left-0 right-0 bottom-0 hidden dark:block">
             <Image
               src={backgroundImage.dark}
               alt="Hero background dark"
@@ -322,7 +322,7 @@ export default function Hero({
               priority
               fetchPriority="high"
               className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              sizes="(max-width: 640px) 640px, (max-width: 768px) 768px, (max-width: 1200px) 1200px, 1920px"
               quality={85}
             />
           </div>
