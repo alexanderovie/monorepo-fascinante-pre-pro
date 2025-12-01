@@ -1075,8 +1075,7 @@ export default function AuditResultsSection() {
                           aria-valuemax={100}
                         >
                           <div
-                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap"
-                            style={{ width: '60%' }}
+                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap w-[60%]"
                           ></div>
                         </div>
                         <span className="min-w-4 text-sm text-stone-500 dark:text-neutral-500">6</span>
@@ -1154,8 +1153,7 @@ export default function AuditResultsSection() {
                           aria-valuemax={100}
                         >
                           <div
-                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap"
-                            style={{ width: '40%' }}
+                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap w-[40%]"
                           ></div>
                         </div>
                         <span className="min-w-4 text-sm text-stone-500 dark:text-neutral-500">4</span>
@@ -1233,8 +1231,7 @@ export default function AuditResultsSection() {
                           aria-valuemax={100}
                         >
                           <div
-                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap"
-                            style={{ width: '20%' }}
+                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap w-[20%]"
                           ></div>
                         </div>
                         <span className="min-w-4 text-sm text-stone-500 dark:text-neutral-500">2</span>
@@ -1312,8 +1309,7 @@ export default function AuditResultsSection() {
                           aria-valuemax={100}
                         >
                           <div
-                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap"
-                            style={{ width: '0%' }}
+                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap w-[0%]"
                           ></div>
                         </div>
                         <span className="min-w-4 text-sm text-stone-500 dark:text-neutral-500">0</span>
@@ -1391,8 +1387,7 @@ export default function AuditResultsSection() {
                           aria-valuemax={100}
                         >
                           <div
-                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap"
-                            style={{ width: '0%' }}
+                            className="flex flex-col justify-center overflow-hidden bg-green-600 text-xs text-white text-center rounded-full whitespace-nowrap w-[0%]"
                           ></div>
                         </div>
                         <span className="min-w-4 text-sm text-stone-500 dark:text-neutral-500">0</span>

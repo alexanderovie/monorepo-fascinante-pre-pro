@@ -125,8 +125,7 @@ export default function FeaturesAccordion() {
 
                 <div
                   id="hs-pro-dt-item-ftat"
-                  className="hs-accordion-content overflow-hidden transition-[height] duration-300"
-                  style={{ display: 'block' }}
+                  className="hs-accordion-content overflow-hidden transition-[height] duration-300 block"
                 >
                   <p className="mt-2 text-gray-500 dark:text-neutral-400">
                     Fascinante Digital connects directly with your Google Business Profile and tracks real metrics: calls, searches, reviews, and clicks. You&apos;ll get clear weekly reports that show how your visibility and engagement are growing.
@@ -196,8 +195,7 @@ export default function FeaturesAccordion() {
 
                 <div
                   id="hs-pro-dt-item-ftsd"
-                  className="hs-accordion-content overflow-hidden transition-[height] duration-300"
-                  style={{ display: 'none' }}
+                  className="hs-accordion-content overflow-hidden transition-[height] duration-300 hidden"
                 >
                   <p className="mt-2 text-gray-500 dark:text-neutral-400">
                     Quickly Preline sample components, copy-paste codes, and start right off.
@@ -321,8 +319,7 @@ export default function FeaturesAccordion() {
 
                 <div
                   id="hs-pro-dt-item-ftpf"
-                  className="hs-accordion-content overflow-hidden transition-[height] duration-300"
-                  style={{ display: 'none' }}
+                  className="hs-accordion-content overflow-hidden transition-[height] duration-300 hidden"
                 >
                   <p className="mt-2 text-gray-500 dark:text-neutral-400">
                     Reduce time and effort&nbsp;on building modern look design with Preline only.

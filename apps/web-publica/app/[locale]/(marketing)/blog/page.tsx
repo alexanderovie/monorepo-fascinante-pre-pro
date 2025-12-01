@@ -55,10 +55,11 @@ export default async function BlogPage({ params }: Props) {
                     <Link
                       key={post.slug}
                       href={`/blog/${post.slug}`}
-                      className="group relative flex flex-col w-full min-h-60 bg-center bg-cover rounded-xl hover:shadow-lg focus:outline-hidden focus:shadow-lg transition"
+                      className="group relative flex flex-col w-full min-h-60 rounded-xl hover:shadow-lg focus:outline-hidden focus:shadow-lg transition overflow-hidden"
                       style={{
-                        backgroundImage: `url(${post.images.main})`,
-                      }}
+                        '--bg-image': `url(${post.images.main})`,
+                        backgroundImage: 'var(--bg-image)',
+                      } as React.CSSProperties}
                     >
                       <div className="flex-auto p-4 md:p-6">
                         <h3 className="text-xl text-white/90 group-hover:text-white">

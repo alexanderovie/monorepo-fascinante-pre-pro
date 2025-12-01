@@ -148,8 +148,13 @@ export default function ExternalImage({
   // Si la URL no es válida, mostrar placeholder
   if (!isValid) {
     return (
-      <div className={`relative overflow-hidden ${className}`} style={{ width, height }}>
-        {fallback || <DefaultPlaceholder />}
+      <div
+        className={`relative overflow-hidden ${className}`}
+        style={{ '--img-width': `${width}px`, '--img-height': `${height}px` } as React.CSSProperties}
+      >
+        <div className="w-[var(--img-width)] h-[var(--img-height)]">
+          {fallback || <DefaultPlaceholder />}
+        </div>
       </div>
     );
   }
@@ -157,55 +162,64 @@ export default function ExternalImage({
   // Si es una URL de Google, usar <img> nativo (más flexible, no requiere configuración)
   if (isGoogle) {
     return (
-      <div className={`relative overflow-hidden ${className}`} style={{ width, height }}>
-        {hasError ? (
-          fallback || <DefaultPlaceholder />
-        ) : (
-          <>
-            {isLoading && (
-              <div className="absolute inset-0 bg-gray-100 dark:bg-neutral-700 animate-pulse" aria-hidden="true" />
-            )}
-            <img
-              src={src}
-              alt={alt}
-              width={width}
-              height={height}
-              className={`object-${objectFit} transition-opacity duration-300 ${
-                isLoading ? 'opacity-0' : 'opacity-100'
-              }`}
-              style={{ width: '100%', height: '100%' }}
-              onLoad={() => setIsLoading(false)}
-              onError={() => {
-                setHasError(true);
-                setIsLoading(false);
-              }}
-              loading={priority ? 'eager' : 'lazy'}
-              decoding="async"
-              fetchPriority={priority ? 'high' : 'auto'}
-            />
-          </>
-        )}
+      <div
+        className={`relative overflow-hidden ${className}`}
+        style={{ '--img-width': `${width}px`, '--img-height': `${height}px` } as React.CSSProperties}
+      >
+        <div className="w-[var(--img-width)] h-[var(--img-height)]">
+          {hasError ? (
+            fallback || <DefaultPlaceholder />
+          ) : (
+            <>
+              {isLoading && (
+                <div className="absolute inset-0 bg-gray-100 dark:bg-neutral-700 animate-pulse" aria-hidden="true" />
+              )}
+              <img
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+                className={`w-full h-full object-${objectFit} transition-opacity duration-300 ${
+                  isLoading ? 'opacity-0' : 'opacity-100'
+                }`}
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                  setHasError(true);
+                  setIsLoading(false);
+                }}
+                loading={priority ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchPriority={priority ? 'high' : 'auto'}
+              />
+            </>
+          )}
+        </div>
       </div>
     );
   }
 
   // Para otras URLs, usar next/image (optimización automática)
   return (
-    <div className={`relative overflow-hidden ${className}`} style={{ width, height }}>
-      {hasError ? (
-        fallback || <DefaultPlaceholder />
-      ) : (
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className={`object-${objectFit}`}
-          priority={priority}
-          onError={() => setHasError(true)}
-          loading={priority ? 'eager' : 'lazy'}
-        />
-      )}
+    <div
+      className={`relative overflow-hidden ${className}`}
+      style={{ '--img-width': `${width}px`, '--img-height': `${height}px` } as React.CSSProperties}
+    >
+      <div className="w-[var(--img-width)] h-[var(--img-height)]">
+        {hasError ? (
+          fallback || <DefaultPlaceholder />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            className={`w-full h-full object-${objectFit}`}
+            priority={priority}
+            onError={() => setHasError(true)}
+            loading={priority ? 'eager' : 'lazy'}
+          />
+        )}
+      </div>
     </div>
   );
 }

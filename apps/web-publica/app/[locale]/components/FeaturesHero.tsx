@@ -113,8 +113,10 @@ const renderCard = (card: FloatingCard) => {
                   aria-valuemax={100}
                 >
                   <div
-                    className="flex flex-col justify-center rounded-full overflow-hidden bg-green-500 text-xs text-white text-center whitespace-nowrap transition duration-500"
-                    style={{ width: `${card.content.progress.value}%` }}
+                    className="flex flex-col justify-center rounded-full overflow-hidden bg-green-500 text-xs text-white text-center whitespace-nowrap transition duration-500 w-[var(--progress-width)]"
+                    style={{
+                      '--progress-width': `${card.content.progress.value}%`,
+                    } as React.CSSProperties}
                   ></div>
                 </div>
                 <div className="w-10 text-end -mt-0.5">

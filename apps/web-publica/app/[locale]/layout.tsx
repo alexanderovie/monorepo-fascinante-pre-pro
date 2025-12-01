@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { routing } from '../../i18n/routing';
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
@@ -308,6 +309,21 @@ export default async function RootLayout({
           locale={locale}
           hideOnMobile={false}
         />
+        {/* Google Analytics 4 - Solución oficial y estable Next.js 15 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YD8D5Q3B21"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YD8D5Q3B21', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       </body>
     </html>
   );
