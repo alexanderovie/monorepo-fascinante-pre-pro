@@ -7,7 +7,7 @@ import { routing } from '../../i18n/routing';
 import { getAlternatesUrls } from '../../lib/seo/metadata-helpers';
 import "./globals.css";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
-import CrispChat from "@/components/crisp/CrispChat";
+import ConditionalCrispChat from "@/components/crisp/ConditionalCrispChat";
 import Toaster from "./components/Toaster";
 
 const baseUrl = "https://fascinantedigital.com";
@@ -300,7 +300,7 @@ export default async function RootLayout({
         </NextIntlClientProvider>
         <PrelineScriptWrapper />
         <Toaster />
-        <CrispChat
+        <ConditionalCrispChat
           locale={locale}
           hideOnMobile={false}
         />

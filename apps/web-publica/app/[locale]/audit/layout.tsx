@@ -1,6 +1,7 @@
 import HeaderAudit from '../components/HeaderAudit';
 import Footer from '../components/Footer';
 import { auditFooterData } from '../lib/audit-footer-data';
+import AuditChatbot from './components/AuditChatbot';
 
 const baseUrl = 'https://fascinantedigital.com';
 const auditUrl = `${baseUrl}/audit`;
@@ -84,6 +85,7 @@ export default function AuditLayout({
           {children}
         </main>
         <Footer data={auditFooterData} />
+        <AuditChatbot />
       </div>
     </>
   );

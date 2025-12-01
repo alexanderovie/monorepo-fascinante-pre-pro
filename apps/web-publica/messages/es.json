@@ -120,6 +120,14 @@
       "dataForSEONotAvailable": "Los datos de DataForSEO no están disponibles en este momento.",
       "newAudit": "Nueva Auditoría",
       "contactUs": "Contactar"
+    },
+    "chatbot": {
+      "title": "Asistente de Auditoría",
+      "welcome": "¡Hola! Soy tu asistente de auditoría. ¿En qué puedo ayudarte?",
+      "placeholder": "Escribe tu pregunta...",
+      "disclaimer": "Respuestas generadas por IA. Para consultas complejas, contacta al equipo.",
+      "error": "Error al procesar tu mensaje. Por favor, intenta de nuevo.",
+      "retry": "Reintentar"
     }
   },
   "contact": {

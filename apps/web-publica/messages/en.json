@@ -56,7 +56,8 @@
       "login": "Log in",
       "loginShort": "Login",
       "getDemo": "Get a demo",
-      "requestCall": "Request call"
+      "requestCall": "Request call",
+      "requestCallShort": "Call me"
     }
   },
   "audit": {
@@ -86,6 +87,14 @@
       "privacy": "By submitting this form, you agree to our",
       "privacyLink": "privacy policy",
       "privacyNote": ". Your information is safe and will not be shared."
+    },
+    "chatbot": {
+      "title": "Audit Assistant",
+      "welcome": "Hello! I'm your audit assistant. How can I help you?",
+      "placeholder": "Type your question...",
+      "disclaimer": "AI-generated responses. For complex inquiries, contact the team.",
+      "error": "Error processing your message. Please try again.",
+      "retry": "Retry"
     }
   },
   "contact": {
