@@ -92,3 +92,4 @@ export interface AvailabilityResult {
   /** Mensaje descriptivo del resultado */
   message?: string;
 }
+

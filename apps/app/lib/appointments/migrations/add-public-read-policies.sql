@@ -154,3 +154,4 @@ COMMENT ON POLICY "Public can create appointments" ON appointments IS
 -- 3. Prueba crear una cita desde la web pública
 -- 4. Revisa que los índices mejoran el performance
 -- ============================================
+

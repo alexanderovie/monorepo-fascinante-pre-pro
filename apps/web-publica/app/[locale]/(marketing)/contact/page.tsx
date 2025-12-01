@@ -17,7 +17,7 @@ type Props = {
 export default async function ContactPage({ params }: Props) {
   const { locale: _locale } = await params;
   const t = await getTranslations('hero.contact');
-  
+
   // El locale está disponible para futuras expansiones (i18n, analytics, etc.)
   // Se usa el prefijo _ para indicar que es intencionalmente no usado actualmente
   // pero se mantiene para consistencia con otras páginas y preparación para futuras funcionalidades

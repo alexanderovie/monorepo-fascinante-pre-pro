@@ -12,3 +12,4 @@ export interface ClientLogo {
   height: string;
   viewBox: string;
 }
+

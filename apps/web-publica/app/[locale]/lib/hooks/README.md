@@ -102,3 +102,4 @@ toast.success('success'); // Muestra: "¡Auditoría solicitada correctamente!"
      description: errorMessage, // Mensaje dinámico
    });
    ```
+

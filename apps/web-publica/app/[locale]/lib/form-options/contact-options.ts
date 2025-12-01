@@ -95,3 +95,4 @@ export function getTranslatedReferralOptions(t: (key: string) => string): FormSe
     };
   });
 }
+

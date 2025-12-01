@@ -122,3 +122,4 @@ export async function getMedia(params: GetMediaParams): Promise<GetMediaResult> 
     }
   )
 }
+

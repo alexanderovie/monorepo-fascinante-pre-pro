@@ -99,3 +99,4 @@ grep -q "^docs" .gitignore && echo "Ignorado" || echo "NO ignorado"
 ---
 
 **Última actualización**: Enero 2025
+

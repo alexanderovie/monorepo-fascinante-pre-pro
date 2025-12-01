@@ -61,3 +61,4 @@ Bienvenido a la documentación organizada del proyecto **Fascinante Digital**.
 ---
 
 **Última actualización**: Enero 2025
+

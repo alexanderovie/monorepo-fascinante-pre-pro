@@ -194,3 +194,4 @@ Si algo falla, recibirás una respuesta con `success: false`:
 - En producción, considera agregar autenticación/autorización
 - Los cambios se aplican inmediatamente al chatbox en vivo
 - Las credenciales deben estar en `.env.local`
+
