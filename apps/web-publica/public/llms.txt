@@ -1,0 +1,44 @@
+# Fascinante Digital
+
+> Fascinante Digital is a digital agency providing comprehensive web development, SEO, and digital marketing services. Our platform offers tools for website audits, analytics, and business growth optimization.
+
+## Main Pages
+
+- [Home](https://fascinantedigital.com/): Main landing page with company overview and services
+- [Audit](https://fascinantedigital.com/audit): Free website audit tool for digital analysis
+- [Blog](https://fascinantedigital.com/blog): Articles about digital marketing, SEO, and web development
+- [Contact](https://fascinantedigital.com/contact): Contact form and business information
+- [Features](https://fascinantedigital.com/features): Detailed overview of our services and capabilities
+
+## Services
+
+- **Website Audits**: Comprehensive digital analysis and SEO evaluation
+- **Web Development**: Modern web applications using Next.js, React, and TypeScript
+- **Digital Marketing**: SEO optimization and online presence management
+- **Business Analytics**: Data-driven insights for business growth
+
+## Technical Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **UI Libraries**: Preline UI, shadcn/ui, Tailwind CSS 4
+- **Internationalization**: next-intl (supports Spanish and English)
+- **Backend**: Serverless functions and API routes
+- **Database**: Supabase
+- **Payments**: Stripe integration
+
+## Documentation
+
+- **Sitemap**: Available at `/sitemap.xml`
+- **Blog Content**: Markdown-based articles with MDX support
+- **API Documentation**: Available for integrations
+
+## Languages
+
+The website supports multiple languages:
+- Spanish (es) - Default
+- English (en)
+
+## Contact
+
+- **Email**: info@fascinantedigital.com
+- **Application**: https://app.fascinantedigital.com/

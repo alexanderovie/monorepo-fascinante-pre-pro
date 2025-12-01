@@ -427,3 +427,4 @@ Ahora que entiendes los presets, puedes:
 3. Crear un nuevo preset para otra página
 
 ¡Espero que esto te haya ayudado a entender los presets! 🎉
+

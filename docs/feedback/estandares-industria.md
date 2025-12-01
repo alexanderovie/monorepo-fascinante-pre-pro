@@ -322,3 +322,4 @@ await new Promise((resolve) => setTimeout(resolve, 1000));
 **Con Fase 1 + Fase 2, tendrás un proyecto sólido y escalable.**
 
 ¿Avanzamos con Fase 1?
+

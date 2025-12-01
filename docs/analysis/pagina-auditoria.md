@@ -611,3 +611,4 @@ La página de auditoría está bien estructurada y sigue las mejores prácticas 
 - **Internacionalización:** Textos hardcodeados en Header
 
 Con estas mejoras, la página estará lista para producción y optimizada para conversión.
+

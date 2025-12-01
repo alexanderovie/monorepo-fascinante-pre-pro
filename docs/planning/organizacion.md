@@ -206,3 +206,4 @@ fascinante-pro-yo-desde-cero-preline/
 - Next.js Project Structure: https://nextjs.org/docs/app/getting-started/project-structure
 - Git Best Practices: Preservar historial con `git mv`
 - Industry Standards: Separación de código y documentación
+
